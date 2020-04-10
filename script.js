@@ -1,4 +1,4 @@
-
+"use strict";
 // up and down are done, left and right are not. HOWEVER
 // avaPos resets to 15 when the loop is finished. Cannot get colCurrent, rowCurrent to not be 15
 
@@ -79,11 +79,14 @@ $(document).ready(function () {
     function moveUp(rowCurrent, rowClicked, avaMove) {
         console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
         // for each square moving up the grid, as row decreases, check if passable. Start on current square in case of wall in that square
+
+
         for (var i = rowCurrent; i >= rowClicked; i--) {
             $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
             var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
+            checkMonster(avaMove.charAt(0), i);
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
@@ -109,6 +112,7 @@ $(document).ready(function () {
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
             var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
+            checkMonster(avaMove.charAt(0), i);
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
@@ -143,7 +147,7 @@ $(document).ready(function () {
 
             var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
-
+            checkMonster(i, avaMove.charAt(1));
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
@@ -177,6 +181,7 @@ $(document).ready(function () {
 
             var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
+            checkMonster(i, avaMove.charAt(1));
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
@@ -202,4 +207,113 @@ $(document).ready(function () {
 
 
 
+    function checkMonster(colCurrent, rowCurrent) {
+        // define squares to be checked
+        let colLeft = colCurrent;
+        colLeft--;
+        let squareLeft = `${colLeft}` + `${rowCurrent}`;
+        console.log("squareLeft: ", squareLeft);
+        let colRight = colCurrent;
+        colRight++;
+        let squareRight = `${colRight}` + `${rowCurrent}`;
+        console.log("squareRight: " + squareRight);
+        let rowAbove = rowCurrent;
+        rowAbove--;
+        let squareAbove = `${colCurrent}` + `${rowAbove}`;
+        console.log("squareAbove: " + squareAbove);
+        let rowBelow = rowCurrent;
+        rowBelow++;
+        let squareBelow = `${colCurrent}` + `${rowBelow}`;
+        console.log("squareBelow: " + squareBelow);
+        let squareThis = `${colCurrent}` + `${rowCurrent}`;
+        console.log("squareThis: ", squareThis);
+
+
+        // checking square left
+        if (colCurrent > 1) {
+
+            let checkSquareClassList = $("#" + squareLeft).attr("class").split(/\s+/);
+            // $.each(checkSquareClassList, function (index, item) {
+
+            console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            console.log("check left: ", $("#" + squareLeft).attr("class").split(/\s+/).includes("monster"));
+            if (checkSquareClassList.includes("monster")) {
+                let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+                if (checkSquareThisClassList.includes("leftWall")) {
+                    console.log("The Wall Saved You");
+
+                }
+                else {
+                    console.log("The Monster Ate You");
+                    //code to move monster icon
+                }
+            }
+            // });
+        }
+        //checking square right !!!!!This version seems to have worked. 
+        if (colCurrent < 5) {
+
+            let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
+            console.log("check right checkSquareClassList: ", checkSquareClassList);
+
+            // $.each(checkSquareClassList, function (index, item) {
+            //     console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            // console.log("check right class: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class"))
+            // console.log("check right: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class").split(/\s+/).includes("monster"));
+            if (checkSquareClassList.includes("monster")) {
+                // $.each(checkSquareClassList, function (index, item) {
+                if (checkSquareClassList.includes("leftWall")) {
+                    console.log("The Wall Saved You");
+                }
+                else {
+                    console.log("The Monster Ate You");
+                    //code to move monster icon
+                }
+                // });
+            }
+            // });
+        }
+
+        // checking square above
+        if (rowCurrent > 1) {
+            let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
+            console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
+            if (checkSquareClassList.includes("monster")) {
+                let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+                if (checkSquareThisClassList.includes("topWall")) {
+                    console.log("The Wall Saved You");
+
+                }
+                else {
+                    console.log("The Monster Ate You");
+                    //code to move monster icon
+                }
+            }
+        }
+
+        // checking square below
+        if (rowCurrent < 5) {
+            let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
+            console.log("check below: ", $("#" + squareBelow).attr("class").split(/\s+/).includes("monster"));
+            if (checkSquareClassList.includes("monster")) {
+
+                if (checkSquareClassList.includes("topWall")) {
+                    console.log("The Wall Saved You");
+
+                }
+                else {
+                    console.log("The Monster Ate You");
+                    //code to move monster icon
+                }
+            }
+        }
+    }
+
+
+
+
+
 });
+
+
