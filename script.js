@@ -8,6 +8,7 @@ $(document).ready(function () {
 
 
     var avaPos = $('#avaIcon').parent().attr("id"); // location of avatar
+
     console.log("initial location id: " + avaPos);
 
     // function to move avatar based on clicks
@@ -15,6 +16,7 @@ $(document).ready(function () {
         event.stopPropagation;
         console.log($(this).attr("id") + " clicked");
         console.log("avaPos after click: " + avaPos);
+
 
         // check the move is valid
         var idClicked = $(this).attr("id"); // first number is column, second number is row
@@ -81,7 +83,9 @@ $(document).ready(function () {
         // for each square moving up the grid, as row decreases, check if passable. Start on current square in case of wall in that square
 
 
+
         for (var i = rowCurrent; i >= rowClicked; i--) {
+
             $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
             var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
@@ -90,18 +94,32 @@ $(document).ready(function () {
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
+                    javascript_abort();
                     return;
                 }
-                else if (item === "topWall" || i == rowClicked) {
+                else if (item === "topWall") {
                     console.log("journey ended");
 
+                    console.log("avaMove topWallstop: " + avaMove);
+                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    avaPos = avaMove;
+                    javascript_abort();
+                    return;
+
+                }
+                else if (i == rowClicked) {
+                    console.log("journey ended");
                     console.log("avaMove final up: " + avaMove);
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
+
                 }
             })
+
         }
+
     }
 
     function moveDown(rowCurrent, rowClicked, avaMove) {
@@ -116,6 +134,7 @@ $(document).ready(function () {
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
+                    javascript_abort();
                     return;
                 }
                 else if (item === "topWall") {
@@ -123,6 +142,7 @@ $(document).ready(function () {
                     avaMove = avaMove.charAt(0) + i - 1; // because it will be in the square above
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
 
                 }
@@ -131,11 +151,13 @@ $(document).ready(function () {
                     console.log("avaMove final down: " + avaMove);
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
 
                 }
             });
         }
+
     }
 
     function moveRight(colCurrent, colClicked, avaMove) {
@@ -151,6 +173,7 @@ $(document).ready(function () {
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
+                    javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
@@ -159,6 +182,7 @@ $(document).ready(function () {
                     avaMove = (i - 1) + avaMove.charAt(1); // because it will be in the square on the left
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
@@ -166,11 +190,13 @@ $(document).ready(function () {
                     console.log("avaMove final right: " + avaMove);
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
                 }
 
             });
         }
+
     }
 
     function moveLeft(colCurrent, colClicked, avaMove) {
@@ -185,6 +211,7 @@ $(document).ready(function () {
             $.each(currentSquareClassList, function (index, item) {
                 if (item === "pit") {
                     console.log("GAME OVER");
+                    javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
@@ -192,6 +219,7 @@ $(document).ready(function () {
                     console.log("journey ended");
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
@@ -199,10 +227,12 @@ $(document).ready(function () {
                     console.log("avaMove final right: " + avaMove);
                     $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     avaPos = avaMove;
+                    javascript_abort();
                     return;
                 }
             });
         }
+
     }
 
 
@@ -250,7 +280,7 @@ $(document).ready(function () {
             }
             // });
         }
-        //checking square right !!!!!This version seems to have worked. 
+        //checking square right 
         if (colCurrent < 5) {
 
             let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
@@ -312,7 +342,10 @@ $(document).ready(function () {
 
 
 
-
+    function javascript_abort()
+    {
+       throw new Error('This is not an error. This is just to abort javascript');
+    }
 
 });
 
