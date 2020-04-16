@@ -1,25 +1,31 @@
-"use strict";
-// up and down are done, left and right are not. HOWEVER
-// avaPos resets to 15 when the loop is finished. Cannot get colCurrent, rowCurrent to not be 15
+import React from "react";
 
-$(document).ready(function () {
 
+const PuzzleLogic = (props) => {
+    {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
+    Props contains the id of the square that was clicked. */}
+    {/* avaPos is props.clickedSquare */ }
     // $(`#` + avaPos).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
 
 
-    var avaPos = $('#avaIcon').parent().attr("id"); // location of avatar
+
 
     console.log("initial location id: " + avaPos);
 
     // function to move avatar based on clicks
-    $(".square").click(function (event) {
-        event.stopPropagation;
-        console.log($(this).attr("id") + " clicked");
+    {
+        var avaPos = "";
+        console.log((props.clickedSquare) + " clicked");
+        // set avaPos to position of avatar on map
+        squareList.map((item, index) => (
+            item.avatar === true &&
+            (avaPos = item.id)
+        ))
         console.log("avaPos after click: " + avaPos);
 
 
         // check the move is valid
-        var idClicked = $(this).attr("id"); // first number is column, second number is row
+        var idClicked = props.clickedSquare; // first number is column, second number is row
 
         var colCurrent = avaPos.charAt(0);
         var rowCurrent = avaPos.charAt(1);
@@ -63,12 +69,6 @@ $(document).ready(function () {
                     moveLeft(colCurrent, colClicked, avaPos);
                 }
             }
-
-            // $(`#` + avaPos).html('');
-
-            // avaPos = $(this).attr("id");
-
-            // $(`#` + avaPos).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
         }
         else {
             console.log("class: " + $(this).attr("class"));
@@ -76,7 +76,7 @@ $(document).ready(function () {
         }
 
 
-    })
+    }
 
     function moveUp(rowCurrent, rowClicked, avaMove) {
         console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
@@ -342,11 +342,10 @@ $(document).ready(function () {
 
 
 
-    function javascript_abort()
-    {
-       throw new Error('This is not an error. This is just to abort javascript');
+    function javascript_abort() {
+        throw new Error('This is not an error. This is just to abort javascript');
     }
 
-});
-
-
+}
+GridContext.contextType = GridContext;
+export default PuzzleLogic;
