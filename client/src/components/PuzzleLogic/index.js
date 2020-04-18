@@ -1,7 +1,18 @@
 import React from "react";
+import GridContext from "../../utils/GridContext";
+import GameGrid from "../GameGrid";
 
 
-const PuzzleLogic = (props) => {
+function PuzzleLogic() {
+
+    const [squareList, setSquareList] = useState(testingMap);
+    const [clickedSquare, setClickedSquare] = useState("15");
+
+callBack = (clickedID) => {
+    setClickedSquare(clickedID);
+    // this should trigger the useEffect, which contains the game logic code? Or just calls to the initial function?
+}
+
     {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
     Props contains the id of the square that was clicked. */}
     {/* avaPos is props.clickedSquare */ }
@@ -346,6 +357,16 @@ const PuzzleLogic = (props) => {
         throw new Error('This is not an error. This is just to abort javascript');
     }
 
+    return (
+        
+          <GridContext.Provider value={squareList}>
+            <GameGrid parentCallback = {this.callBack} />
+          </GridContext.Provider>
+        
+      );
+
 }
-GridContext.contextType = GridContext;
+
+
+
 export default PuzzleLogic;

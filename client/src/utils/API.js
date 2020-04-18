@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// axios is for rest API calls, not internal html routes
+
 export default {
   // Gets all books
+  
   getBooks: function() {
     return axios.get("/api/books");
   },
