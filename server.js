@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 // Add routes, both API and view
 // app.use(routes);
 
-const db = require("./config/keys").mongoURI;
+const db = require("./client/src/config/keys").mongoURI;
 
 
 
@@ -39,7 +39,7 @@ mongoose.connect(
 // Passport middleware
 app.use(passport.initialize());
 // Passport config
-require("./config/passport")(passport);
+require("./client/src/config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 
