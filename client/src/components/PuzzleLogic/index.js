@@ -11,7 +11,7 @@ class PuzzleLogic extends Component {
         super(props);
         // Don't call this.setState() here!
         // FIND OUT HOW TO REMOVE TESINGMAP FROM THE STATE, THEN CHANGE ALL CALLS TO STATE
-        this.state = { testingMap };
+        this.state =  testingMap ;
         // this.handleClick = this.handleClick.bind(this);
     }
 
@@ -54,10 +54,10 @@ class PuzzleLogic extends Component {
 
         // avaPos = avaPos.id;
 
-        var avaPos = this.state.testingMap.avaPos;
+        var avaPos = this.state.avaPos;
         console.log("initial location id: " + avaPos);
 
-        let clickedSquare = this.state.testingMap.clickedSquare;
+        let clickedSquare = this.state.clickedSquare;
 
         console.log((clickedSquare) + " clicked");
 
@@ -123,7 +123,7 @@ class PuzzleLogic extends Component {
 
             // $(`#` + avaMove).html(''); // clear current avatar image -- not how the image is displayed now
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
             currentSquareClassList = currentSquareClassList.classList;
             // convert currentSquareClassList to array
             currentSquareClassList = currentSquareClassList.split(/\s+/);
@@ -164,7 +164,7 @@ class PuzzleLogic extends Component {
             // $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
             // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
-            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
             currentSquareClassList = currentSquareClassList.classList;
             currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
@@ -208,7 +208,7 @@ class PuzzleLogic extends Component {
             console.log("avaMove in right for loop: " + avaMove);
 
             // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
-            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
             currentSquareClassList = currentSquareClassList.classList;
             currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
@@ -252,7 +252,7 @@ class PuzzleLogic extends Component {
 
             // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
 
-            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
             currentSquareClassList = currentSquareClassList.classList;
             // convert currentSquareClassList to array
             currentSquareClassList = currentSquareClassList.split(/\s+/);
@@ -316,7 +316,7 @@ class PuzzleLogic extends Component {
 
             // let checkSquareClassList = $("#" + squareLeft).attr("class").split(/\s+/);
 
-            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareLeft);
+            let checkSquareClassList = this.state.squareList.find(element => element.id === squareLeft);
             checkSquareClassList = checkSquareClassList.classList;
             // convert checkSquareClassList to array
             checkSquareClassList = checkSquareClassList.split(/\s+/);
@@ -327,7 +327,7 @@ class PuzzleLogic extends Component {
             console.log("check left col row: " + colCurrent + " " + rowCurrent);
             console.log("check left: ", checkSquareClassList.includes("monster"));
             if (checkSquareClassList.includes("monster")) {
-                let checkSquareThisClassList = this.state.testingMap.squareList.find(element => element.id === squareThis);
+                let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
                 checkSquareThisClassList = checkSquareThisClassList.classList;
                 // convert checkSquareThisClassList to array
                 checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
@@ -349,7 +349,7 @@ class PuzzleLogic extends Component {
 
             // let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
 
-            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareRight);
+            let checkSquareClassList = this.state.squareList.find(element => element.id === squareRight);
             checkSquareClassList = checkSquareClassList.classList;
             // convert checkSquareClassList to array
             checkSquareClassList = checkSquareClassList.split(/\s+/);
@@ -378,7 +378,7 @@ class PuzzleLogic extends Component {
         // checking square above
         if (rowCurrent > 1) {
             // let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
-            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareAbove);
+            let checkSquareClassList = this.state.squareList.find(element => element.id === squareAbove);
             checkSquareClassList = checkSquareClassList.classList;
             // convert checkSquareClassList to array
             checkSquareClassList = checkSquareClassList.split(/\s+/);
@@ -388,7 +388,7 @@ class PuzzleLogic extends Component {
             // console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
             if (checkSquareClassList.includes("monster")) {
                 // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
-                let checkSquareThisClassList = this.state.testingMap.squareList.find(element => element.id === squareThis);
+                let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
                 checkSquareThisClassList = checkSquareThisClassList.classList;
                 // convert checkSquareThisClassList to array
                 checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
@@ -408,7 +408,7 @@ class PuzzleLogic extends Component {
         // checking square below
         if (rowCurrent < 5) {
             // let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
-            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareBelow);
+            let checkSquareClassList = this.state.squareList.find(element => element.id === squareBelow);
             checkSquareClassList = checkSquareClassList.classList;
             // convert checkSquareClassList to array
             checkSquareClassList = checkSquareClassList.split(/\s+/);
@@ -433,7 +433,7 @@ class PuzzleLogic extends Component {
     }
 
     changeAvatarLocation = (avaMove) => {
-        let newState = this.state.testingMap.squareList.map((item, index) =>
+        let newState = this.state.squareList.map((item, index) =>
             item.id === this.state.avaPos &&
             (newState.squareList[index].avatar = false)
         );
@@ -452,12 +452,12 @@ class PuzzleLogic extends Component {
     }
 
     render() {
-        console.log("render: ", this.state);
+        console.log("render state: ", this.state);
         return (
 
             <GameGrid
                 setClickedSquare={this.setClickedSquare}
-                squareList={this.state.testingMap.squareList}
+                squareList={this.state.squareList}
             />
 
 
