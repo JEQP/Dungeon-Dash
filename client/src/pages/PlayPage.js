@@ -1,13 +1,24 @@
-import React from "react";
+import React, { Component } from "react";
+import PuzzleLogic from "../components/PuzzleLogic";
+import { Redirect } from 'react-router-dom';
+import AuthContext from "../utils/AuthContext";
 
 
-function PlayPage() {
+class PlayPage extends Component {
 
-    return(
-<div>
-    <h1>This is the Playpage</h1>
-</div>
-    )
-} 
+    render() {
+        return (
 
+            <div>
+                { // check whether user is authenticated         
+                    AuthContext.isAuthenticated === false &&
+                    <Redirect to='/login' />
+                }
+                <h1>This is the Playpage</h1>
+                <PuzzleLogic />
+            </div>
+        )
+    }
+}
+PlayPage.contextType = AuthContext;
 export default PlayPage;

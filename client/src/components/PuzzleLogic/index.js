@@ -1,53 +1,77 @@
-import React from "react";
-import GridContext from "../../utils/GridContext";
+import React, { Component, setState } from "react";
 import GameGrid from "../GameGrid";
+import testingMap from "../../testingMap.json";
+import AuthContext from "../../utils/AuthContext";
 
 
-function PuzzleLogic() {
+class PuzzleLogic extends Component {
 
-    const [squareList, setSquareList] = useState(testingMap);
-    const [clickedSquare, setClickedSquare] = useState("15");
+    constructor(props) {
+        // necessary line 
+        super(props);
+        // Don't call this.setState() here!
+        // FIND OUT HOW TO REMOVE TESINGMAP FROM THE STATE, THEN CHANGE ALL CALLS TO STATE
+        this.state = { testingMap };
+        // this.handleClick = this.handleClick.bind(this);
+    }
 
-callBack = (clickedID) => {
-    setClickedSquare(clickedID);
-    // this should trigger the useEffect, which contains the game logic code? Or just calls to the initial function?
-}
+    setClickedSquare = (props) => {
+        let clickedID = props;
+        setState({
+            clickedSquare: clickedID
+        })
+    }
 
-    {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
-    Props contains the id of the square that was clicked. */}
-    {/* avaPos is props.clickedSquare */ }
+    //     {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
+    //     Props contains the id of the square that was clicked. */}
+    // {/* avaPos is props.clickedSquare */ }
     // $(`#` + avaPos).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
 
-
-
-
-    console.log("initial location id: " + avaPos);
-
     // function to move avatar based on clicks
-    {
-        var avaPos = "";
-        console.log((props.clickedSquare) + " clicked");
-        // set avaPos to position of avatar on map
-        squareList.map((item, index) => (
-            item.avatar === true &&
-            (avaPos = item.id)
-        ))
-        console.log("avaPos after click: " + avaPos);
+
+    componentDidUpdate() {
+        // var avaPos = "";
+        // // find current position of avatar, and set to avaPos. 
+        // this.state.testingMap.squareList.map((item, index) => (
+        //     item.avatar === true &&
+        //     (avaPos = item.id)
+        // ))
+
+        // If we clear the avatar now it will update the state, which will run componentDidUpdate again
+        // but there will be no avatar. 
+
+        // clearAvatar = (index) => {
+        //     let newState = this.state;
+        //     newState.squareList[index].avatar=false;
+        //     this.setState({
+        //         newState
+        //     })
+        // }
+
+
+        // avaPos = this.state.squareList.find(id => id.avatar === true);
+
+        // avaPos = avaPos.id;
+
+        var avaPos = this.state.testingMap.avaPos;
+        console.log("initial location id: " + avaPos);
+
+        let clickedSquare = this.state.testingMap.clickedSquare;
+
+        console.log((clickedSquare) + " clicked");
+
+        // setting avaPos with map. 
+
+        // console.log("avaPos after click: " + avaPos);
 
 
         // check the move is valid
-        var idClicked = props.clickedSquare; // first number is column, second number is row
-
-        var colCurrent = avaPos.charAt(0);
-        var rowCurrent = avaPos.charAt(1);
-
+        let colCurrent = avaPos.charAt(0);
+        let rowCurrent = avaPos.charAt(1);
+        let colClicked = clickedSquare.charAt(0);
+        let rowClicked = clickedSquare.charAt(1);
         console.log("colCurrent: " + colCurrent + " rowCurrent: " + rowCurrent + " avaPos: " + avaPos);
-
-        //Split all the classes of clicked location into an array
-        var colClicked = idClicked.charAt(0);
-        var rowClicked = idClicked.charAt(1);
-
-        console.log("colClicked: " + colClicked + " ||| rowClicked: " + rowClicked);
+        console.log("colClicked: " + colClicked + " rowClicked: " + rowClicked);
 
         // check to see if the square clicked is in a column or row of the current square
         if (colClicked === colCurrent || rowClicked === rowCurrent) {
@@ -58,12 +82,12 @@ callBack = (clickedID) => {
                 // for going up
                 if (rowClicked < rowCurrent) {
                     console.log("if then up - RowClicke " + rowClicked + "rowCurrent " + rowCurrent);
-                    moveUp(rowCurrent, rowClicked, avaPos);
+                    this.moveUp(rowCurrent, rowClicked, avaPos);
                 }
                 // for going down
                 else if (rowClicked > rowCurrent) {
                     console.log("else if then down - RowClicke " + rowClicked + "rowCurrent " + rowCurrent);
-                    moveDown(rowCurrent, rowClicked, avaPos);
+                    this.moveDown(rowCurrent, rowClicked, avaPos);
                 }
             }
             // check if row is passable
@@ -72,97 +96,101 @@ callBack = (clickedID) => {
                 // for going right
                 if (colClicked > colCurrent) {
                     console.log("if then right - colClicked: " + colClicked + " colCurrent: " + colCurrent);
-                    moveRight(colCurrent, colClicked, avaPos);
+                    this.moveRight(colCurrent, colClicked, avaPos);
                 }
                 //for going left
                 else if (colClicked < colCurrent) {
                     console.log("if then left - colClicked: " + colClicked + " colCurrent: " + colCurrent);
-                    moveLeft(colCurrent, colClicked, avaPos);
+                    this.moveLeft(colCurrent, colClicked, avaPos);
                 }
             }
         }
         else {
-            console.log("class: " + $(this).attr("class"));
             alert("Invalid Move");
         }
 
 
     }
 
-    function moveUp(rowCurrent, rowClicked, avaMove) {
+    moveUp = (rowCurrent, rowClicked, avaMove) => {
         console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
-        // for each square moving up the grid, as row decreases, check if passable. Start on current square in case of wall in that square
-
-
+        // for each square moving up the grid, as row decreases, check if passable. 
+        // Start on current square in case of wall in that square.
+        // Note that avaMove starts with the value of avaPos from the calling function.
 
         for (var i = rowCurrent; i >= rowClicked; i--) {
 
-            $(`#` + avaMove).html(''); // clear current avatar image
+            // $(`#` + avaMove).html(''); // clear current avatar image -- not how the image is displayed now
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-            var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            currentSquareClassList = currentSquareClassList.classList;
+            // convert currentSquareClassList to array
+            currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
-            checkMonster(avaMove.charAt(0), i);
-            $.each(currentSquareClassList, function (index, item) {
+
+            this.checkMonster(avaMove.charAt(0), i);
+
+            currentSquareClassList.forEach( (index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    javascript_abort();
+                    this.javascript_abort();
                     return;
                 }
                 else if (item === "topWall") {
                     console.log("journey ended");
-
                     console.log("avaMove topWallstop: " + avaMove);
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
 
                 }
                 else if (i == rowClicked) {
                     console.log("journey ended");
                     console.log("avaMove final up: " + avaMove);
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
-
                 }
-            })
-
+            });
         }
-
     }
 
-    function moveDown(rowCurrent, rowClicked, avaMove) {
+    moveDown = (rowCurrent, rowClicked, avaMove) => {
         console.log("moveDownsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
 
         for (var i = rowCurrent; i <= rowClicked; i++) {
-            $(`#` + avaMove).html(''); // clear current avatar image
+            // $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-            var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            currentSquareClassList = currentSquareClassList.classList;
+            currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
-            checkMonster(avaMove.charAt(0), i);
-            $.each(currentSquareClassList, function (index, item) {
+
+            this.checkMonster(avaMove.charAt(0), i);
+
+            currentSquareClassList.forEach( (index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    javascript_abort();
+                    this.javascript_abort();
                     return;
                 }
                 else if (item === "topWall") {
                     console.log("journey ended");
-                    avaMove = avaMove.charAt(0) + i - 1; // because it will be in the square above
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    avaMove = avaMove.charAt(0) + (i - 1); // because it will be in the square above
+                    this.changeAvatarLocation(avaMove);
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.javascript_abort();
                     return;
 
                 }
                 else if (i == rowClicked) {
                     console.log("journey ended");
                     console.log("avaMove final down: " + avaMove);
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    this.changeAvatarLocation(avaMove);
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.javascript_abort();
                     return;
 
                 }
@@ -171,37 +199,42 @@ callBack = (clickedID) => {
 
     }
 
-    function moveRight(colCurrent, colClicked, avaMove) {
+    moveRight = (colCurrent, colClicked, avaMove) => {
 
         for (var i = colCurrent; i <= colClicked; i++) {
-            $(`#` + avaMove).html(''); // clear current avatar image
+            // $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
             console.log("avaMove in right for loop: " + avaMove);
 
-            var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            currentSquareClassList = currentSquareClassList.classList;
+            currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
-            checkMonster(i, avaMove.charAt(1));
-            $.each(currentSquareClassList, function (index, item) {
+
+            this.checkMonster(i, avaMove.charAt(1));
+
+            currentSquareClassList.forEach( (index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    javascript_abort();
+                    this.javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
 
                     console.log("journey ended");
                     avaMove = (i - 1) + avaMove.charAt(1); // because it will be in the square on the left
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
                     console.log("journey ended");
                     console.log("avaMove final right: " + avaMove);
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
                 }
 
@@ -210,35 +243,42 @@ callBack = (clickedID) => {
 
     }
 
-    function moveLeft(colCurrent, colClicked, avaMove) {
+    moveLeft = (colCurrent, colClicked, avaMove) => {
 
         for (var i = colCurrent; i >= colClicked; i--) {
-            $(`#` + avaMove).html(''); // clear current avatar image
+            // $(`#` + avaMove).html(''); // clear current avatar image
             avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
 
-            var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+            // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
+
+            let currentSquareClassList = this.state.testingMap.squareList.find(element => element.id === avaMove);
+            currentSquareClassList = currentSquareClassList.classList;
+            // convert currentSquareClassList to array
+            currentSquareClassList = currentSquareClassList.split(/\s+/);
             console.log("currentSquareClassList: " + currentSquareClassList);
-            checkMonster(i, avaMove.charAt(1));
-            $.each(currentSquareClassList, function (index, item) {
+
+            this.checkMonster(i, avaMove.charAt(1));
+
+            currentSquareClassList.forEach( (index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    javascript_abort();
+                    this.javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
 
                     console.log("journey ended");
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
                     console.log("journey ended");
                     console.log("avaMove final right: " + avaMove);
-                    $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    avaPos = avaMove;
-                    javascript_abort();
+                    // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
+                    this.changeAvatarLocation(avaMove);
+                    this.javascript_abort();
                     return;
                 }
             });
@@ -248,7 +288,7 @@ callBack = (clickedID) => {
 
 
 
-    function checkMonster(colCurrent, rowCurrent) {
+    checkMonster = (colCurrent, rowCurrent) => {
         // define squares to be checked
         let colLeft = colCurrent;
         colLeft--;
@@ -273,19 +313,31 @@ callBack = (clickedID) => {
         // checking square left
         if (colCurrent > 1) {
 
-            let checkSquareClassList = $("#" + squareLeft).attr("class").split(/\s+/);
+            // let checkSquareClassList = $("#" + squareLeft).attr("class").split(/\s+/);
+
+            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareLeft);
+            checkSquareClassList = checkSquareClassList.classList;
+            // convert checkSquareClassList to array
+            checkSquareClassList = checkSquareClassList.split(/\s+/);
+            console.log("check right checkSquareClassList: " + checkSquareClassList);
+
             // $.each(checkSquareClassList, function (index, item) {
 
             console.log("check left col row: " + colCurrent + " " + rowCurrent);
-            console.log("check left: ", $("#" + squareLeft).attr("class").split(/\s+/).includes("monster"));
+            console.log("check left: ", checkSquareClassList.includes("monster"));
             if (checkSquareClassList.includes("monster")) {
-                let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+                let checkSquareThisClassList = this.state.testingMap.squareList.find(element => element.id === squareThis);
+                checkSquareThisClassList = checkSquareThisClassList.classList;
+                // convert checkSquareThisClassList to array
+                checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
+                // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
                 if (checkSquareThisClassList.includes("leftWall")) {
                     console.log("The Wall Saved You");
 
                 }
                 else {
                     console.log("The Monster Ate You");
+                    this.javascript_abort();
                     //code to move monster icon
                 }
             }
@@ -294,7 +346,13 @@ callBack = (clickedID) => {
         //checking square right 
         if (colCurrent < 5) {
 
-            let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
+            // let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
+
+            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareRight);
+            checkSquareClassList = checkSquareClassList.classList;
+            // convert checkSquareClassList to array
+            checkSquareClassList = checkSquareClassList.split(/\s+/);
+
             console.log("check right checkSquareClassList: ", checkSquareClassList);
 
             // $.each(checkSquareClassList, function (index, item) {
@@ -308,6 +366,7 @@ callBack = (clickedID) => {
                 }
                 else {
                     console.log("The Monster Ate You");
+                    this.javascript_abort();
                     //code to move monster icon
                 }
                 // });
@@ -317,17 +376,29 @@ callBack = (clickedID) => {
 
         // checking square above
         if (rowCurrent > 1) {
-            let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
+            // let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
+            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareAbove);
+            checkSquareClassList = checkSquareClassList.classList;
+            // convert checkSquareClassList to array
+            checkSquareClassList = checkSquareClassList.split(/\s+/);
+
+            console.log("check above checkSquareClassList: ", checkSquareClassList);
             console.log("check left col row: " + colCurrent + " " + rowCurrent);
-            console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
+            // console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
             if (checkSquareClassList.includes("monster")) {
-                let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+                // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+                let checkSquareThisClassList = this.state.testingMap.squareList.find(element => element.id === squareThis);
+                checkSquareThisClassList = checkSquareThisClassList.classList;
+                // convert checkSquareThisClassList to array
+                checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
+
                 if (checkSquareThisClassList.includes("topWall")) {
                     console.log("The Wall Saved You");
 
                 }
                 else {
                     console.log("The Monster Ate You");
+                    this.javascript_abort();
                     //code to move monster icon
                 }
             }
@@ -335,8 +406,16 @@ callBack = (clickedID) => {
 
         // checking square below
         if (rowCurrent < 5) {
-            let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
-            console.log("check below: ", $("#" + squareBelow).attr("class").split(/\s+/).includes("monster"));
+            // let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
+            let checkSquareClassList = this.state.testingMap.squareList.find(element => element.id === squareBelow);
+            checkSquareClassList = checkSquareClassList.classList;
+            // convert checkSquareClassList to array
+            checkSquareClassList = checkSquareClassList.split(/\s+/);
+
+            console.log("check above checkSquareClassList: ", checkSquareClassList);
+
+            console.log("check below: ", checkSquareClassList.includes("monster"));
+
             if (checkSquareClassList.includes("monster")) {
 
                 if (checkSquareClassList.includes("topWall")) {
@@ -345,28 +424,46 @@ callBack = (clickedID) => {
                 }
                 else {
                     console.log("The Monster Ate You");
+                    this.javascript_abort();
                     //code to move monster icon
                 }
             }
         }
     }
 
+    changeAvatarLocation = (avaMove) => {
+        let newState = this.state.testingMap.squareList.map((item, index) =>
+            item.id === this.state.avaPos &&
+            (newState.squareList[index].avatar = false)
+        );
+        newState = newState.squareList.map((item, index) =>
+            item.id === avaMove &&
+            (newState.squareList[index].avatar = true)
+        );
+        newState.avaPos = avaMove;
+        this.setState({
+            newState
+        })
+    }
 
-
-    function javascript_abort() {
+    javascript_abort = () => {
         throw new Error('This is not an error. This is just to abort javascript');
     }
 
-    return (
-        
-          <GridContext.Provider value={squareList}>
-            <GameGrid parentCallback = {this.callBack} />
-          </GridContext.Provider>
-        
-      );
+    render() {
+        console.log("render: ", this.state);
+        return (
 
+            <GameGrid
+                setClickedSquare={this.setClickedSquare}
+                squareList={this.state.testingMap.squareList}
+            />
+
+
+        );
+    }
 }
 
 
-
+PuzzleLogic.contextType = AuthContext;
 export default PuzzleLogic;

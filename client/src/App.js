@@ -30,9 +30,6 @@ function App() {
     }
   });
 
-
-
-
   return (
 
     <AuthContext.Provider value={authState}>
@@ -44,6 +41,7 @@ function App() {
           authState.isAuthenticated === false &&
             <Redirect to='/login' />
           }
+
           <Switch>
             <Route exact path="/login">
               <Login />

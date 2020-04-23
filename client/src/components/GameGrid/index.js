@@ -1,33 +1,20 @@
-import React, { useState, setState, useEffect } from 'react';
-import testingMap from "../../testingMap.json";
+import React from 'react';
 import "./style.css";
 import Avatar from "../../assets/avatar.png";
-import PuzzleLogic from "../PuzzleLogic";
 
 
 
 
-function GameGrid() {
 
-    const [squareList, setSquareList] = useState(testingMap);
-    const [clickedSquare, setClickedSquare] = useState("15");
+function GameGrid(props) {
 
-    const GridContext = React.createContext();
 
-    useEffect(() => {
-
-        <GridContext.Provider value={squareList}>
-
-            <PuzzleLogic clickedSquare={clickedSquare} />
-
-        </GridContext.Provider>
-    });
-
+    console.log("props: ", props);
     return (
         <section className="game-grid">
             {
-                squareList.map((item, index) => (
-                    <div className={item.classList} id={item.id} onClick={() => setClickedSquare(item.id)}>
+                props.squareList.map((item, index) => (
+                    <div className={item.classList} id={item.id} onClick={() => props.setClickedSquare(item.id)}>
                         {
                             item.avatar === true &&
                             <img id="avaIcon" src={Avatar}></img>
