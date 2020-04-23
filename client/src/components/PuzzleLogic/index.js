@@ -11,7 +11,7 @@ class PuzzleLogic extends Component {
         super(props);
         // Don't call this.setState() here!
         // FIND OUT HOW TO REMOVE TESINGMAP FROM THE STATE, THEN CHANGE ALL CALLS TO STATE
-        this.state =  testingMap ;
+        this.state = testingMap;
         // this.handleClick = this.handleClick.bind(this);
     }
 
@@ -131,7 +131,7 @@ class PuzzleLogic extends Component {
 
             this.checkMonster(avaMove.charAt(0), i);
 
-            currentSquareClassList.forEach( (index, item) => {
+            currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
                     this.javascript_abort();
@@ -171,7 +171,7 @@ class PuzzleLogic extends Component {
 
             this.checkMonster(avaMove.charAt(0), i);
 
-            currentSquareClassList.forEach( (index, item) => {
+            currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
                     this.javascript_abort();
@@ -215,7 +215,7 @@ class PuzzleLogic extends Component {
 
             this.checkMonster(i, avaMove.charAt(1));
 
-            currentSquareClassList.forEach( (index, item) => {
+            currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
                     this.javascript_abort();
@@ -260,7 +260,7 @@ class PuzzleLogic extends Component {
 
             this.checkMonster(i, avaMove.charAt(1));
 
-            currentSquareClassList.forEach( (index, item) => {
+            currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
                     this.javascript_abort();
@@ -433,19 +433,64 @@ class PuzzleLogic extends Component {
     }
 
     changeAvatarLocation = (avaMove) => {
-        let newState = this.state.squareList.map((item, index) =>
-            item.id === this.state.avaPos &&
-            (newState.squareList[index].avatar = false)
-        );
-        newState = newState.squareList.map((item, index) =>
-            item.id === avaMove &&
-            (newState.squareList[index].avatar = true)
-        );
-        newState.avaPos = avaMove;
+        console.log("changeAvatarLocation this.state: ", this.state);
+        console.log("changeAvatarState squareList: ", this.state.squareList);
+        // let avaToFalse;
+        // let avaToTrue;
+        let newState = this.state.squareList;
+
+        for (let i=0; i<newState.length; i++) {
+            if (newState[i].id === this.state.avaPos) {
+                newState[i].avatar = false;
+//  0               avaToFalse = i;
+            } else if (newState[i].id === avaMove) {
+                newState[i].avatar = true;
+                // avaToTrue = i;
+            }
+
+        }
+
+        console.log("newState after avatar change: ", newState);
+       
+
         this.setState({
-            newState
-        })
+            squareList: newState,
+            clickedSquare: "",
+            avaPos: avaMove
+        });
+
+        // this.state.squareList.forEach((item, index) =>
+        //     item.id === this.state.avaPos &&
+        //     (tempIndex = index)
+        // ).then(() => {
+        //     newState[tempIndex].avatar = false;
+        //     console.log("newState after false: ", newState);
+        // }
+        // ).then(() => {
+        //     this.state.squareList.forEach((item, index) =>
+        //         item.id === avaMove &&
+        //         (tempIndex = index))
+        // }
+        // ).then(() => {
+        //     newState[tempIndex].avatar = true;
+        //     console.log("newState after true: ", newState);
+        // }
+            // )
+
+            // console.log("newState: ", newState);
+            // console.log("tempIndex: ", tempIndex);
+
+            // let newerState = newState.squareList.map((item, index) =>
+            //     item.id === avaMove &&
+            //     (tempIndex = index)
     }
+
+    //     console.log("newState after avatar change: ", newState);
+    //     newState.avaPos = avaMove;
+    //     this.setState({
+    //         newState
+    //     })
+    // }
 
     javascript_abort = () => {
         throw new Error('This is not an error. This is just to abort javascript');
