@@ -17,7 +17,8 @@ class PuzzleLogic extends Component {
 
     setClickedSquare = (props) => {
         let clickedID = props;
-        setState({
+        console.log("props in setClickedSquare: ", props);
+        this.setState({
             clickedSquare: clickedID
         })
     }
