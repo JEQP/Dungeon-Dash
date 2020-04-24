@@ -3,129 +3,280 @@
         {
             "classList": "square wallLeftTop",
             "id": "11",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "21",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square pitWallTop",
             "id": "31",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": true,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "41",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": true,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "51",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square wallLeft",
             "id": "12",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square monster",
             "id": "22",
-            "avatar": false
+            "avatar": false,
+            "monster": true,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": true
         },
         {
             "classList": "square wallLeft",
             "id": "32",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "42",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": true
         },
         {
             "classList": "square wallLeft",
             "id": "52",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallLeft",
             "id": "13",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": true,
+            "leftwall": true,
+            "rightwall": true
         },
         {
             "classList": "square monster wallLeft",
             "id": "23",
-            "avatar": false
+            "avatar": false,
+            "monster": true,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": true,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "33",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": true,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "43",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": true
         },
         {
             "classList": "square wallLeft",
             "id": "53",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallLeftTop",
             "id": "14",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "24",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square wallTop",
             "id": "34",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": true,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "44",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": true
         },
         {
             "classList": "square wallLeft",
             "id": "54",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square wallLeft",
             "id": "15",
-            "avatar": true
+            "avatar": true,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": true,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "25",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "35",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square pitWallsNone",
             "id": "45",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": true,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         },
         {
             "classList": "square",
             "id": "55",
-            "avatar": false
+            "avatar": false,
+            "monster": false,
+            "pit": false,
+            "topwall": false,
+            "bottomwall": false,
+            "leftwall": false,
+            "rightwall": false
         }
     ],
     "clickedSquare": "",
-    "avaPos": "15"
+    "avaPos": "15",
+    "gameContinues": true
 }

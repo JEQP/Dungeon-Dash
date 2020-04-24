@@ -2,6 +2,8 @@ import React, { Component, setState } from "react";
 import GameGrid from "../GameGrid";
 import testingMap from "../../testingMap.json";
 import AuthContext from "../../utils/AuthContext";
+import HomePage from "../../pages/HomePage";
+import GameOverGrid from "../GameOverGrid";
 
 
 class PuzzleLogic extends Component {
@@ -10,7 +12,7 @@ class PuzzleLogic extends Component {
         // necessary line 
         super(props);
         // Don't call this.setState() here!
-        // FIND OUT HOW TO REMOVE TESINGMAP FROM THE STATE, THEN CHANGE ALL CALLS TO STATE
+
         this.state = testingMap;
         // this.handleClick = this.handleClick.bind(this);
     }
@@ -444,10 +446,10 @@ class PuzzleLogic extends Component {
         // let avaToTrue;
         let newState = this.state.squareList;
 
-        for (let i=0; i<newState.length; i++) {
+        for (let i = 0; i < newState.length; i++) {
             if (newState[i].id === this.state.avaPos) {
                 newState[i].avatar = false;
-//  0               avaToFalse = i;
+                //  0               avaToFalse = i;
             } else if (newState[i].id === avaMove) {
                 newState[i].avatar = true;
                 // avaToTrue = i;
@@ -456,7 +458,7 @@ class PuzzleLogic extends Component {
         }
 
         console.log("newState after avatar change: ", newState);
-       
+
 
         this.setState({
             squareList: newState,
@@ -480,14 +482,14 @@ class PuzzleLogic extends Component {
         //     newState[tempIndex].avatar = true;
         //     console.log("newState after true: ", newState);
         // }
-            // )
+        // )
 
-            // console.log("newState: ", newState);
-            // console.log("tempIndex: ", tempIndex);
+        // console.log("newState: ", newState);
+        // console.log("tempIndex: ", tempIndex);
 
-            // let newerState = newState.squareList.map((item, index) =>
-            //     item.id === avaMove &&
-            //     (tempIndex = index)
+        // let newerState = newState.squareList.map((item, index) =>
+        //     item.id === avaMove &&
+        //     (tempIndex = index)
     }
 
     //     console.log("newState after avatar change: ", newState);
@@ -501,15 +503,28 @@ class PuzzleLogic extends Component {
         throw new Error('This is not an error. This is just to abort javascript');
     }
 
-    render() {
-        console.log("render state: ", this.state);
-        return (
-
-            <GameGrid
+    renderPage = () => {
+        if (this.state.gameContinues === true) {
+            return <GameGrid
                 setClickedSquare={this.setClickedSquare}
                 squareList={this.state.squareList}
-            />
+            />;
+        } else if (this.state.gameContinues === false) {
+            return <GameOverGrid
+                squareList={this.state.squareList}
+            />;
+        } else {
+            return <HomePage />;
+        }
+    };
 
+    render() {
+        console.log("render state: ", this.state);
+        // put a value in state if game is continueing, and conditionally render this based on that.
+        return (
+            <div>
+                {this.renderPage()}
+            </div>
 
         );
     }

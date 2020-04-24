@@ -1,11 +1,11 @@
 import React from 'react';
 import "./style.css";
 import Avatar from "../../assets/avatar.png";
-import Monster from "../../assets/bugblatter.png";
 
 
 
-
+// Need to Add Game Over announcement
+// and options to decide what to do, replay or leave. 
 
 function GameGrid(props) {
 
@@ -13,16 +13,13 @@ function GameGrid(props) {
     console.log("props: ", props);
     return (
         <section className="game-grid">
+            <p class="gameover">GAME OVER</p>
             {
                 props.squareList.map((item, index) => (
-                    <div className={item.classList} id={item.id} onClick={() => props.setClickedSquare(item.id)}>
+                    <div className={item.classList} id={item.id}>
                         {
                             item.avatar === true &&
-                            <img id="avaIcon" alt="avatar" src={Avatar}></img>
-                        }
-                        {
-                            item.monster === true &&
-                            <img id="monsIcon" alt="monster" src={Monster}></img>
+                            <img id="avaIcon" src={Avatar}></img>
                         }
                     </div>
                 ))
