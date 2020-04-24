@@ -107,6 +107,7 @@ class PuzzleLogic extends Component {
             }
         }
         else {
+            console.log("invalid move");
             alert("Invalid Move");
         }
 
@@ -134,7 +135,7 @@ class PuzzleLogic extends Component {
             currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (item === "topWall") {
@@ -150,7 +151,7 @@ class PuzzleLogic extends Component {
                     console.log("journey ended");
                     console.log("avaMove final up: " + avaMove);
                     this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
             });
@@ -174,7 +175,7 @@ class PuzzleLogic extends Component {
             currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (item === "topWall") {
@@ -182,7 +183,7 @@ class PuzzleLogic extends Component {
                     avaMove = avaMove.charAt(0) + (i - 1); // because it will be in the square above
                     this.changeAvatarLocation(avaMove);
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
 
                 }
@@ -191,7 +192,7 @@ class PuzzleLogic extends Component {
                     console.log("avaMove final down: " + avaMove);
                     this.changeAvatarLocation(avaMove);
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
 
                 }
@@ -218,7 +219,7 @@ class PuzzleLogic extends Component {
             currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
@@ -227,7 +228,7 @@ class PuzzleLogic extends Component {
                     avaMove = (i - 1) + avaMove.charAt(1); // because it will be in the square on the left
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
@@ -235,7 +236,7 @@ class PuzzleLogic extends Component {
                     console.log("avaMove final right: " + avaMove);
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
 
@@ -263,7 +264,7 @@ class PuzzleLogic extends Component {
             currentSquareClassList.forEach((index, item) => {
                 if (item === "pit") {
                     console.log("GAME OVER");
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (item === "leftWall") {
@@ -271,7 +272,7 @@ class PuzzleLogic extends Component {
                     console.log("journey ended");
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
                 else if (i == colClicked) {
@@ -279,7 +280,7 @@ class PuzzleLogic extends Component {
                     console.log("avaMove final right: " + avaMove);
                     // $(`#` + avaMove).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
                     this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     return;
                 }
             });
@@ -338,7 +339,8 @@ class PuzzleLogic extends Component {
                 }
                 else {
                     console.log("The Monster Ate You");
-                    this.javascript_abort();
+                    // this.javascript_abort();
+                    return;
                     //code to move monster icon
                 }
             }
@@ -367,7 +369,8 @@ class PuzzleLogic extends Component {
                 }
                 else {
                     console.log("The Monster Ate You");
-                    this.javascript_abort();
+                    // this.javascript_abort();
+                    return;
                     //code to move monster icon
                 }
                 // });
@@ -399,7 +402,8 @@ class PuzzleLogic extends Component {
                 }
                 else {
                     console.log("The Monster Ate You");
-                    this.javascript_abort();
+                    // this.javascript_abort();
+                    return;
                     //code to move monster icon
                 }
             }
@@ -425,8 +429,9 @@ class PuzzleLogic extends Component {
                 }
                 else {
                     console.log("The Monster Ate You");
-                    this.javascript_abort();
+                    // this.javascript_abort();
                     //code to move monster icon
+                    return;
                 }
             }
         }
