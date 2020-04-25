@@ -13,18 +13,19 @@ function GameGrid(props) {
     console.log("props: ", props);
     return (
         <section className="game-grid">
-            <p class="gameover">GAME OVER</p>
+            <p className="gameover">GAME OVER</p>
+            <div>
             {
                 props.squareList.map((item, index) => (
                     <div className={item.classList} id={item.id}>
                         {
                             item.avatar === true &&
-                            <img id="avaIcon" src={Avatar}></img>
+                            <img id="avaIcon" alt="avatar" src={Avatar}></img>
                         }
                     </div>
                 ))
             }
-
+</div>
         </section>
     )
 

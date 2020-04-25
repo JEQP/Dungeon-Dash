@@ -278,5 +278,6 @@
     ],
     "clickedSquare": "",
     "avaPos": "15",
-    "gameContinues": true
+    "gameContinues": true,
+    "moveContinues": true
 }

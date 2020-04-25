@@ -21,7 +21,8 @@ class PuzzleLogic extends Component {
         let clickedID = props;
         console.log("props in setClickedSquare: ", props);
         this.setState({
-            clickedSquare: clickedID
+            clickedSquare: clickedID,
+            moveContinues: true
         })
     }
 
@@ -63,10 +64,7 @@ class PuzzleLogic extends Component {
 
         console.log((clickedSquare) + " clicked");
 
-        // setting avaPos with map. 
-
         // console.log("avaPos after click: " + avaPos);
-
 
         // check the move is valid
         let colCurrent = avaPos.charAt(0);
@@ -77,19 +75,19 @@ class PuzzleLogic extends Component {
         console.log("colClicked: " + colClicked + " rowClicked: " + rowClicked);
 
         // check to see if the square clicked is in a column or row of the current square
-        if (colClicked === colCurrent || rowClicked === rowCurrent) {
+        if (this.state.moveContinues === true && (colClicked === colCurrent || rowClicked === rowCurrent)) {
 
             // check if column is passable
 
             if (colClicked === colCurrent) {
                 // for going up
                 if (rowClicked < rowCurrent) {
-                    console.log("if then up - RowClicke " + rowClicked + "rowCurrent " + rowCurrent);
+                    console.log("if then up - RowClicked " + rowClicked + "rowCurrent " + rowCurrent);
                     this.moveUp(rowCurrent, rowClicked, avaPos);
                 }
                 // for going down
                 else if (rowClicked > rowCurrent) {
-                    console.log("else if then down - RowClicke " + rowClicked + "rowCurrent " + rowCurrent);
+                    console.log("else if then down - RowClicked " + rowClicked + "rowCurrent " + rowCurrent);
                     this.moveDown(rowCurrent, rowClicked, avaPos);
                 }
             }
@@ -108,8 +106,9 @@ class PuzzleLogic extends Component {
                 }
             }
         }
-        else {
+        else if (this.state.moveContinues === true && !(colClicked === colCurrent || rowClicked === rowCurrent)){
             console.log("invalid move");
+            console.log("invalid move moveContinues: ", this.state.moveContinues);
             alert("Invalid Move");
         }
 
@@ -117,46 +116,74 @@ class PuzzleLogic extends Component {
     }
 
     moveUp = (rowCurrent, rowClicked, avaMove) => {
-        console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
+        console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + " id: " + avaMove);
+        console.log("moveUp moveContinues: ", this.state.moveContinues);
         // for each square moving up the grid, as row decreases, check if passable. 
         // Start on current square in case of wall in that square.
         // Note that avaMove starts with the value of avaPos from the calling function.
 
         for (var i = rowCurrent; i >= rowClicked; i--) {
+            if (this.state.moveContinues === true) {
+                // $(`#` + avaMove).html(''); // clear current avatar image -- not how the image is displayed now
+                avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
+                this.checkMonster(avaMove.charAt(0), i);
+                console.log("state.squarelist in moveUP: ", this.state.squareList);
+                let currentSquare = this.state.squareList.find(element => element.id === avaMove);
+                console.log("currentSquare: ", currentSquare);
+                // let currentTopWall = currentSquare.topwall;
 
-            // $(`#` + avaMove).html(''); // clear current avatar image -- not how the image is displayed now
-            avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-            let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
-            currentSquareClassList = currentSquareClassList.classList;
-            // convert currentSquareClassList to array
-            currentSquareClassList = currentSquareClassList.split(/\s+/);
-            console.log("currentSquareClassList: " + currentSquareClassList);
+                // let currentLeftWall = currentSquare.leftWall;
+                // let currentRightWall = currentSquare.rightWall;
+                // console.log("currentTopWall: ", currentTopWall);
 
-            this.checkMonster(avaMove.charAt(0), i);
+                // let currentSquareClassList = this.state.squareList.find(element => element.id === avaMove);
+                // currentSquareClassList = currentSquareClassList.classList;
+                // // convert currentSquareClassList to array
+                // currentSquareClassList = currentSquareClassList.split(/\s+/);
+                // console.log("currentSquareClassList: " + currentSquareClassList);
 
-            currentSquareClassList.forEach((index, item) => {
-                if (item === "pit") {
-                    console.log("GAME OVER");
-                    // this.javascript_abort();
-                    return;
-                }
-                else if (item === "topWall") {
-                    console.log("journey ended");
-                    console.log("avaMove topWallstop: " + avaMove);
-
-                    this.changeAvatarLocation(avaMove);
-                    this.javascript_abort();
-                    return;
-
-                }
-                else if (i == rowClicked) {
-                    console.log("journey ended");
-                    console.log("avaMove final up: " + avaMove);
+                if (currentSquare.pit === true) {
+                    console.log("You fell into a pit. No-one lowers a basket. Game over.");
+                    this.setState((state) => {
+                        return { gameContinues: false };
+                    });
+                    // END TURN
+                } else if (currentSquare.topwall === true) {
+                    console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     // this.javascript_abort();
-                    return;
+                    // END TURN
+                } else if (i == rowClicked) {
+                    console.log("You made it unimpeded to ", avaMove);
+                    this.changeAvatarLocation(avaMove);
+                    //END TURN
                 }
-            });
+
+
+
+                // currentSquareClassList.forEach((index, item) => {
+                //     if (item === "pit") {
+                //         console.log("GAME OVER");
+                //         // this.javascript_abort();
+                //         return;
+                //     }
+                //     else if (item === "topWall") {
+                //         console.log("journey ended");
+                //         console.log("avaMove topWallstop: " + avaMove);
+
+                //         this.changeAvatarLocation(avaMove);
+                //         this.javascript_abort();
+                //         return;
+
+                //     }
+                //     else if (i == rowClicked) {
+                //         console.log("journey ended");
+                //         console.log("avaMove final up: " + avaMove);
+                //         this.changeAvatarLocation(avaMove);
+                //         // this.javascript_abort();
+                //         return;
+                //     }
+            }
         }
     }
 
@@ -312,130 +339,168 @@ class PuzzleLogic extends Component {
         console.log("squareBelow: " + squareBelow);
         let squareThis = `${colCurrent}` + `${rowCurrent}`;
         console.log("squareThis: ", squareThis);
+        let thisSquare = this.state.squareList.find(element => element.id === squareThis);
 
 
         // checking square left
         if (colCurrent > 1) {
-
-            // let checkSquareClassList = $("#" + squareLeft).attr("class").split(/\s+/);
-
-            let checkSquareClassList = this.state.squareList.find(element => element.id === squareLeft);
-            checkSquareClassList = checkSquareClassList.classList;
-            // convert checkSquareClassList to array
-            checkSquareClassList = checkSquareClassList.split(/\s+/);
-            console.log("check right checkSquareClassList: " + checkSquareClassList);
-
-            // $.each(checkSquareClassList, function (index, item) {
-
-            console.log("check left col row: " + colCurrent + " " + rowCurrent);
-            console.log("check left: ", checkSquareClassList.includes("monster"));
-            if (checkSquareClassList.includes("monster")) {
-                let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
-                checkSquareThisClassList = checkSquareThisClassList.classList;
-                // convert checkSquareThisClassList to array
-                checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
-                // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
-                if (checkSquareThisClassList.includes("leftWall")) {
-                    console.log("The Wall Saved You");
-
-                }
-                else {
-                    console.log("The Monster Ate You");
-                    // this.javascript_abort();
-                    return;
-                    //code to move monster icon
+            if (thisSquare.leftwall === false) {
+                let checkSquareMonster = this.state.squareList.find(element => element.id === squareLeft);
+                if (checkSquareMonster.monster === true) {
+                    console.log("A monster from " + squareLeft + "ate you at " + thisSquare);
+                    this.setState((state) => {
+                        return { gameContinues: false };
+                    });
+                    // END TURN
                 }
             }
-            // });
+
+            // let checkSquareClassList = this.state.squareList.find(element => element.id === squareLeft);
+            // checkSquareClassList = checkSquareClassList.classList;
+            // // convert checkSquareClassList to array
+            // checkSquareClassList = checkSquareClassList.split(/\s+/);
+            // console.log("check right checkSquareClassList: " + checkSquareClassList);
+
+            // // $.each(checkSquareClassList, function (index, item) {
+
+            // console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            // console.log("check left: ", checkSquareClassList.includes("monster"));
+            // if (checkSquareClassList.includes("monster")) {
+            //     let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
+            //     checkSquareThisClassList = checkSquareThisClassList.classList;
+            //     // convert checkSquareThisClassList to array
+            //     checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
+            //     // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+            //     if (checkSquareThisClassList.includes("leftWall")) {
+            //         console.log("The Wall Saved You");
+
+            //     }
+            //     else {
+            //         console.log("The Monster Ate You");
+            //         // this.javascript_abort();
+            //         return;
+            //         //code to move monster icon
+            //     }
+            // }
+            // // });
         }
         //checking square right 
         if (colCurrent < 5) {
-
+            if (thisSquare.rightwall === false) {
+                let checkSquareMonster = this.state.squareList.find(element => element.id === squareRight);
+                if (checkSquareMonster.monster === true) {
+                    console.log("A monster from " + squareRight + "ate you at " + thisSquare);
+                    this.setState((state) => {
+                        return { gameContinues: false };
+                    });
+                    // END TURN
+                }
+            }
             // let checkSquareClassList = $("#" + squareRight).attr("class").split(/\s+/);
 
-            let checkSquareClassList = this.state.squareList.find(element => element.id === squareRight);
-            checkSquareClassList = checkSquareClassList.classList;
-            // convert checkSquareClassList to array
-            checkSquareClassList = checkSquareClassList.split(/\s+/);
+            // let checkSquareClassList = this.state.squareList.find(element => element.id === squareRight);
+            // checkSquareClassList = checkSquareClassList.classList;
+            // // convert checkSquareClassList to array
+            // checkSquareClassList = checkSquareClassList.split(/\s+/);
 
-            console.log("check right checkSquareClassList: ", checkSquareClassList);
+            // console.log("check right checkSquareClassList: ", checkSquareClassList);
 
-            // $.each(checkSquareClassList, function (index, item) {
-            //     console.log("check left col row: " + colCurrent + " " + rowCurrent);
-            // console.log("check right class: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class"))
-            // console.log("check right: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class").split(/\s+/).includes("monster"));
-            if (checkSquareClassList.includes("monster")) {
-                // $.each(checkSquareClassList, function (index, item) {
-                if (checkSquareClassList.includes("leftWall")) {
-                    console.log("The Wall Saved You");
-                }
-                else {
-                    console.log("The Monster Ate You");
-                    // this.javascript_abort();
-                    return;
-                    //code to move monster icon
-                }
-                // });
-            }
-            // });
+            // // $.each(checkSquareClassList, function (index, item) {
+            // //     console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            // // console.log("check right class: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class"))
+            // // console.log("check right: ", $("#" + (colCurrent + 1) + rowCurrent).attr("class").split(/\s+/).includes("monster"));
+            // if (checkSquareClassList.includes("monster")) {
+            //     // $.each(checkSquareClassList, function (index, item) {
+            //     if (checkSquareClassList.includes("leftWall")) {
+            //         console.log("The Wall Saved You");
+            //     }
+            //     else {
+            //         console.log("The Monster Ate You");
+            //         // this.javascript_abort();
+            //         return;
+            //         //code to move monster icon
+            //     }
+            //     // });
+            // }
+            // // });
         }
 
         // checking square above
         if (rowCurrent > 1) {
-            // let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
-            let checkSquareClassList = this.state.squareList.find(element => element.id === squareAbove);
-            checkSquareClassList = checkSquareClassList.classList;
-            // convert checkSquareClassList to array
-            checkSquareClassList = checkSquareClassList.split(/\s+/);
-
-            console.log("check above checkSquareClassList: ", checkSquareClassList);
-            console.log("check left col row: " + colCurrent + " " + rowCurrent);
-            // console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
-            if (checkSquareClassList.includes("monster")) {
-                // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
-                let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
-                checkSquareThisClassList = checkSquareThisClassList.classList;
-                // convert checkSquareThisClassList to array
-                checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
-
-                if (checkSquareThisClassList.includes("topWall")) {
-                    console.log("The Wall Saved You");
-
-                }
-                else {
-                    console.log("The Monster Ate You");
-                    // this.javascript_abort();
-                    return;
-                    //code to move monster icon
+            if (thisSquare.topwall === false) {
+                let checkSquareMonster = this.state.squareList.find(element => element.id === squareAbove);
+                if (checkSquareMonster.monster === true) {
+                    console.log("A monster from " + squareAbove + "ate you at " + thisSquare);
+                    this.setState((state) => {
+                        return { gameContinues: false };
+                    });
+                    // END TURN
                 }
             }
+            // let checkSquareClassList = $("#" + squareAbove).attr("class").split(/\s+/);
+            // let checkSquareClassList = this.state.squareList.find(element => element.id === squareAbove);
+            // checkSquareClassList = checkSquareClassList.classList;
+            // // convert checkSquareClassList to array
+            // checkSquareClassList = checkSquareClassList.split(/\s+/);
+
+            // console.log("check above checkSquareClassList: ", checkSquareClassList);
+            // console.log("check left col row: " + colCurrent + " " + rowCurrent);
+            // // console.log("check above: ", $("#" + squareAbove).attr("class").split(/\s+/).includes("monster"));
+            // if (checkSquareClassList.includes("monster")) {
+            //     // let checkSquareThisClassList = $('#' + squareThis).attr("class").split(/\s+/);
+            //     let checkSquareThisClassList = this.state.squareList.find(element => element.id === squareThis);
+            //     checkSquareThisClassList = checkSquareThisClassList.classList;
+            //     // convert checkSquareThisClassList to array
+            //     checkSquareThisClassList = checkSquareThisClassList.split(/\s+/);
+
+            //     if (checkSquareThisClassList.includes("topWall")) {
+            //         console.log("The Wall Saved You");
+
+            //     }
+            //     else {
+            //         console.log("The Monster Ate You");
+            //         // this.javascript_abort();
+            //         return;
+            //         //code to move monster icon
+            //     }
+            // }
         }
 
         // checking square below
         if (rowCurrent < 5) {
-            // let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
-            let checkSquareClassList = this.state.squareList.find(element => element.id === squareBelow);
-            checkSquareClassList = checkSquareClassList.classList;
-            // convert checkSquareClassList to array
-            checkSquareClassList = checkSquareClassList.split(/\s+/);
-
-            console.log("check above checkSquareClassList: ", checkSquareClassList);
-
-            console.log("check below: ", checkSquareClassList.includes("monster"));
-
-            if (checkSquareClassList.includes("monster")) {
-
-                if (checkSquareClassList.includes("topWall")) {
-                    console.log("The Wall Saved You");
-
-                }
-                else {
-                    console.log("The Monster Ate You");
-                    // this.javascript_abort();
-                    //code to move monster icon
-                    return;
+            if (thisSquare.bottomwall === false) {
+                let checkSquareMonster = this.state.squareList.find(element => element.id === squareBelow);
+                if (checkSquareMonster.monster === true) {
+                    console.log("A monster from " + squareBelow + "ate you at " + thisSquare);
+                    this.setState((state) => {
+                        return { gameContinues: false };
+                    });
                 }
             }
+            // let checkSquareClassList = $("#" + squareBelow).attr("class").split(/\s+/);
+            //     let checkSquareClassList = this.state.squareList.find(element => element.id === squareBelow);
+            //     checkSquareClassList = checkSquareClassList.classList;
+            //     // convert checkSquareClassList to array
+            //     checkSquareClassList = checkSquareClassList.split(/\s+/);
+
+            //     console.log("check above checkSquareClassList: ", checkSquareClassList);
+
+            //     console.log("check below: ", checkSquareClassList.includes("monster"));
+
+            //     if (checkSquareClassList.includes("monster")) {
+
+            //         if (checkSquareClassList.includes("topWall")) {
+            //             console.log("The Wall Saved You");
+
+            //         }
+            //         else {
+            //             console.log("The Monster Ate You");
+            //             // this.javascript_abort();
+            //             //code to move monster icon
+            //             return;
+            //         }
+            //     }
+            // }
         }
     }
 
@@ -463,7 +528,8 @@ class PuzzleLogic extends Component {
         this.setState({
             squareList: newState,
             clickedSquare: "",
-            avaPos: avaMove
+            avaPos: avaMove,
+            moveContinues: false
         });
 
         // this.state.squareList.forEach((item, index) =>
@@ -499,9 +565,9 @@ class PuzzleLogic extends Component {
     //     })
     // }
 
-    javascript_abort = () => {
-        throw new Error('This is not an error. This is just to abort javascript');
-    }
+    // javascript_abort = () => {
+    //     throw new Error('This is not an error. This is just to abort javascript');
+    // }
 
     renderPage = () => {
         if (this.state.gameContinues === true) {
