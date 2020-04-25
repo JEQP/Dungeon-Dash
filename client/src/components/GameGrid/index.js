@@ -10,7 +10,7 @@ import Monster from "../../assets/bugblatter.png";
 function GameGrid(props) {
 
 
-    console.log("props: ", props);
+    console.log("GameGrid props: ", props);
     return (
         <section className="game-grid">
             {
