@@ -3,7 +3,10 @@ import GameGrid from "../GameGrid";
 import testingMap from "../../testingMap.json";
 import AuthContext from "../../utils/AuthContext";
 import HomePage from "../../pages/HomePage";
+import GameGridMeat from "../GameGridMeat";
+import GameGridPlank from "../GameGridPlank";
 import GameOverGrid from "../GameOverGrid";
+import ToolsCarried from "../ToolsCarried";
 
 
 class PuzzleLogic extends Component {
@@ -20,10 +23,57 @@ class PuzzleLogic extends Component {
     setClickedSquare = (props) => {
         let clickedID = props;
         console.log("props in setClickedSquare: ", props);
+
         this.setState({
             clickedSquare: clickedID,
             moveContinues: true
         })
+    }
+
+    setMeat = (props) => {
+        let clickedID = props;
+        console.log("props in setMeat: ", props);
+        let newState = this.state;
+        let meatSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
+        console.log("meatSquare index: ", meatSquare);
+        newState.squareList[meatSquare].meat = true;
+        let meatIndex = this.state.toolsCarried.findIndex(element => element === "meat");
+        console.log("meatIndex: ", meatIndex);
+        newState.toolsCarried.splice(meatIndex, 1);
+        newState.toolSelected = "";
+
+        this.setState({
+            newState
+        })
+    }
+
+    setPlank = (props) => {
+        let clickedID = props;
+        console.log("props in setPlank: ", props);
+        let newState = this.state;
+        let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
+        console.log("plankSquare: ", plankSquare);
+        newState.squareList[plankSquare].plank = true;
+        let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
+        console.log("plankIndex: ", plankIndex);
+        newState.toolsCarried.splice(plankIndex, 1);
+        newState.toolSelected = "";
+
+        this.setState({
+            newState
+        })
+    }
+
+    setToolSelected = (props) => {
+        let toolSelected = props;
+        console.log("toolselected in props: ", toolSelected);
+        this.setState(
+            {
+                toolSelected: toolSelected,
+                moveContinues: false
+            }
+        )
+        console.log("toolselected in state: ", this.state.toolSelected);
     }
 
     //     {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
@@ -421,10 +471,29 @@ class PuzzleLogic extends Component {
 
     renderPage = () => {
         if (this.state.gameContinues === true) {
-            return <GameGrid
-                setClickedSquare={this.setClickedSquare}
-                squareList={this.state.squareList}
-            />;
+            switch (this.state.toolSelected) {
+                case "meat":
+                    console.log("GameGridMeat rendered");
+                    return <GameGridMeat
+                    setMeat={this.setMeat}
+                    squareList={this.state.squareList}
+                />;
+                    break;
+                case "plank":
+                    console.log("GameGridPlank rendered");
+                   return <GameGridPlank
+                        setPlank={this.setPlank}
+                        squareList={this.state.squareList}
+                    />;
+                    break;
+                default:
+                    console.log("GameGrid rendered");
+                    return <GameGrid
+                        setClickedSquare={this.setClickedSquare}
+                        squareList={this.state.squareList}
+                    />;
+                    break;
+            }
         } else if (this.state.gameContinues === false) {
             return <GameOverGrid
                 squareList={this.state.squareList}
@@ -438,9 +507,17 @@ class PuzzleLogic extends Component {
         console.log("render state: ", this.state);
         // put a value in state if game is continueing, and conditionally render this based on that.
         return (
-            <div>
-                {this.renderPage()}
-            </div>
+            <section>
+                <div>
+                    <ToolsCarried
+                        tools={this.state.toolsCarried}
+                        toolSelected={this.setToolSelected}
+                    />
+                </div>
+                <div>
+                    {this.renderPage()}
+                </div>
+            </section>
 
         );
     }

@@ -5,7 +5,7 @@ import Monster from "../../assets/bugblatter.png";
 import Plank from "../../assets/plank.png";
 import Meat from "../../assets/meat.png";
 
-function GameGrid(props) {
+function GameGridMeat(props) {
 
    
     console.log("GameGrid props: ", props);
@@ -13,7 +13,7 @@ function GameGrid(props) {
         <section className="game-grid">
             {
                 props.squareList.map((item, index) => (
-                    <div className={item.classList} key={item.id} id={item.id} onClick={() => props.setClickedSquare(item.id)}>
+                    <div className={item.classList} key={item.id} id={item.id} onClick={() => props.setMeat(item.id)}>
                         {
                             item.avatar === true &&
                             <img id="avaIcon" alt="avatar" src={Avatar}></img>
@@ -39,7 +39,7 @@ function GameGrid(props) {
 
 }
 
-export default GameGrid;
+export default GameGridMeat;
 
 // <div className="square" id="11">a</div>
                 // <div className="square" id="21">b</div>
