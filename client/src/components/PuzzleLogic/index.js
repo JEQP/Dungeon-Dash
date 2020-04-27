@@ -20,6 +20,9 @@ class PuzzleLogic extends Component {
         // this.handleClick = this.handleClick.bind(this);
     }
 
+
+    // === RESPONSE TO USER INPUT ===
+    // === to move avatar ===
     setClickedSquare = (props) => {
         let clickedID = props;
         console.log("props in setClickedSquare: ", props);
@@ -30,38 +33,124 @@ class PuzzleLogic extends Component {
         })
     }
 
+    // === to throw meat ===
     setMeat = (props) => {
         let clickedID = props;
-        console.log("props in setMeat: ", props);
-        let newState = this.state;
-        let meatSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
-        console.log("meatSquare index: ", meatSquare);
-        newState.squareList[meatSquare].meat = true;
-        let meatIndex = this.state.toolsCarried.findIndex(element => element === "meat");
-        console.log("meatIndex: ", meatIndex);
-        newState.toolsCarried.splice(meatIndex, 1);
-        newState.toolSelected = "";
+        let currentLoc = this.state.avaPos;
+        console.log("clicked: " + clickedID + " currentLoc: " + currentLoc);
+        let currentSquare = this.state.squareList.find(element => element.id === currentLoc);
+        console.log("currentSquare setMeat: ", currentSquare);
 
-        this.setState({
-            newState
-        })
+        // check the move is valid
+        let colCurrent = parseInt(currentLoc.charAt(0), 10);
+        let minCol = colCurrent - 2;
+        let maxCol = colCurrent + 2;
+        let rowCurrent = parseInt(currentLoc.charAt(1), 10);
+        let minRow = rowCurrent - 2;
+        let maxRow = rowCurrent + 2;
+        let colClicked = parseInt(clickedID.charAt(0), 10);
+        let rowClicked = parseInt(clickedID.charAt(1), 10);
+
+        let squareLeftID = `${(colCurrent - 1).toString()}${rowCurrent.toString()}`;
+        let squareLeft = this.state.squareList.find(element => element.id === squareLeftID);
+        let squareRightID = `${(colCurrent + 1).toString()}${rowCurrent.toString()}`;
+        let squareRight = this.state.squareList.find(element => element.id === squareRightID);
+        let squareAboveID = `${colCurrent.toString()}${(rowCurrent - 1).toString()}`;
+        let squareAbove = this.state.squareList.find(element => element.id === squareAboveID);
+        let squareBelowID = `${colCurrent.toString()}${(rowCurrent + 1).toString()}`;
+        let squareBelow = this.state.squareList.find(element => element.id === squareBelowID);
+        console.log("squareLeft in setMeat: ", squareLeft);
+
+
+        console.log("minCol:" + minCol + " maxCol:" + maxCol + " minRow:" + minRow + " maxRow:" + maxRow);
+        let newState = this.state;
+        // check for walls
+        if ((colClicked === (colCurrent - 1) && rowClicked === rowCurrent && currentSquare.leftwall === false) ||
+            (colClicked === minCol && rowClicked === rowCurrent && squareLeft.leftwall === false && currentSquare.leftwall === false) ||
+            (colClicked === (colCurrent + 1) && rowClicked === rowCurrent && currentSquare.rightwall === false) ||
+            (colClicked === maxCol && rowClicked === rowCurrent && squareRight.rightwall === false && currentSquare.rightwall === false) ||
+            (rowClicked === (rowCurrent - 1) && colClicked === colCurrent && currentSquare.topwall === false) ||
+            (rowClicked === minRow && colClicked === colCurrent && currentSquare.topwall === false && squareAbove.topwall === false) ||
+            (rowClicked === (rowCurrent + 1) && colClicked === colCurrent && currentSquare.bottomwall === false) ||
+            (rowClicked === maxRow && colCurrent === colClicked && currentSquare.bottomwall === false && squareBelow.bottomwall === false)) {
+
+            // check distance
+            if (((colClicked >= minCol && colClicked <= maxCol) && rowClicked === rowCurrent) ||
+                ((rowClicked >= minRow && rowClicked <= maxRow) && colClicked === colCurrent)) {
+
+                let meatSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
+                console.log("meatSquare index: ", meatSquare);
+                newState.squareList[meatSquare].meat = true;
+                let meatIndex = this.state.toolsCarried.findIndex(element => element === "meat");
+                console.log("meatIndex: ", meatIndex);
+                newState.toolsCarried.splice(meatIndex, 1);
+                newState.toolSelected = "";
+
+                this.setState({
+                    newState
+                })
+            } else {
+                newState.toolSelected = "";
+                this.setState({
+                    newState
+                })
+            }
+        } else {
+            newState.toolSelected = "";
+            this.setState({
+                newState
+            })
+        }
     }
 
+    // === to lay plank === 
     setPlank = (props) => {
         let clickedID = props;
-        console.log("props in setPlank: ", props);
-        let newState = this.state;
-        let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
-        console.log("plankSquare: ", plankSquare);
-        newState.squareList[plankSquare].plank = true;
-        let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
-        console.log("plankIndex: ", plankIndex);
-        newState.toolsCarried.splice(plankIndex, 1);
-        newState.toolSelected = "";
+        let currentLoc = this.state.avaPos;
+        console.log("clicked: " + clickedID + " currentLoc: " + currentLoc);
 
-        this.setState({
-            newState
-        })
+        // check the move is valid
+        let colCurrent = parseInt(currentLoc.charAt(0), 10);
+        let minCol = colCurrent - 1;
+        let maxCol = colCurrent + 1;
+        let rowCurrent = parseInt(currentLoc.charAt(1), 10);
+        let minRow = rowCurrent - 1;
+        let maxRow = rowCurrent + 1;
+        let colClicked = parseInt(clickedID.charAt(0), 10);
+        let rowClicked = parseInt(clickedID.charAt(1), 10);
+        let currentSquare = this.state.squareList.find(element => element.id === currentLoc);
+        let newState = this.state;
+        
+        if ((colClicked === minCol && rowClicked === rowCurrent && currentSquare.leftwall === false) ||
+            (colClicked === maxCol && rowClicked === rowCurrent && currentSquare.rightwall === false) ||
+            (rowClicked === minRow && colClicked === colCurrent && currentSquare.topwall === false) ||
+            (rowClicked === maxRow && colClicked === colCurrent && currentSquare.bottomwall === false)) {
+
+            if (colClicked >= (colCurrent - 1) && colClicked <= (colCurrent + 1) && rowClicked >= (rowCurrent - 1) && rowClicked <= (rowCurrent + 1)) {
+
+                let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
+                console.log("plankSquare: ", plankSquare);
+                newState.squareList[plankSquare].plank = true;
+                let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
+                console.log("plankIndex: ", plankIndex);
+                newState.toolsCarried.splice(plankIndex, 1);
+                newState.toolSelected = "";
+
+                this.setState({
+                    newState
+                })
+            } else {
+                newState.toolSelected = "";
+                this.setState({
+                    newState
+                })
+            }
+        } else {
+            newState.toolSelected = "";
+            this.setState({
+                newState
+            })
+        }
     }
 
     setToolSelected = (props) => {
@@ -75,6 +164,8 @@ class PuzzleLogic extends Component {
         )
         console.log("toolselected in state: ", this.state.toolSelected);
     }
+
+
 
     //     {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
     //     Props contains the id of the square that was clicked. */}
@@ -475,13 +566,13 @@ class PuzzleLogic extends Component {
                 case "meat":
                     console.log("GameGridMeat rendered");
                     return <GameGridMeat
-                    setMeat={this.setMeat}
-                    squareList={this.state.squareList}
-                />;
+                        setMeat={this.setMeat}
+                        squareList={this.state.squareList}
+                    />;
                     break;
                 case "plank":
                     console.log("GameGridPlank rendered");
-                   return <GameGridPlank
+                    return <GameGridPlank
                         setPlank={this.setPlank}
                         squareList={this.state.squareList}
                     />;
