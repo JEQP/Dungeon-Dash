@@ -77,7 +77,7 @@ class PuzzleLogic extends Component {
             // check distance
             if (((colClicked >= minCol && colClicked <= maxCol) && rowClicked === rowCurrent) ||
                 ((rowClicked >= minRow && rowClicked <= maxRow) && colClicked === colCurrent)) {
-
+                // put meat in square
                 let meatSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
                 console.log("meatSquare index: ", meatSquare);
                 newState.squareList[meatSquare].meat = true;
@@ -85,6 +85,41 @@ class PuzzleLogic extends Component {
                 console.log("meatIndex: ", meatIndex);
                 newState.toolsCarried.splice(meatIndex, 1);
                 newState.toolSelected = "";
+
+                // check squares around meat for walls, and then for monsters
+                if (newState.squareList[meatSquare].leftwall === false && colClicked > 1) {
+                    let meatLeftID = `${(colClicked - 1).toString()}${rowClicked.toString()}`;
+                    let meatLeftIndex = newState.squareList.findIndex(element => element.id === meatLeftID);
+                    if (newState.squareList[meatLeftIndex].monster === true) {
+                        newState.squareList[meatSquare].monster = true;
+                        newState.squareList[meatLeftIndex].monster = false;
+                    }
+                }
+                if (newState.squareList[meatSquare].rightwall === false && colClicked < 5) {
+                    let meatRightID = `${(colClicked + 1).toString()}${rowClicked.toString()}`;
+                    let meatRightIndex = newState.squareList.findIndex(element => element.id === meatRightID);
+                    if (newState.squareList[meatRightIndex].monster === true) {
+                        newState.squareList[meatSquare].monster = true;
+                        newState.squareList[meatRightIndex].monster = false;
+                    }
+                }
+                if (newState.squareList[meatSquare].topwall === false && rowClicked > 1) {
+                    let meatTopID = `${(colClicked).toString()}${(rowClicked - 1).toString()}`;
+                    let meatTopIndex = newState.squareList.findIndex(element => element.id === meatTopID);
+                    if (newState.squareList[meatTopIndex].monster === true) {
+                        newState.squareList[meatSquare].monster = true;
+                        newState.squareList[meatTopIndex].monster = false;
+                    }
+                }
+                if (newState.squareList[meatSquare].bottomwall === false && rowClicked < 5) {
+                    let meatBottomID = `${(colClicked).toString()}${(rowClicked + 1).toString()}`;
+                    let meatBottomIndex = newState.squareList.findIndex(element => element.id === meatBottomID);
+                    if (newState.squareList[meatBottomIndex].monster === true) {
+                        newState.squareList[meatSquare].monster = true;
+                        newState.squareList[meatBottomIndex].monster = false;
+                    }
+                }
+
 
                 this.setState({
                     newState
@@ -120,7 +155,7 @@ class PuzzleLogic extends Component {
         let rowClicked = parseInt(clickedID.charAt(1), 10);
         let currentSquare = this.state.squareList.find(element => element.id === currentLoc);
         let newState = this.state;
-        
+
         if ((colClicked === minCol && rowClicked === rowCurrent && currentSquare.leftwall === false) ||
             (colClicked === maxCol && rowClicked === rowCurrent && currentSquare.rightwall === false) ||
             (rowClicked === minRow && colClicked === colCurrent && currentSquare.topwall === false) ||
@@ -260,7 +295,7 @@ class PuzzleLogic extends Component {
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
                 // console.log("currentSquare: ", currentSquare);
 
-                if (currentSquare.pit === true) {
+                if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
                     this.setState((state) => {
                         return { gameContinues: false, moveContinues: false };
@@ -308,7 +343,7 @@ class PuzzleLogic extends Component {
                 // this.checkMonster(avaMove.charAt(0), i);
 
 
-                if (currentSquare.pit === true) {
+                if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
                     this.setState((state) => {
                         return { gameContinues: false, moveContinues: false };
@@ -360,7 +395,7 @@ class PuzzleLogic extends Component {
 
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
 
-                if (currentSquare.pit === true) {
+                if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
                     this.setState((state) => {
                         return { gameContinues: false, moveContinues: false };
@@ -409,7 +444,7 @@ class PuzzleLogic extends Component {
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
 
 
-                if (currentSquare.pit === true) {
+                if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
                     this.setState((state) => {
                         return { gameContinues: false, moveContinues: false };
