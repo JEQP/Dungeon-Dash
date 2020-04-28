@@ -6,6 +6,7 @@ const routes = require("./routes");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
+const dungeons = require("./routes/api/dungeons");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 }
 // Add routes, both API and view
 // app.use(routes);
-
+// this keys file should be on the back end
 const db = require("./client/src/config/keys").mongoURI;
 
 
@@ -42,6 +43,7 @@ app.use(passport.initialize());
 require("./client/src/config/passport")(passport);
 // Routes
 app.use("/api/users", users);
+app.use("/api/dungeons", dungeons);
 
 // Start the API server
 app.listen(PORT, function() {

@@ -4,10 +4,11 @@ import Avatar from "../../assets/avatar.png";
 import Monster from "../../assets/bugblatter.png";
 import Plank from "../../assets/plank.png";
 import Meat from "../../assets/meat.png";
+import Chest from "../../assets/treasure.png";
 
 function GameGrid(props) {
 
-   
+
     console.log("GameGrid props: ", props);
     return (
         <section className="game-grid">
@@ -22,13 +23,17 @@ function GameGrid(props) {
                             item.monster === true &&
                             <img id="monsIcon" alt="monster" src={Monster}></img>
                         }
-                                                {
+                        {
                             item.plank === true &&
                             <img id="plankIcon" alt="plank" src={Plank}></img>
                         }
-                                                {
+                        {
                             item.meat === true &&
                             <img id="meatIcon" alt="meat" src={Meat}></img>
+                        }
+                        {
+                            item.treasure === true &&
+                            <img id="treasureIcon" alt="treasure" src={Chest}></img>
                         }
                     </div>
                 ))
@@ -130,4 +135,3 @@ export default GameGrid;
                 //             </div>));
                 //     }
                 // };
-                

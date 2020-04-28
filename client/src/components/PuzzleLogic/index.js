@@ -5,7 +5,8 @@ import AuthContext from "../../utils/AuthContext";
 import HomePage from "../../pages/HomePage";
 import GameGridMeat from "../GameGridMeat";
 import GameGridPlank from "../GameGridPlank";
-import GameOverGrid from "../GameOverGrid";
+import GameLost from "../GameLost";
+import GameWon from "../GameWon";
 import ToolsCarried from "../ToolsCarried";
 
 
@@ -122,18 +123,18 @@ class PuzzleLogic extends Component {
 
 
                 this.setState({
-                    newState
+                    ...newState
                 })
             } else {
                 newState.toolSelected = "";
                 this.setState({
-                    newState
+                    ...newState
                 })
             }
         } else {
             newState.toolSelected = "";
             this.setState({
-                newState
+                ...newState
             })
         }
     }
@@ -172,18 +173,18 @@ class PuzzleLogic extends Component {
                 newState.toolSelected = "";
 
                 this.setState({
-                    newState
+                    ...newState
                 })
             } else {
                 newState.toolSelected = "";
                 this.setState({
-                    newState
+                    ...newState
                 })
             }
         } else {
             newState.toolSelected = "";
             this.setState({
-                newState
+                ...newState
             })
         }
     }
@@ -191,21 +192,18 @@ class PuzzleLogic extends Component {
     setToolSelected = (props) => {
         let toolSelected = props;
         console.log("toolselected in props: ", toolSelected);
+        let newState = this.state;
+        newState.toolSelected = toolSelected;
+        newState.moveContinues = false;
+
         this.setState(
             {
-                toolSelected: toolSelected,
-                moveContinues: false
+                ...newState
             }
         )
         console.log("toolselected in state: ", this.state.toolSelected);
     }
 
-
-
-    //     {/* GridContext contains the state of the grid, including classes, location of avatar, and assumedly location of monster.
-    //     Props contains the id of the square that was clicked. */}
-    // {/* avaPos is props.clickedSquare */ }
-    // $(`#` + avaPos).html('<img id="avaIcon" src="assets/images/avatar.png"></img>');
 
     // function to move avatar based on clicks
 
@@ -302,6 +300,13 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
+                } else if (currentSquare.treasure === true) {
+                    console.log("You got the treasure! But will it make you happy?");
+                    this.changeAvatarLocation(avaMove);
+                    this.setState((state) => {
+                        return { gameWon: true, gameContinues: false, moveContinues: false }
+                    });
+                    moveContinues = false;
                 } else if (currentSquare.topwall === true) {
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
@@ -350,17 +355,21 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-
-                }
-                else if (currentSquare.bottomwall === true) {
+                } else if (currentSquare.treasure === true) {
+                    console.log("You got the treasure! But will it make you happy?");
+                    this.changeAvatarLocation(avaMove);
+                    this.setState((state) => {
+                        return { gameWon: true, gameContinues: false, moveContinues: false }
+                    });
+                    moveContinues = false;
+                } else if (currentSquare.bottomwall === true) {
                     console.log("There's a wall, so you stop at ", avaMove);
                     // avaMove = avaMove.charAt(0) + (i - 1); // because it will be in the square above
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
                     return;
-
-                }
-                else if (i == rowClicked) {
+                
+                } else if (i == rowClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
@@ -402,15 +411,20 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                }
-                else if (currentSquare.rightwall === true) {
+                } else if (currentSquare.treasure === true) {
+                    console.log("You got the treasure! But will it make you happy?");
+                    this.changeAvatarLocation(avaMove);
+                    this.setState((state) => {
+                        return { gameWon: true, gameContinues: false, moveContinues: false }
+                    });
+                    moveContinues = false;
+                } else if (currentSquare.rightwall === true) {
 
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
                     // END TURN
-                }
-                else if (i == colClicked) {
+                } else if (i == colClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
@@ -451,15 +465,19 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                }
-                else if (currentSquare.leftwall === true) {
+                } else if (currentSquare.treasure === true) {
+                    console.log("You got the treasure! But will it make you happy?");
+                    this.changeAvatarLocation(avaMove);
+                    this.setState((state) => {
+                        return { gameWon: true, gameContinues: false, moveContinues: false }
+                    });
+                    moveContinues = false;
+                } else if (currentSquare.leftwall === true) {
 
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    // END TURN
-                }
-                else if (i == colClicked) {
+                } else if (i == colClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
@@ -621,9 +639,15 @@ class PuzzleLogic extends Component {
                     break;
             }
         } else if (this.state.gameContinues === false) {
-            return <GameOverGrid
-                squareList={this.state.squareList}
-            />;
+            if (this.state.gameWon === false) {
+                return <GameLost
+                    squareList={this.state.squareList}
+                />;
+            } else if (this.state.gameWon === true) {
+                return <GameWon
+                    squareList={this.state.squareList}
+                />;
+            }
         } else {
             return <HomePage />;
         }

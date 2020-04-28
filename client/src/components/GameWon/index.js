@@ -1,19 +1,23 @@
 import React from 'react';
 import "./style.css";
 import Avatar from "../../assets/avatar.png";
+import Monster from "../../assets/bugblatter.png";
+import Plank from "../../assets/plank.png";
+import Meat from "../../assets/meat.png";
+import Chest from "../../assets/treasure.png";
 
 
 
 // Need to Add Game Over announcement
 // and options to decide what to do, replay or leave. 
 
-function GameGrid(props) {
+function GameWon(props) {
 
 
     console.log("props: ", props);
     return (
         <section className="game-grid">
-            <p className="gameover">GAME OVER</p>
+            <p className="gameover">You Won!</p>
             <div>
             {
                 props.squareList.map((item, index) => (
@@ -21,6 +25,22 @@ function GameGrid(props) {
                         {
                             item.avatar === true &&
                             <img id="avaIcon" alt="avatar" src={Avatar}></img>
+                        }
+                        {
+                            item.monster === true &&
+                            <img id="monsIcon" alt="monster" src={Monster}></img>
+                        }
+                        {
+                            item.plank === true &&
+                            <img id="plankIcon" alt="plank" src={Plank}></img>
+                        }
+                        {
+                            item.meat === true &&
+                            <img id="meatIcon" alt="meat" src={Meat}></img>
+                        }
+                        {
+                            item.treasure === true &&
+                            <img id="treasureIcon" alt="treasure" src={Chest}></img>
                         }
                     </div>
                 ))
@@ -31,7 +51,7 @@ function GameGrid(props) {
 
 }
 
-export default GameGrid;
+export default GameWon;
 
 // <div className="square" id="11">a</div>
                 // <div className="square" id="21">b</div>

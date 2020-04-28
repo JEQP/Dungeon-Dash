@@ -5,6 +5,10 @@
     grid-gap: 2px;
 }
 
+.gameover {
+    color: red;
+}
+
 .square {
     background-color: grey;
     align-items: center;
