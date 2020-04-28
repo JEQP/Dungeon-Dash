@@ -1,12 +1,12 @@
-.game-grid {
+.features-grid {
     display: grid;
-    grid-template-columns: 15% 15% 15% 15% 15%;
-    grid-template-rows: 150px 150px 150px 150px 150px;
+    grid-template-columns: 75px 75px 75px 75px;
+    grid-template-rows: 75px 75px;
     grid-gap: 2px;
 }
 
 .square {
-    background-color: lightgray;
+    background-color:lightgray;
     align-items: center;
     text-align: center;
     vertical-align: middle;
@@ -14,61 +14,44 @@
 
 .pitWallLeft {
     background-image: url(../../assets/pitwallleft.png);
+    background-size: 100% 100%;
 }
 
 .pitWallLeftTop {
     background-image: url(../../assets/pitwalllefttop.png);
+    background-size: 100% 100%;
 }
 
 
 .pitWallsNone {
     background-image: url(../../assets/pitwallsnone.png);
+    background-size: 100% 100%;
 }
 
 .pitWallTop {
     background-image: url(../../assets/pitwalltop.png);
+    background-size: 100% 100%;
 }
 
 .wallLeft{
     background-image: url(../../assets/wallleft.png);
+    background-size: 100% 100%;
 }
 
 .wallLeftTop {
     background-image: url(../../assets/walllefttop.png);
+    background-size: 100% 100%;
 }
 
 
 .wallTop {
     background-image: url(../../assets/walltop.png);
+    background-size: 100% 100%;
     z-index: 10;
 } 
 
-#plankIcon{
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-}
-
-#meatIcon{
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-}
-
-#monsIcon{
-        object-fit: cover;
-        width: 100%;
-        max-height: 100%;
-}
-
-#avaIcon{
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-}
-
-#treasureIcon{
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-}
+.monster {
+    background-image: url(../../assets/bugblatter.png);
+    background-size: 100% 100%;
+    z-index: 100;
+} 

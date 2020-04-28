@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AuthContext from "../utils/AuthContext";
 import { Redirect } from 'react-router-dom';
-import GameGrid from "../components/GameGrid";
+import CreatePuzzleLogic from "../components/CreatePuzzleLogic";
 
 
 class CreatePage extends Component {
@@ -15,7 +15,7 @@ class CreatePage extends Component {
                     <Redirect to='/login' />
                 }
                 <h1>This is the Createpage</h1>
-                <GameGrid />
+                <CreatePuzzleLogic />
             </div>
         )
     }
