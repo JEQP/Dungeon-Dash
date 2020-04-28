@@ -20,7 +20,7 @@ const DungeonSchema = new Schema({
       required: true
   },
   stats: {
-      type: String,
+      type: Array,
       required: true
   } 
 });

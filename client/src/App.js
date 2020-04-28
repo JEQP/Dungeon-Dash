@@ -35,8 +35,6 @@ function App() {
     <AuthContext.Provider value={authState}>
       <BrowserRouter basename="/">
         <div>
-          <h1> Hello Sailer</h1>
-
           { // check whether user is authenticated
           authState.isAuthenticated === false &&
             <Redirect to='/login' />

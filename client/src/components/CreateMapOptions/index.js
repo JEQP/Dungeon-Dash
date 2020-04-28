@@ -10,10 +10,12 @@ function CreateMapOptions(props) {
             <div className="square pitWallLeft" onClick={() => props.setSelectedFeature("pitWallLeft")}></div>
             <div className="square pitWallLeftTop" onClick={() => props.setSelectedFeature("pitWallLeftTop")}></div>
             <div className="square pitWallTop" onClick={() => props.setSelectedFeature("pitWallTop")}></div>
+            <div className="square avatar" onClick={() => props.setSelectedFeature("avatar")}></div>
             <div className="square wallLeft" onClick={() => props.setSelectedFeature("wallLeft")}></div>
             <div className="square wallLeftTop" onClick={() => props.setSelectedFeature("wallLeftTop")}></div>
             <div className="square wallTop" onClick={() => props.setSelectedFeature("wallTop")}></div>
             <div className="square monster" onClick={() => props.setSelectedFeature("monster")}></div>
+            <div className="square treasure" onClick={() => props.setSelectedFeature("treasure")}></div>
         </section>
     )
 }

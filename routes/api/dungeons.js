@@ -16,4 +16,9 @@ router.post("/create", (req, res) => {
         .then(dungeon => res.json(dungeon))
         .catch(err => console.log("saving map error: ", err));
 });
+
+router.post("/getUserID", (req, res) => {
+    
+})
+
 module.exports = router;

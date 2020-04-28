@@ -35,9 +35,11 @@ class Login extends Component {
           console.log("success registered", this);
           // to change authentication state
           this.setState({ isAuthenticated: true });
+          console.log("email: ", this.state.email);
           let value = this.context;
           value.changeEmail(this.state.email);
           value.changeAuthentication(this.state.isAuthenticated);
+          console.log("value: ", value);
         }
         console.log(response);
       })

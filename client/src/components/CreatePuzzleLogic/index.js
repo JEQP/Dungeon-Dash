@@ -3,6 +3,7 @@ import GameGrid from "../GameGrid";
 import AuthContext from "../../utils/AuthContext";
 import BlankMap from "../../utils/BlankMap.json";
 import CreateMapOptions from "../CreateMapOptions";
+import Button from 'react-bootstrap/Button';
 
 class CreatePuzzleLogic extends Component {
     constructor(props) {
@@ -11,7 +12,9 @@ class CreatePuzzleLogic extends Component {
         this.state = {
             dungeon: BlankMap,
             selectedFeature: "",
-            clickedSquare: ""
+            clickedSquare: "",
+            avatarDeployed: false,
+            treasureDeployed: false
         }
     }
 
@@ -39,6 +42,9 @@ class CreatePuzzleLogic extends Component {
     componentDidUpdate() {
         let selectedFeature = this.state.selectedFeature;
         let clickedSquare = this.state.clickedSquare;
+        let avatarDeployed = this.state.avatarDeployed;
+        let treasureDeployed = this.state.treasureDeployed;
+
         if (selectedFeature !== "" && clickedSquare !== "") {
 
             let dungeon = this.state.dungeon;
@@ -104,8 +110,37 @@ class CreatePuzzleLogic extends Component {
                 }
 
             } else if (selectedFeature === "monster") {
+                if (dungeon.squareList[squareIndex].monster === false) {
                 dungeon.squareList[squareIndex].monster = true;
+            } else {
+                dungeon.squareList[squareIndex].monster = false;
+                }
+            } else if (selectedFeature === "avatar") {
+                if (dungeon.squareList[squareIndex].avatar === false && avatarDeployed === false) {
+                    dungeon.squareList[squareIndex].avatar = true;
+                    this.setState({
+                        avatarDeployed: true
+                    });
+                } else {
+                    dungeon.squareList[squareIndex].avatar = false;
+                    this.setState({
+                        avatarDeployed: false
+                    });
+                    }
+            } else if (selectedFeature === "treasure") {
+                if (dungeon.squareList[squareIndex].treasure === false && treasureDeployed === false) {
+                    dungeon.squareList[squareIndex].treasure = true;
+                    this.setState({
+                        treasureDeployed: true
+                    });
+                } else {
+                    dungeon.squareList[squareIndex].treasure = false;
+                    this.setState({
+                        treasureDeployed: false
+                    });
+                    }
             }
+            
 
             selectedFeature = "";
             clickedSquare = "";
@@ -113,7 +148,7 @@ class CreatePuzzleLogic extends Component {
                 clickedSquare: "",
                 selectedFeature: ""
             })
-                        console.log("selected feature: ", selectedFeature);
+            console.log("selected feature: ", selectedFeature);
             console.log("clickedSquare: ", clickedSquare);
         }
     }
@@ -131,6 +166,7 @@ class CreatePuzzleLogic extends Component {
                     setClickedSquare={this.setClickedSquare}
                     squareList={this.state.dungeon.squareList}
                 />
+                <Button variant="primary" size="lg" block onClick={() => this.props.stringifyDungeonMap(JSON.stringify(this.state.dungeon))}>Save Map</Button>
             </section>
         );
     }

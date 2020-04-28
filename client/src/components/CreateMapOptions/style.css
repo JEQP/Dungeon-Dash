@@ -1,6 +1,6 @@
 .features-grid {
     display: grid;
-    grid-template-columns: 75px 75px 75px 75px;
+    grid-template-columns: 75px 75px 75px 75px 75px;
     grid-template-rows: 75px 75px;
     grid-gap: 2px;
 }
@@ -52,6 +52,18 @@
 
 .monster {
     background-image: url(../../assets/bugblatter.png);
+    background-size: 100% 100%;
+    z-index: 100;
+} 
+
+.avatar {
+    background-image: url(../../assets/avatar.png);
+    background-size: 100% 100%;
+    z-index: 100;
+} 
+
+.treasure {
+    background-image: url(../../assets/treasure.png);
     background-size: 100% 100%;
     z-index: 100;
 } 
