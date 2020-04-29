@@ -11,7 +11,7 @@ class CreatePage extends Component {
         super(props);
 
         this.state = {
-            map: "",
+            dungeonMap: "",
             verified: false,
             title: "",
             creator: "5ea6c088da41ae8738777057",
@@ -41,17 +41,26 @@ static contextType = AuthContext
           // set creator as _id
           console.log("authContext: ", AuthContext);
           console.log("email: ", AuthContext.email);
+          console.log("===user.email====", user.email);
+          Axios.post("/api/users/getUserID", {
+              email: user.email
+          }).then((response) => {
+              console.log("response from getUserID", response.data._id);
+              this.setState({
+                creator: response.data._id
+            });
+          }).catch(err => console.log(err));
 
       }
 
     stringifyDungeonMap = (props) => {
         // console.log("props in stringifyDungeonMap: ", props);
         this.setState({
-            map: props
+            dungeonMap: props
         });
 
         Axios.post('/api/dungeons/create', {
-            map: props,
+            dungeonMap: props,
             verified: this.state.verified,
             title: this.state.title,
             creator: this.state.creator,

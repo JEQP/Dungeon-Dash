@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const DungeonSchema = new Schema({
   // put in as object type. needs JSON object, name, who created it, stats?
-  map: {
+  dungeonMap: {
       type: String,
       required: true
   },

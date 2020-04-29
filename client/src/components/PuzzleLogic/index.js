@@ -17,7 +17,7 @@ class PuzzleLogic extends Component {
         super(props);
         // Don't call this.setState() here!
 
-        this.state = testingMap;
+        this.state = props.dungeonMap;
         // this.handleClick = this.handleClick.bind(this);
     }
 

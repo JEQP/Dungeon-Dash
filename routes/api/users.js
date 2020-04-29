@@ -95,4 +95,20 @@ const email = req.body.email;
   });
 });
 
+// Get UserID
+router.post("/getUserID", (req, res) => {
+  User.findOne({ email: req.body.email }).then(user => {
+      if (user) {
+        console.log("user getuserID", user);
+       res.json(user);
+      } else {
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+      }
+    })
+});
+
 module.exports = router;

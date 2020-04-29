@@ -16,16 +16,12 @@ function App() {
   const [authState, setAuthState] = useState({
     email: "",
     isAuthenticated: false,
-    changeEmail: (email) => {
+
+    changeAuthentication: (isAuthenticated, email) => {
       setAuthState({
         ...authState,
-        email
-      })
-    },
-    changeAuthentication: (isAuthenticated) => {
-      setAuthState({
-        ...authState,
-        isAuthenticated
+        isAuthenticated: isAuthenticated,
+        email: email
       })
     }
   });
