@@ -34,13 +34,13 @@ static contextType = AuthContext
       };
 
       componentDidMount(){
+          if (this.state.creator===""){
           const user = this.context
           console.log("user context: ", user);
           // do an axios call for the e-mail of the authenticated user
           // get _id from there
           // set creator as _id
           console.log("authContext: ", AuthContext);
-          console.log("email: ", AuthContext.email);
           console.log("===user.email====", user.email);
           Axios.post("/api/users/getUserID", {
               email: user.email
@@ -50,13 +50,14 @@ static contextType = AuthContext
                 creator: response.data._id
             });
           }).catch(err => console.log(err));
-
+        }
       }
 
     stringifyDungeonMap = (props) => {
         // console.log("props in stringifyDungeonMap: ", props);
         this.setState({
-            dungeonMap: props
+            dungeonMap: props,
+            verified: true
         });
 
         Axios.post('/api/dungeons/create', {

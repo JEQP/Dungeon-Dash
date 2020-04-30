@@ -678,6 +678,13 @@ class PuzzleLogic extends Component {
                     break;
             }
         } else if (this.state.gameContinues === false) {
+            // props will be map. If PuzzleLogic is rendered through CreatePageLogic, a second prop verify will be included. 
+            // verify will run conditionally when game ends.
+            console.log("gameover running, props: ", this.props);
+            if (this.props.verify && this.state.gameContinues === false) {
+                this.props.verify(this.state.gameWon);
+            }
+
             if (this.state.gameWon === false) {
                 return <GameLost
                     squareList={this.state.squareList}

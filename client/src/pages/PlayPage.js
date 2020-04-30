@@ -42,7 +42,7 @@ class PlayPage extends Component {
                 }
             }).then((response) => {
                 // handle success
-                console.log(response);
+                console.log("+++++++++ axios response: ", response);
                 this.setState({
                     mapChosen: response.data,
                     isMapChosen: true

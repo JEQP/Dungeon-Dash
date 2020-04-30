@@ -4,6 +4,7 @@ import AuthContext from "../../utils/AuthContext";
 import BlankMap from "../../utils/BlankMap.json";
 import CreateMapOptions from "../CreateMapOptions";
 import Button from 'react-bootstrap/Button';
+import PuzzleLogic from "../PuzzleLogic";
 
 class CreatePuzzleLogic extends Component {
     constructor(props) {
@@ -14,17 +15,24 @@ class CreatePuzzleLogic extends Component {
             selectedFeature: "",
             clickedSquare: "",
             avatarDeployed: false,
-            treasureDeployed: false
+            treasureDeployed: false,
+            verified: false,
+            testing: false
         }
+
+        this.handleTesting = this.handleTesting.bind(this);
     }
 
     setClickedSquare = (props) => {
-        let clickedID = props;
-        console.log("props in setClickedSquare: ", props);
-        if (this.state.selectedFeature !== "") {
-            this.setState({
-                clickedSquare: clickedID,
-            })
+        if (this.state.testing !== true) {
+            let clickedID = props;
+            console.log("props in setClickedSquare: ", props);
+            if (this.state.selectedFeature !== "") {
+                this.setState({
+                    clickedSquare: clickedID,
+                    verified: false
+                })
+            }
         }
     }
 
@@ -37,6 +45,14 @@ class CreatePuzzleLogic extends Component {
         })
     }
 
+    setVerified = (props) => {
+        console.log("setVerified run: ", props);
+        this.setState({
+            verified: props,
+            testing: false
+        })
+    }
+
 
     // take selectedFeature and clickedSquare from state. If they are both non-blank, update state based on these
     componentDidUpdate() {
@@ -45,8 +61,8 @@ class CreatePuzzleLogic extends Component {
         let avatarDeployed = this.state.avatarDeployed;
         let treasureDeployed = this.state.treasureDeployed;
 
-        if (selectedFeature !== "" && clickedSquare !== "") {
-
+        if (selectedFeature !== "" && clickedSquare !== "" && this.state.testing !== true) {
+            console.log("createPuzzleLogic componentDidUpdate if loop run");
             let dungeon = this.state.dungeon;
             console.log("dungeon: ", dungeon);
             console.log("selected feature: ", selectedFeature);
@@ -61,12 +77,24 @@ class CreatePuzzleLogic extends Component {
             if (selectedFeature === "pitWallsNone") {
                 dungeon.squareList[squareIndex].classList = "square pitWallsNone";
                 dungeon.squareList[squareIndex].pit = true;
+                dungeon.squareList[squareIndex].leftwall = false;
+                dungeon.squareList[squareIndex].topwall = false;
+                if (colClicked > 1) {
+                    dungeon.squareList[squareLeftIndex].rightwall = false;
+                }
+                if (rowClicked > 1) {
+                    dungeon.squareList[squareAboveIndex].bottomwall = false;
+                }
             } else if (selectedFeature === "pitWallLeft") {
                 dungeon.squareList[squareIndex].classList = "square pitWallLeft";
                 dungeon.squareList[squareIndex].pit = true;
                 dungeon.squareList[squareIndex].leftwall = true;
+                dungeon.squareList[squareIndex].topwall = false;
                 if (colClicked > 1) {
                     dungeon.squareList[squareLeftIndex].rightwall = true;
+                }
+                if (rowClicked > 1) {
+                    dungeon.squareList[squareAboveIndex].bottomwall = false;
                 }
             } else if (selectedFeature === "pitWallLeftTop") {
                 dungeon.squareList[squareIndex].classList = "square pitWallLeftTop";
@@ -82,15 +110,23 @@ class CreatePuzzleLogic extends Component {
             } else if (selectedFeature === "pitWallTop") {
                 dungeon.squareList[squareIndex].classList = "square pitWallTop";
                 dungeon.squareList[squareIndex].pit = true;
+                dungeon.squareList[squareIndex].leftwall = false;
                 dungeon.squareList[squareIndex].topwall = true;
+                if (colClicked > 1) {
+                    dungeon.squareList[squareLeftIndex].rightwall = false;
+                }
                 if (rowClicked > 1) {
                     dungeon.squareList[squareAboveIndex].bottomwall = true;
                 }
             } else if (selectedFeature === "wallLeft") {
                 dungeon.squareList[squareIndex].classList = "square wallLeft";
                 dungeon.squareList[squareIndex].leftwall = true;
+                dungeon.squareList[squareIndex].topwall = false;
                 if (colClicked > 1) {
                     dungeon.squareList[squareLeftIndex].rightwall = true;
+                }
+                if (rowClicked > 1) {
+                    dungeon.squareList[squareAboveIndex].bottomwall = false;
                 }
             } else if (selectedFeature === "wallLeftTop") {
                 dungeon.squareList[squareIndex].classList = "square wallLeftTop";
@@ -104,16 +140,20 @@ class CreatePuzzleLogic extends Component {
                 }
             } else if (selectedFeature === "wallTop") {
                 dungeon.squareList[squareIndex].classList = "square wallTop";
+                dungeon.squareList[squareIndex].leftwall = false;
                 dungeon.squareList[squareIndex].topwall = true;
+                if (colClicked > 1) {
+                    dungeon.squareList[squareLeftIndex].rightwall = false;
+                }
                 if (rowClicked > 1) {
                     dungeon.squareList[squareAboveIndex].bottomwall = true;
                 }
 
             } else if (selectedFeature === "monster") {
                 if (dungeon.squareList[squareIndex].monster === false) {
-                dungeon.squareList[squareIndex].monster = true;
-            } else {
-                dungeon.squareList[squareIndex].monster = false;
+                    dungeon.squareList[squareIndex].monster = true;
+                } else {
+                    dungeon.squareList[squareIndex].monster = false;
                 }
             } else if (selectedFeature === "avatar") {
                 if (dungeon.squareList[squareIndex].avatar === false && avatarDeployed === false) {
@@ -127,7 +167,7 @@ class CreatePuzzleLogic extends Component {
                     this.setState({
                         avatarDeployed: false
                     });
-                    }
+                }
             } else if (selectedFeature === "treasure") {
                 if (dungeon.squareList[squareIndex].treasure === false && treasureDeployed === false) {
                     dungeon.squareList[squareIndex].treasure = true;
@@ -139,9 +179,9 @@ class CreatePuzzleLogic extends Component {
                     this.setState({
                         treasureDeployed: false
                     });
-                    }
+                }
             }
-            
+
 
             selectedFeature = "";
             clickedSquare = "";
@@ -156,10 +196,12 @@ class CreatePuzzleLogic extends Component {
 
 
 
-    render() {
-        console.log("createPuzzleLogic state: ", this.state);
-        return (
-            <section>
+
+    renderGameGrid = () => {
+        console.log("testing: ", this.state.testing);
+
+        if (this.state.testing === false) {
+            return <div>
                 <CreateMapOptions
                     setSelectedFeature={this.setSelectedFeature}
                 />
@@ -167,7 +209,38 @@ class CreatePuzzleLogic extends Component {
                     setClickedSquare={this.setClickedSquare}
                     squareList={this.state.dungeon.squareList}
                 />
-                <Button variant="primary" size="lg" block onClick={() => this.props.stringifyDungeonMap(JSON.stringify(this.state.dungeon))}>Save Map</Button>
+            </div>
+        } else if (this.state.testing === true) {
+            let testMap = JSON.stringify(this.state.dungeon);
+            console.log("testMap: ", testMap);
+
+            return <PuzzleLogic
+                dungeonMap={JSON.parse(testMap)}
+                verify={this.setVerified} />
+        }
+    }
+
+    handleTesting() {
+        this.setState(state => ({
+            testing: true
+        }));
+    }
+
+    renderButton = () => {
+        console.log("verified: ", this.state.verified);
+        if (this.state.verified === false) {
+            return <Button variant="danger" size="lg" block onClick={() => this.handleTesting()}>Verify Dungeon</Button>
+        } else if (this.state.verified === true) {
+            return <Button variant="primary" size="lg" block onClick={() => this.props.stringifyDungeonMap(JSON.stringify(this.state.dungeon))}>Save Dungeon</Button>
+        }
+    }
+
+    render() {
+        console.log("createPuzzleLogic state: ", this.state);
+        return (
+            <section>
+                {this.renderGameGrid()}
+                {this.renderButton()}
             </section>
         );
     }
