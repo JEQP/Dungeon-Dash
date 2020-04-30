@@ -41,8 +41,7 @@ class Register extends Component {
           console.log("success registered", this);
           // to change authentication state
           let value = this.context;
-          value.changeEmail(this.state.email);
-          value.changeAuthentication(this.state.isAuthenticated);
+          value.changeAuthentication(this.state.isAuthenticated, this.state.email);
         }
         console.log(response);
       })

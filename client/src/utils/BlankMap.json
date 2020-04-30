@@ -355,7 +355,8 @@
     "toolSelected": "",
     "clickedSquare": "",
     "avaPos": "",
-    "gameContinues": false,
+    "gameStarted": false,
+    "gameContinues": true,
     "moveContinues": false,
     "gameWon": false
 }

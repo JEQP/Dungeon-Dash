@@ -6,10 +6,10 @@ function ChooseMap(props) {
 
     return (
         <section>
-        <Button variant="primary" size="lg" block onClick={() => props.setMatType("friends")} >Friends</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMatType("random")} >Random</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMatType("difficulty")} >Difficulty</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMatType("previous")} >Previous</Button>
+        <Button variant="primary" size="lg" block onClick={() => props.setMapType("friends")} >Friends</Button>
+        <Button variant="primary" size="lg" block onClick={() => props.setMapType("random")} >Random</Button>
+        <Button variant="primary" size="lg" block onClick={() => props.setMapType("difficulty")} >Difficulty</Button>
+        <Button variant="primary" size="lg" block onClick={() => props.setMapType("previous")} >Previous</Button>
         </section>
 )
 }

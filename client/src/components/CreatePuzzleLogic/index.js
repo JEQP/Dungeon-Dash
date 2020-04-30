@@ -118,6 +118,7 @@ class CreatePuzzleLogic extends Component {
             } else if (selectedFeature === "avatar") {
                 if (dungeon.squareList[squareIndex].avatar === false && avatarDeployed === false) {
                     dungeon.squareList[squareIndex].avatar = true;
+                    dungeon.avaPos = clickedSquare;
                     this.setState({
                         avatarDeployed: true
                     });

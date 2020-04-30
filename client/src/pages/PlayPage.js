@@ -67,7 +67,7 @@ class PlayPage extends Component {
         if (this.state.isMapChosen === true) {
             return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)} />
         } else if (this.state.typeMapChosen === "") {
-            return <ChooseMap setMatType={this.setMapType} />
+            return <ChooseMap setMapType={this.setMapType} />
         } else if (this.state.typeMapChosen === "friends" && this.state.mapChosenString === "") {
             return <friendsMaps />
         } else if (this.state.typeMapChosen === "difficulty" && this.state.mapChosenString === "") {

@@ -8,6 +8,7 @@ import GameGridPlank from "../GameGridPlank";
 import GameLost from "../GameLost";
 import GameWon from "../GameWon";
 import ToolsCarried from "../ToolsCarried";
+import ToolsSelect from "../ToolsSelect";
 
 
 class PuzzleLogic extends Component {
@@ -189,6 +190,7 @@ class PuzzleLogic extends Component {
         }
     }
 
+    // This selects a tool to be used during game
     setToolSelected = (props) => {
         let toolSelected = props;
         console.log("toolselected in props: ", toolSelected);
@@ -202,6 +204,42 @@ class PuzzleLogic extends Component {
             }
         )
         console.log("toolselected in state: ", this.state.toolSelected);
+    }
+
+    // This selects the tools to be carried before game starts
+    setToolsCarried = (props) => {
+        let toolChosen = props;
+        console.log("toolChosen in props: ", toolChosen);
+        let newState = this.state;
+        if (newState.toolsCarried[0] === "") {
+            newState.toolsCarried[0] = toolChosen;
+        } else if (newState.toolsCarried[0] !== "" && newState.toolsCarried[1] === "") {
+            newState.toolsCarried[1] = toolChosen;
+        } else {
+            newState.toolsCarried[0] = "";
+            newState.toolsCarried[1] = "";
+        }
+
+        newState.moveContinues = false;
+
+        this.setState(
+            {
+                ...newState
+            }
+        )
+        console.log("toolsCarried in state: ", this.state.toolsCarried);
+    }
+
+    // This starts game
+    setStartGame = (props) => {
+        let startGame = props;
+        let newState = this.state;
+        newState.gameStarted = startGame;
+        this.setState(
+            {
+                ...newState
+            }
+        )
     }
 
 
@@ -220,6 +258,7 @@ class PuzzleLogic extends Component {
         console.log((clickedSquare) + " clicked");
 
         // check the move is valid
+        console.log("avaPos: ", avaPos);
         let colCurrent = avaPos.charAt(0);
         let rowCurrent = avaPos.charAt(1);
         let colClicked = clickedSquare.charAt(0);
@@ -228,7 +267,7 @@ class PuzzleLogic extends Component {
         console.log("colClicked: " + colClicked + " rowClicked: " + rowClicked);
 
         // check to see if the square clicked is in a column or row of the current square
-        if (this.state.moveContinues === true && (colClicked === colCurrent || rowClicked === rowCurrent)) {
+        if (this.state.gameStarted === true && this.state.moveContinues === true && (colClicked === colCurrent || rowClicked === rowCurrent)) {
 
             // check if column is passable
 
@@ -368,7 +407,7 @@ class PuzzleLogic extends Component {
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
                     return;
-                
+
                 } else if (i == rowClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
@@ -653,17 +692,37 @@ class PuzzleLogic extends Component {
         }
     };
 
+    // This renders the tools option, before game starts giving the chance to choose tools
+    renderTools = () => {
+        if (this.state.gameStarted === false) {
+            return <div>
+                <ToolsSelect
+                    toolChosen={this.setToolsCarried}
+                    startGame={this.setStartGame}
+                />
+                <ToolsCarried
+                    tools={this.state.toolsCarried}
+                    toolSelected={this.setToolSelected}
+                />
+            </div>
+        } else {
+            return <div>
+                <ToolsCarried
+                    tools={this.state.toolsCarried}
+                    toolSelected={this.setToolSelected}
+                />
+            </div>
+        }
+    }
+
     render() {
         console.log("render state: ", this.state);
         // put a value in state if game is continueing, and conditionally render this based on that.
         return (
             <section>
-                <div>
-                    <ToolsCarried
-                        tools={this.state.toolsCarried}
-                        toolSelected={this.setToolSelected}
-                    />
-                </div>
+
+                {this.renderTools()}
+
                 <div>
                     {this.renderPage()}
                 </div>
