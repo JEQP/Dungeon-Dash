@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom';
 import AuthContext from "../utils/AuthContext";
 import ChooseMap from "../components/ChooseMap";
 import Axios from "axios";
+import "./style.css";
+import DDLogo from "../assets/DDlogo.png";
+import Image from 'react-bootstrap/Image';
 
 
 class PlayPage extends Component {
@@ -82,12 +85,14 @@ class PlayPage extends Component {
     render() {
         return (
 
-            <div>
+            <div className="home-center">
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />
                 }
-                <h1>This is the Playpage</h1>
+                <div className="centre">
+                <Image img src={DDLogo} alt="DungeonDash" fluid/>
+                </div>
                 {this.renderPage()}
             </div>
         )

@@ -1,11 +1,29 @@
 
-.homeCentre {
+.home-page {
+    display: block;
+    text-align: center;
+}
+
+.home-centre {
+    
     width: 80%;
     text-align: center;
     color: black;
+    
 }
 
-.linkText {
+.link-text {
     color: black;
     
+}
+
+.button-holder {
+    display: inline-block;
+    width: 60%;
+    margin: 2px;
+    text-align: center;
+}
+
+.centre {
+    text-align: center;
 }

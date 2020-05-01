@@ -1,0 +1,11 @@
+.center-buttons {
+    text-align: center;
+}
+
+.button-holder {
+    display: inline-block;
+    width: 60%;
+    margin: 2px;
+    text-align: center;
+}
+

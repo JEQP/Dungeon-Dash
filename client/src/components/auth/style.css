@@ -1,0 +1,15 @@
+.container {
+    text-align: center;
+}
+.formdiv {
+    display: block;
+    text-align: center;
+
+}
+
+.formStyle {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}

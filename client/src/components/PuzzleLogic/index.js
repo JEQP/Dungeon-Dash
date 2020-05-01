@@ -9,7 +9,9 @@ import GameLost from "../GameLost";
 import GameWon from "../GameWon";
 import ToolsCarried from "../ToolsCarried";
 import ToolsSelect from "../ToolsSelect";
-
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 
 class PuzzleLogic extends Component {
 
@@ -703,21 +705,26 @@ class PuzzleLogic extends Component {
     renderTools = () => {
         if (this.state.gameStarted === false) {
             return <div>
+               
                 <ToolsSelect
                     toolChosen={this.setToolsCarried}
                     startGame={this.setStartGame}
                 />
+              
                 <ToolsCarried
                     tools={this.state.toolsCarried}
                     toolSelected={this.setToolSelected}
                 />
+                
             </div>
         } else {
             return <div>
+                
                 <ToolsCarried
                     tools={this.state.toolsCarried}
                     toolSelected={this.setToolSelected}
                 />
+             
             </div>
         }
     }
@@ -726,14 +733,18 @@ class PuzzleLogic extends Component {
         console.log("render state: ", this.state);
         // put a value in state if game is continueing, and conditionally render this based on that.
         return (
-            <section>
-
-                {this.renderTools()}
-
-                <div>
+            <Container>
+               <Row><Col>
+                {/* <div className="tools-style"> */}
+                    {this.renderTools()}
+                {/* </div> */}
+                </Col></Row>
+                <Row><Col>
+                <div className="renderpage-style">
                     {this.renderPage()}
                 </div>
-            </section>
+                </Col></Row>
+            </Container>
 
         );
     }

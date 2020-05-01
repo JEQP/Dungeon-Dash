@@ -5,12 +5,20 @@ import Button from 'react-bootstrap/Button';
 function ChooseMap(props) {
 
     return (
-        <section>
-        <Button variant="primary" size="lg" block onClick={() => props.setMapType("friends")} >Friends</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMapType("random")} >Random</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMapType("difficulty")} >Difficulty</Button>
-        <Button variant="primary" size="lg" block onClick={() => props.setMapType("previous")} >Previous</Button>
+        <section className="center-buttons">
+            <div className="button-holder">
+                <Button variant="primary" size="lg" block onClick={() => props.setMapType("friends")} >Friends</Button>
+            </div>
+            <div className="button-holder">
+                <Button variant="primary" size="lg" block onClick={() => props.setMapType("random")} >Random</Button>
+            </div>
+            <div className="button-holder">
+                <Button variant="primary" size="lg" block onClick={() => props.setMapType("difficulty")} >Difficulty</Button>
+            </div>
+            <div className="button-holder">
+                <Button variant="primary" size="lg" block onClick={() => props.setMapType("previous")} >Previous</Button>
+            </div>
         </section>
-)
+    )
 }
 export default ChooseMap;

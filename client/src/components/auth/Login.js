@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Redirect } from 'react-router-dom';
 import AuthContext from "../../utils/AuthContext";
+import DDlogo2lines from "../../assets/DDlogo2lines.png";
+import "./style.css";
 
 class Login extends Component {
   constructor() {
@@ -35,7 +37,7 @@ class Login extends Component {
           console.log("success registered", this);
           // to change authentication state
           this.setState({ isAuthenticated: true });
-          let value = this.context;         
+          let value = this.context;
           value.changeAuthentication(this.state.isAuthenticated, this.state.email);
           console.log("value: ", value);
         }
@@ -56,6 +58,7 @@ class Login extends Component {
     }
     return (
       <div className="container">
+        <img src={DDlogo2lines} alt="DungeonDash" />
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
@@ -70,29 +73,32 @@ class Login extends Component {
                 Don't have an account? <Link to="/register">Register</Link>
               </p>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                />
-                <label htmlFor="email">Email</label>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                />
-                <label htmlFor="password">Password</label>
-              </div>
+            <div className="formdiv">
+            <form noValidate onSubmit={this.onSubmit} className="formStyle">
+              
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                  />
+                  <label htmlFor="email">Email</label>
+                </div>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                  />
+                  <label htmlFor="password">Password</label>
+                </div>
+              
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button 
+                <button
                   style={{
                     width: "150px",
                     borderRadius: "3px",
@@ -101,12 +107,13 @@ class Login extends Component {
                   }}
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                  // onClick={() => changeEmail(`${this.state.email}`)}
+                // onClick={() => changeEmail(`${this.state.email}`)}
                 >
                   Login
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>

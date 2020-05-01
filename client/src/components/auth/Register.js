@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Redirect } from 'react-router-dom';
 import AuthContext from "../../utils/AuthContext";
+import DDlogo2lines from "../../assets/DDlogo2lines.png";
+import "./style.css";
 
 class Register extends Component {
   constructor() {
@@ -54,6 +56,7 @@ class Register extends Component {
     const { errors } = this.state;
     return (
       <div className="container">
+        <img src={DDlogo2lines} alt="DungeonDash" />
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
@@ -68,7 +71,8 @@ class Register extends Component {
                 Already have an account? <Link to="/login">Log in</Link>
               </p>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
+            <div className="formdiv">
+            <form noValidate onSubmit={this.onSubmit} className="formStyle">
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -124,6 +128,7 @@ class Register extends Component {
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>
