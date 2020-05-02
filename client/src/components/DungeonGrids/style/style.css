@@ -1,3 +1,10 @@
+.renderpage-style {
+    padding: 20px;
+    background-image: url(../../../assets/backgroundwall.png);
+    display: inline;
+    text-align: center;
+}
+
 .game-grid {
     display: inline-grid;
 
@@ -8,40 +15,40 @@
 }
 
 .square {
-    background-color: red;
+    background-color:lightgray;
     align-items: center;
     text-align: center;
     vertical-align: middle;
 }
 
 .pitWallLeft {
-    background-image: url(../../assets/pitwallleft.png);
+    background-image: url(../../../assets/pitwallleft.png);
 }
 
 .pitWallLeftTop {
-    background-image: url(../../assets/pitwalllefttop.png);
+    background-image: url(../../../assets/pitwalllefttop.png);
 }
 
 
 .pitWallsNone {
-    background-image: url(../../assets/pitwallsnone.png);
+    background-image: url(../../../assets/pitwallsnone.png);
 }
 
 .pitWallTop {
-    background-image: url(../../assets/pitwalltop.png);
+    background-image: url(../../../assets/pitwalltop.png);
 }
 
 .wallLeft{
-    background-image: url(../../assets/wallleft.png);
+    background-image: url(../../../assets/wallleft.png);
 }
 
 .wallLeftTop {
-    background-image: url(../../assets/walllefttop.png);
+    background-image: url(../../../assets/walllefttop.png);
 }
 
 
 .wallTop {
-    background-image: url(../../assets/walltop.png);
+    background-image: url(../../../assets/walltop.png);
     z-index: 10;
 } 
 
@@ -80,9 +87,3 @@ img {
     height: auto;
 }
 
-.renderpage-style {
-    padding: 20px;
-    background-image: url(../../assets/backgroundwall.png);
-    display: inline;
-    text-align: center;
-}

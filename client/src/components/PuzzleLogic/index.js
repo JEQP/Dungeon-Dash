@@ -1,12 +1,12 @@
 import React, { Component, setState } from "react";
-import GameGrid from "../GameGrid";
+import GameGrid from "../DungeonGrids/GameGrid";
 import testingMap from "../../testingMap.json";
 import AuthContext from "../../utils/AuthContext";
 import HomePage from "../../pages/HomePage";
-import GameGridMeat from "../GameGridMeat";
-import GameGridPlank from "../GameGridPlank";
-import GameLost from "../GameLost";
-import GameWon from "../GameWon";
+import GameGridMeat from "../DungeonGrids/GameGridMeat";
+import GameGridPlank from "../DungeonGrids/GameGridPlank";
+import GameLost from "../DungeonGrids/GameLost";
+import GameWon from "../DungeonGrids/GameWon";
 import ToolsCarried from "../ToolsCarried";
 import ToolsSelect from "../ToolsSelect";
 import Row from 'react-bootstrap/Row';

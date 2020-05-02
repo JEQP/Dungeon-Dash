@@ -1,10 +1,10 @@
 import React from 'react';
-import "./style.css";
-import Avatar from "../../assets/avatar.png";
-import Monster from "../../assets/bugblatter.png";
-import Plank from "../../assets/plank.png";
-import Meat from "../../assets/meat.png";
-import Chest from "../../assets/treasure.png";
+import "../style/style.css";
+import Avatar from "../../../assets/avatar.png";
+import Monster from "../../../assets/bugblatter.png";
+import Plank from "../../../assets/plank.png";
+import Meat from "../../../assets/meat.png";
+import Chest from "../../../assets/treasure.png";
 
 function GameGridPlank(props) {
 
