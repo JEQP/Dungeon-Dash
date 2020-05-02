@@ -9,6 +9,7 @@ import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
 
 
+
 class PlayPage extends Component {
 
     constructor(props) {
@@ -86,6 +87,7 @@ class PlayPage extends Component {
         return (
 
             <div className="home-center">
+                
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />
@@ -93,6 +95,7 @@ class PlayPage extends Component {
                 <div className="centre">
                 <Image img src={DDLogo} alt="DungeonDash" fluid/>
                 </div>
+               
                 {this.renderPage()}
             </div>
         )

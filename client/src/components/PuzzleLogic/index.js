@@ -12,6 +12,7 @@ import ToolsSelect from "../ToolsSelect";
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
+import "./style.css";
 
 class PuzzleLogic extends Component {
 
@@ -740,9 +741,9 @@ class PuzzleLogic extends Component {
                 {/* </div> */}
                 </Col></Row>
                 <Row><Col>
-                <div className="renderpage-style">
+                
                     {this.renderPage()}
-                </div>
+                
                 </Col></Row>
             </Container>
 

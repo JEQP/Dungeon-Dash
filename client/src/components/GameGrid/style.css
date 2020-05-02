@@ -1,12 +1,14 @@
 .game-grid {
-    display: grid;
-    grid-template-columns: 15% 15% 15% 15% 15%;
-    grid-template-rows: 150px 150px 150px 150px 150px;
-    grid-gap: 2px;
+    display: inline-grid;
+
+    grid-template-columns: 75px 75px 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px 75px 75px;
+    width: 95%;
+    /* grid-gap: 2px; */
 }
 
 .square {
-    background-color: lightgray;
+    background-color: red;
     align-items: center;
     text-align: center;
     vertical-align: middle;
@@ -71,4 +73,16 @@
     object-fit: cover;
     width: 100%;
     max-height: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.renderpage-style {
+    padding: 20px;
+    background-image: url(../../assets/backgroundwall.png);
+    display: inline;
+    text-align: center;
 }

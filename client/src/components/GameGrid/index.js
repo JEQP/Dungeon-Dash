@@ -11,35 +11,37 @@ function GameGrid(props) {
 
     console.log("GameGrid props: ", props);
     return (
-        <section className="game-grid">
-            {
-                props.squareList.map((item, index) => (
-                    <div className={item.classList} key={item.id} id={item.id} onClick={() => props.setClickedSquare(item.id)}>
-                        {
-                            item.avatar === true &&
-                            <img id="avaIcon" alt="avatar" src={Avatar}></img>
-                        }
-                        {
-                            item.monster === true &&
-                            <img id="monsIcon" alt="monster" src={Monster}></img>
-                        }
-                        {
-                            item.plank === true &&
-                            <img id="plankIcon" alt="plank" src={Plank}></img>
-                        }
-                        {
-                            item.meat === true &&
-                            <img id="meatIcon" alt="meat" src={Meat}></img>
-                        }
-                        {
-                            item.treasure === true &&
-                            <img id="treasureIcon" alt="treasure" src={Chest}></img>
-                        }
-                    </div>
-                ))
-            }
+        <div className="renderpage-style">
+            <div className="game-grid">
+                {
+                    props.squareList.map((item, index) => (
+                        <div className={item.classList} key={item.id} id={item.id} onClick={() => props.setClickedSquare(item.id)}>
+                            {
+                                item.avatar === true &&
+                                <img id="avaIcon" alt="avatar" src={Avatar}></img>
+                            }
+                            {
+                                item.monster === true &&
+                                <img id="monsIcon" alt="monster" src={Monster}></img>
+                            }
+                            {
+                                item.plank === true &&
+                                <img id="plankIcon" alt="plank" src={Plank}></img>
+                            }
+                            {
+                                item.meat === true &&
+                                <img id="meatIcon" alt="meat" src={Meat}></img>
+                            }
+                            {
+                                item.treasure === true &&
+                                <img id="treasureIcon" alt="treasure" src={Chest}></img>
+                            }
+                        </div>
+                    ))
+                }
 
-        </section>
+            </div>
+        </div>
     )
 
 }
