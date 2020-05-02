@@ -11,6 +11,7 @@ import ToolsSelect from "../ToolsSelect";
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
+import { Link, Redirect } from "react-router-dom";
 import "./style.css";
 
 class PuzzleLogic extends Component {
@@ -655,7 +656,20 @@ class PuzzleLogic extends Component {
 
     }
 
-
+renderNavbar = () => {
+    if (this.state.gameStarted === false) {
+        return <div className="nav-grid">
+            <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
+            <div className="startGamebtn" onClick={() => this.setStartGame(true)}>Start Dungeon</div>
+        </div>
+    }
+        else {
+            return <div className="nav-grid">
+            <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
+            <div className="startGamebtn" onClick={() => this.props.restart(true)}> Restart Dungeon </div>
+            </div>
+        }
+}
 
     renderPage = () => {
         if (this.state.gameContinues === true) {
@@ -737,6 +751,9 @@ class PuzzleLogic extends Component {
         // put a value in state if game is continueing, and conditionally render this based on that.
         return (
             <Container>
+                <Row><Col>
+                {this.renderNavbar()}
+                </Col></Row>
                <Row><Col>
                 {/* <div className="tools-style"> */}
                     {this.renderTools()}

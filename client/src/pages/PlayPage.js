@@ -7,6 +7,8 @@ import Axios from "axios";
 import "./style.css";
 import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
+import ReactDOM from 'react-dom';
+import Navbar from "../components/Navbar";
 
 
 
@@ -62,14 +64,25 @@ class PlayPage extends Component {
         }
     }
 
-
-
+    // This restarts the map by setting isMapChosen to false, so PuzzleLogic ceases to be rendered.
+    // It sets typeMapChosen to replay, and in renderPage() this if condition sets isMapChosen to true.
+    // mapChosen hasn't changed, so it renders the same map from the stored string.
+        restartDungeon = (props) => {
+        if (props === true) {
+        this.setState({ typeMapChosen: "replay", isMapChosen: false });
+        console.log("restartDungeon in PlayPage Run");
+    }
+    }
 
     // This will conditionally render components based on state 
+    // If no type of map is chosen, it will display ChooseMap, for players to select type of map
     renderPage = () => {
         console.log("state in renderPage: ", this.state);
         if (this.state.isMapChosen === true) {
-            return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)} />
+            return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)}
+            restart={this.restartDungeon} />
+        } else if (this.state.typeMapChosen === "replay") {console.log("replay run");
+            this.setState({ isMapChosen: true });
         } else if (this.state.typeMapChosen === "") {
             return <ChooseMap setMapType={this.setMapType} />
         } else if (this.state.typeMapChosen === "friends" && this.state.mapChosenString === "") {
@@ -87,15 +100,16 @@ class PlayPage extends Component {
         return (
 
             <div className="home-center">
-                
+
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />
                 }
                 <div className="centre">
-                <Image img src={DDLogo} alt="DungeonDash" fluid/>
+                    <Image img src={DDLogo} alt="DungeonDash" fluid />
+                    {/* <Navbar /> */}
                 </div>
-               
+
                 {this.renderPage()}
             </div>
         )

@@ -11,7 +11,7 @@ function GameGrid(props) {
 
     console.log("GameGrid props: ", props);
     return (
-        <div className="renderpage-style">
+        // <div className="renderpage-style">
             <div className="game-grid">
                 {
                     props.squareList.map((item, index) => (
@@ -41,7 +41,7 @@ function GameGrid(props) {
                 }
 
             </div>
-        </div>
+        // </div>
     )
 
 }

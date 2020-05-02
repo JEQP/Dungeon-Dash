@@ -2,10 +2,30 @@
 .tools-style {
 
 }
-
+/* 
 .renderpage-style {
     padding: 20px;
     background-image: url(../../assets/backgroundwall.png);
     display: inline-block;
     text-align: center;
+} */
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 30px;
+    justify-content: space-evenly;
+    margin:10px;
+}
+
+.homePagebtn {
+width: 150px;
+background-color: mediumblue;
+border-radius: 5px;
+}
+
+.startGamebtn {
+    width: 150px;
+    background-color: lime;
+    border-radius: 5px;
 }

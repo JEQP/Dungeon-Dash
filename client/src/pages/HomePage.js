@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import AuthContext from "../utils/AuthContext";
