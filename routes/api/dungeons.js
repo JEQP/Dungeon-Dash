@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const Dungeon = require("../../models/Dungeon");
+const Dungeon = require("../../models/dungeon");
 
 const aggregate = Dungeon.aggregate([
     {$sample: { size:1 }}
