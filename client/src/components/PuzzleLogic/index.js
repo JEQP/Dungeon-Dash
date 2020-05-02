@@ -1,6 +1,5 @@
-import React, { Component, setState } from "react";
+import React, { Component } from "react";
 import GameGrid from "../DungeonGrids/GameGrid";
-import testingMap from "../../testingMap.json";
 import AuthContext from "../../utils/AuthContext";
 import HomePage from "../../pages/HomePage";
 import GameGridMeat from "../DungeonGrids/GameGridMeat";
@@ -307,6 +306,9 @@ class PuzzleLogic extends Component {
         }
 
     }
+
+
+
 
     // NOTE: This format of NAME = ARROW FUNCTION is called an arrow function method
     moveUp = (rowCurrent, rowClicked, avaMove) => {

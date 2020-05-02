@@ -43,13 +43,15 @@ class Login extends Component {
         }
         console.log(response);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
+        this.setState({ errors: error.response.data });
       });
 
   };
   render() {
     const { errors } = this.state;
+    console.log("errors: ", errors.email);
     let value = this.context;
     console.log("isAuthenticated: ", value.isAuthenticated);
     if (value.isAuthenticated === true) {
@@ -84,7 +86,7 @@ class Login extends Component {
                     id="email"
                     type="email"
                   />
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">{errors.email !== undefined ? `${errors.email}` : "Email"}</label>
                 </div>
                 <div className="input-field col s12">
                   <input
@@ -94,7 +96,7 @@ class Login extends Component {
                     id="password"
                     type="password"
                   />
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">{errors.password !== undefined ? `${errors.password}` : "Password"}</label>
                 </div>
               
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>

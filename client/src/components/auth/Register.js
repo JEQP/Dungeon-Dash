@@ -6,6 +6,7 @@ import AuthContext from "../../utils/AuthContext";
 import DDlogo2lines from "../../assets/DDlogo2lines.png";
 import "./style.css";
 
+
 class Register extends Component {
   constructor() {
     super();
@@ -45,18 +46,30 @@ class Register extends Component {
           let value = this.context;
           value.changeAuthentication(this.state.isAuthenticated, this.state.email);
         }
-        console.log(response);
+        console.log("line 50: ", JSON.stringify(response));
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+
+        // console.log("line 54: ", JSON.stringify(error));
+        console.log("line 54: email is: ", JSON.stringify(error.response.data.email));
+        this.setState({ errors: error.response.data });
       });
   };
 
   render() {
     const { errors } = this.state;
+    let value = this.context;
+    console.log("isAuthenticated: ", value.isAuthenticated);
+    if (value.isAuthenticated === true) {
+      // conditional rendering to new page
+      return <Redirect to='/home' />
+    }
+
+
     return (
       <div className="container">
         <img src={DDlogo2lines} alt="DungeonDash" />
+
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
@@ -72,62 +85,65 @@ class Register extends Component {
               </p>
             </div>
             <div className="formdiv">
-            <form noValidate onSubmit={this.onSubmit} className="formStyle">
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                />
-                <label htmlFor="name">Name</label>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                />
-                <label htmlFor="email">Email</label>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                />
-                <label htmlFor="password">Password</label>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                />
-                <label htmlFor="password2">Confirm Password</label>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Sign up
+              <form noValidate onSubmit={this.onSubmit} className="formStyle">
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.name}
+                    error={errors.name}
+                    id="name"
+                    type="text"
+                  />
+                  <label htmlFor="name">{errors.name !== undefined ? `${errors.name}` : "Name"}</label>
+                </div>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                  />
+                  <label htmlFor="email">{errors.email !== undefined ? `${errors.email}` : "Email"}</label>
+                </div>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                  />
+
+                  <label htmlFor="password">{errors.password !== undefined ? `${errors.password}` : "Password"}</label>
+                </div>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.password2}
+                    error={errors.password2}
+                    id="password2"
+                    type="password"
+                  />
+
+                  <label htmlFor="password2">{errors.password2 !== undefined ? `${errors.password2}` : "Confirm Password"}</label>
+                </div>
+                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                  <button
+                    style={{
+                      width: "150px",
+                      borderRadius: "3px",
+                      letterSpacing: "1.5px",
+                      marginTop: "1rem"
+                    }}
+                    type="submit"
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                  >
+                    Sign up
                 </button>
-              </div>
-            </form>
+                </div>
+              </form>
+
             </div>
           </div>
         </div>
