@@ -17,11 +17,16 @@ const DungeonSchema = new Schema({
   },
   creator: {
       type: mongoose.ObjectId,
-      required: true
+      required: true,
+      index: true
   },
   stats: {
       type: Array,
       required: true
+  },
+  difficulty: {
+      type: String,
+      index: true
   } 
 });
 

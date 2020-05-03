@@ -345,7 +345,7 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                } else if (currentSquare.treasure === true) {
+                } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
                     this.setState((state) => {
@@ -400,7 +400,7 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                } else if (currentSquare.treasure === true) {
+                } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
                     this.setState((state) => {
@@ -456,7 +456,7 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                } else if (currentSquare.treasure === true) {
+                } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
                     this.setState((state) => {
@@ -510,7 +510,7 @@ class PuzzleLogic extends Component {
                     });
                     moveContinues = false;
                     // END TURN
-                } else if (currentSquare.treasure === true) {
+                } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
                     this.setState((state) => {
@@ -700,6 +700,7 @@ class PuzzleLogic extends Component {
             // props will be map. If PuzzleLogic is rendered through CreatePageLogic, a second prop verify will be included. 
             // verify will run conditionally when game ends.
             console.log("gameover running, props: ", this.props);
+            this.props.updateStats(this.state.gameWon);
             if (this.props.verify && this.state.gameContinues === false) {
                 this.props.verify(this.state.gameWon);
             }

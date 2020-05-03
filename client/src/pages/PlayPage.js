@@ -67,11 +67,63 @@ class PlayPage extends Component {
     // This restarts the map by setting isMapChosen to false, so PuzzleLogic ceases to be rendered.
     // It sets typeMapChosen to replay, and in renderPage() this if condition sets isMapChosen to true.
     // mapChosen hasn't changed, so it renders the same map from the stored string.
-        restartDungeon = (props) => {
+    restartDungeon = (props) => {
         if (props === true) {
-        this.setState({ typeMapChosen: "replay", isMapChosen: false });
-        console.log("restartDungeon in PlayPage Run");
+            this.setState({ typeMapChosen: "replay", isMapChosen: false });
+            console.log("restartDungeon in PlayPage Run");
+        }
     }
+// This updates the stats in the dungeon document in the database. It accepts as props gameWon
+// Stats is an array of two integers, the first being how many times the game has been won, the second how many times it has been played.
+// difficulty is calculated with a simple division of the two. 
+    updateStats = (props) => {
+        console.log("@@@@@ updateStats running @@@@@");
+        console.log("props: ", props);
+        let dungeonID = this.state.mapChosen[0]._id;
+        console.log("dungeonID: ", dungeonID);
+        let newStats = this.state.mapChosen[0].stats;
+        console.log("newStats: ", newStats);
+        let gamesWon = newStats[0];
+        let gamesPlayed = newStats[1];
+        let difficulty = "";
+
+        if (props === true) {
+            gamesWon++;
+            gamesPlayed++;
+        }
+        else {
+            gamesPlayed++;
+        }
+
+        newStats[0] = gamesWon;
+        newStats[1] = gamesPlayed;
+        let diff = gamesWon / gamesPlayed;
+        console.log("diff: ", diff);
+
+        if (diff < 0.3) {
+            difficulty = "Myth";
+        } else if (diff > 0.7) {
+            difficulty = "Adventurer";
+        } else {
+            difficulty = "Legend";
+        }
+        console.log("difficulty: ", difficulty);
+
+        Axios.post("/api/dungeons/updateMap", {
+            params: {
+                dungeonID: dungeonID,
+                newStats: newStats,
+                difficulty: difficulty
+            }
+        }).then((response) => {
+            // handle success
+            console.log("+++++++++ axios response: ", response);
+        })
+            .catch((error) => {
+                // handle error
+                console.log(error);
+            });
+
     }
 
     // This will conditionally render components based on state 
@@ -80,8 +132,10 @@ class PlayPage extends Component {
         console.log("state in renderPage: ", this.state);
         if (this.state.isMapChosen === true) {
             return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)}
-            restart={this.restartDungeon} />
-        } else if (this.state.typeMapChosen === "replay") {console.log("replay run");
+                restart={this.restartDungeon} 
+                updateStats={this.updateStats} />
+        } else if (this.state.typeMapChosen === "replay") {
+            console.log("replay run");
             this.setState({ isMapChosen: true });
         } else if (this.state.typeMapChosen === "") {
             return <ChooseMap setMapType={this.setMapType} />
