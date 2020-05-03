@@ -88,3 +88,15 @@ img {
     height: auto;
 }
 
+.died {
+    background-color: red;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.winner {
+    background-color: gold;
+    font-size: xx-large;
+    text-align: center;
+}
+

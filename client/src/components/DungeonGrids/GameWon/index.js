@@ -16,9 +16,13 @@ function GameWon(props) {
 
     console.log("props: ", props);
     return (
-        <section className="game-grid">
-            <p className="gameover">You Won!</p>
-            <div>
+        <section >
+            <div className="winner">
+                Celebrate! <br />
+                For you have gained the treasure and escaped the dungeon. <br />
+                Another win.
+            </div>
+            <div className="game-grid">
             {
                 props.squareList.map((item, index) => (
                     <div className={item.classList} id={item.id}>

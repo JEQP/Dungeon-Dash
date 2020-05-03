@@ -6,46 +6,44 @@ import Plank from "../../../assets/plank.png";
 import Meat from "../../../assets/meat.png";
 import Chest from "../../../assets/treasure.png";
 
-
-
-// Need to Add Game Over announcement
-// and options to decide what to do, replay or leave. 
-
 function GameLost(props) {
 
 
-    console.log("props: ", props);
+    console.log("game lost props: ", JSON.stringify(props));
     return (
-        <section className="game-grid">
-            <p className="gameover">You dieded</p>
-            <div>
-            {
-                props.squareList.map((item, index) => (
-                    <div className={item.classList} id={item.id}>
-                       {
-                            item.avatar === true &&
-                            <img id="avaIcon" alt="avatar" src={Avatar}></img>
-                        }
-                        {
-                            item.monster === true &&
-                            <img id="monsIcon" alt="monster" src={Monster}></img>
-                        }
-                        {
-                            item.plank === true &&
-                            <img id="plankIcon" alt="plank" src={Plank}></img>
-                        }
-                        {
-                            item.meat === true &&
-                            <img id="meatIcon" alt="meat" src={Meat}></img>
-                        }
-                        {
-                            item.treasure === true &&
-                            <img id="treasureIcon" alt="treasure" src={Chest}></img>
-                        }
-                    </div>
-                ))
-            }
-</div>
+        <section>
+            <div className="died">
+                Oops! A grevious miscalculation, brave warrior. 
+                You have perished.
+            </div>
+            <div className="game-grid">
+                {
+                    props.squareList.map((item, index) => (
+                        <div className={item.classList} key={item.id} id={item.id}>
+                            {
+                                item.avatar === true &&
+                                <img id="avaIcon" alt="avatar" src={Avatar}></img>
+                            }
+                            {
+                                item.monster === true &&
+                                <img id="monsIcon" alt="monster" src={Monster}></img>
+                            }
+                            {
+                                item.plank === true &&
+                                <img id="plankIcon" alt="plank" src={Plank}></img>
+                            }
+                            {
+                                item.meat === true &&
+                                <img id="meatIcon" alt="meat" src={Meat}></img>
+                            }
+                            {
+                                item.treasure === true &&
+                                <img id="treasureIcon" alt="treasure" src={Chest}></img>
+                            }
+                        </div>
+                    ))
+                }
+            </div>
         </section>
     )
 
