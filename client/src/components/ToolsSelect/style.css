@@ -2,8 +2,8 @@
 .tools-grid {
     float: left;
     display: grid;
-    grid-template-columns: 75px  75px;
-    grid-template-rows: 75px;
+    grid-template-columns: 75px;
+    grid-template-rows: 75px 75px 75px;
     grid-gap: 2px;
     padding: 10px;
     background-image: url(../../assets/backgroundwall.png);
@@ -28,6 +28,11 @@ max-height: 100%;
     object-fit: cover;
     width: 100%;
     max-height: 100%;
+}
+
+.instructions {
+    color: white;
+    font-weight: bold;
 }
 
 /* .photo > img {

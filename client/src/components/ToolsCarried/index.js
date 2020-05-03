@@ -6,7 +6,7 @@ import meat from "../../assets/meat.png";
 function ToolsCarried(props) {
 console.log("ToolsCarried props: ", props);
     return (
-        <section className="tools-grid">
+        <section className="tools-carried-grid">
             {
             props.tools.map((item, index) => (
                 console.log("toolscarried iterated: ", item),

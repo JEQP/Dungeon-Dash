@@ -656,20 +656,20 @@ class PuzzleLogic extends Component {
 
     }
 
-renderNavbar = () => {
-    if (this.state.gameStarted === false) {
-        return <div className="nav-grid">
-            <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
-            <div className="startGamebtn" onClick={() => this.setStartGame(true)}>Start Dungeon</div>
-        </div>
-    }
-        else {
+    renderNavbar = () => {
+        if (this.state.gameStarted === false) {
             return <div className="nav-grid">
-            <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
-            <div className="startGamebtn" onClick={() => this.props.restart(true)}> Restart Dungeon </div>
+                <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
+                <div className="startGamebtn" onClick={() => this.setStartGame(true)}>Start Dungeon</div>
             </div>
         }
-}
+        else {
+            return <div className="nav-grid">
+                <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
+                <div className="startGamebtn" onClick={() => this.props.restart(true)}> Restart Dungeon </div>
+            </div>
+        }
+    }
 
     renderPage = () => {
         if (this.state.gameContinues === true) {
@@ -722,26 +722,27 @@ renderNavbar = () => {
     renderTools = () => {
         if (this.state.gameStarted === false) {
             return <div>
-               
-                <ToolsSelect
-                    toolChosen={this.setToolsCarried}
-                    startGame={this.setStartGame}
-                />
-              
-                <ToolsCarried
-                    tools={this.state.toolsCarried}
-                    toolSelected={this.setToolSelected}
-                />
                 
+                <Row><Col>
+                    <ToolsSelect
+                        toolChosen={this.setToolsCarried}
+                        startGame={this.setStartGame}
+                    />
+                </Col></Row><Row><Col>
+                    <ToolsCarried
+                        tools={this.state.toolsCarried}
+                        toolSelected={this.setToolSelected}
+                    />
+                </Col></Row>
             </div>
         } else {
             return <div>
-                
+
                 <ToolsCarried
                     tools={this.state.toolsCarried}
                     toolSelected={this.setToolSelected}
                 />
-             
+
             </div>
         }
     }
@@ -752,18 +753,21 @@ renderNavbar = () => {
         return (
             <Container>
                 <Row><Col>
-                {this.renderNavbar()}
+                    {this.renderNavbar()}
                 </Col></Row>
-               <Row><Col>
-                {/* <div className="tools-style"> */}
-                    {this.renderTools()}
-                {/* </div> */}
-                </Col></Row>
-                <Row><Col>
-                
-                    {this.renderPage()}
-                
-                </Col></Row>
+                <Row>
+                    <Col>
+
+                        {this.renderPage()}
+
+                    </Col>
+                    {this.state.gameContinues === true &&
+                    (<Col>
+                        {this.renderTools()}
+                    </Col>)
+                    }
+                </Row>
+                <Row></Row>
             </Container>
 
         );
