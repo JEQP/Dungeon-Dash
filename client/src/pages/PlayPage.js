@@ -219,7 +219,7 @@ class PlayPage extends Component {
         }).then((response) => {
             console.log("DIFFICULTY map response: ", response.data);
             this.setState({
-                mapChosen: response.data,
+                mapChosen: response.data[0],
                 isMapChosen: true
             })
 
