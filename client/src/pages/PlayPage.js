@@ -3,6 +3,7 @@ import PuzzleLogic from "../components/PuzzleLogic";
 import { Redirect } from 'react-router-dom';
 import AuthContext from "../utils/AuthContext";
 import ChooseMap from "../components/ChooseMap";
+import friendsMaps from "../components/ChooseMap/friendsMaps";
 import Axios from "axios";
 import "./style.css";
 import DDLogo from "../assets/DDlogo.png";
@@ -23,6 +24,9 @@ class PlayPage extends Component {
             isMapChosen: false,
             typeMapChosen: "",
             mapChosen: [],
+            player: "",
+            playerStats: [],
+            playerDungPlayed: []
         };
 
         // this.setState = this.setState.bind(this);
@@ -58,9 +62,19 @@ class PlayPage extends Component {
                     // handle error
                     console.log(error);
                 });
-            // .then(function () {
-            //     // always executed
-            // });
+            const user = this.context;
+
+            Axios.post("/api/users/getUserID", {
+                email: user.email
+            }).then((response) => {
+                console.log("response from getUserID", response.data);
+                this.setState({
+                    player: response.data._id,
+                    playerStats: response.data.results,
+                    playerDungPlayed: response.data.dungeonsPlayed
+                })
+                console.log("state after user update: ", this.state)
+            }).catch(err => console.log(err));
         }
     }
 
@@ -73,9 +87,9 @@ class PlayPage extends Component {
             console.log("restartDungeon in PlayPage Run");
         }
     }
-// This updates the stats in the dungeon document in the database. It accepts as props gameWon
-// Stats is an array of two integers, the first being how many times the game has been won, the second how many times it has been played.
-// difficulty is calculated with a simple division of the two. 
+    // This updates the stats in the dungeon document in the database. It accepts as props gameWon
+    // Stats is an array of two integers, the first being how many times the game has been won, the second how many times it has been played.
+    // difficulty is calculated with a simple division of the two. 
     updateStats = (props) => {
         console.log("@@@@@ updateStats running @@@@@");
         console.log("props: ", props);
@@ -124,7 +138,46 @@ class PlayPage extends Component {
                 console.log(error);
             });
 
+        // UPDATE PLAYER STATS, same mechanism.
+
+        let player = this.state.player;
+        let playerStats = this.state.playerStats;
+        let playerDungPlayed = this.state.playerDungPlayed;
+
+        console.log("authContext: ", AuthContext);
+        console.log("pstats playerStats: ", playerStats);
+        console.log("pstats playerDungPLayed: ", playerDungPlayed);
+
+        let playerGamesWon = playerStats[0];
+        let playerGamesPlayed = playerStats[1];
+        if (props === true) {
+            playerGamesWon++;
+            playerGamesPlayed++;
+        } else {
+            playerGamesPlayed++;
+        }
+
+        playerStats = [playerGamesWon, playerGamesPlayed];
+        playerDungPlayed.push(dungeonID);
+        console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
+
+        Axios.post("/api/users/updatePlayer", {
+            params: {
+                playerID: player,
+                playerStats: playerStats,
+                dungeonsPlayed: playerDungPlayed
+            }
+        }).then((response) => {
+            // handle success
+            console.log("+++++++++ axios response: ", response);
+        })
+            .catch((error) => {
+                // handle error
+                console.log(error);
+            });
+
     }
+
 
     // This will conditionally render components based on state 
     // If no type of map is chosen, it will display ChooseMap, for players to select type of map
@@ -132,7 +185,7 @@ class PlayPage extends Component {
         console.log("state in renderPage: ", this.state);
         if (this.state.isMapChosen === true) {
             return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)}
-                restart={this.restartDungeon} 
+                restart={this.restartDungeon}
                 updateStats={this.updateStats} />
         } else if (this.state.typeMapChosen === "replay") {
             console.log("replay run");

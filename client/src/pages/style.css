@@ -28,3 +28,31 @@
     text-align: center;
 }
 
+.stadium-grid{
+    
+        display: inline-grid;
+        padding: 10px;
+        grid-template-columns: 30% 70%;
+        grid-template-rows: auto auto;
+        margin: auto;
+        /* width: 95%; */
+        /* grid-gap: 2px; */
+    
+}
+
+.friend-search {
+text-align: center;
+
+}
+
+.fsearch {
+    margin: 5px;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 30px;
+    justify-content: space-evenly;
+    margin:10px;
+}

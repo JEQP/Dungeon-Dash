@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   password: {
     type: String,
@@ -18,6 +20,9 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  friends: [],
+  dungeonsPlayed: [],
+  results: [0,0],
   dungeons: [{
     type: Schema.Types.ObjectId,
     ref: "Dungeon"

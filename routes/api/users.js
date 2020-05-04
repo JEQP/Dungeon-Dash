@@ -111,4 +111,13 @@ router.post("/getUserID", (req, res) => {
     })
 });
 
+// Update User
+router.post("/updatePlayer", (req, res) => {
+  console.log("req: ", req.body.params);
+      User.findOneAndUpdate({ _id: req.body.params.playerID }, { results: req.body.params.playerStats, dungeonsPlayed: req.body.params.dungeonsPlayed }, { new: true }, function (err, doc) {
+          if (err) return res.send(500, { error: err });
+          return res.send('Succesfully saved.');
+      });
+  });
+
 module.exports = router;

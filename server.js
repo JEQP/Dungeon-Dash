@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+mongoose.set("useFindAndModify", false); // this changes mongooses method to use a non-deprecated one
 // const mongojs = require("mongojs");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
