@@ -21,6 +21,8 @@ class StadiumPage extends Component {
             _id: "",
             friendSearchName: "",
             friendSearchEmail: "",
+            dungeonListCreator: "",
+            dungeonList: []
         }
     }
 
@@ -42,31 +44,30 @@ class StadiumPage extends Component {
                 results: response.data.results,
                 dungeons: response.data.dungeons,
                 _id: response.data._id,
+                dungeonListCreator: response.data._id
 
             });
         }).catch(err => console.log(err));
 
     }
 
-    // componentDidUpdate() {
-    //     if (this.state.friendToAdd !== [])
-    //     Axios.post("/api/users/updatePlayer", {
-    //         params: {
-    //             playerID: this.state._id,
-    //             friends: this.state.friendToAdd
-    //         }
-    //     }).then((response) => {
-    //         // handle success
-    //         this.setState({
-    //             friendToAdd: []
-    //         })
-    //         console.log("+++++++++ axios response: ", response);
-    //     })
-    //         .catch((error) => {
-    //             // handle error
-    //             console.log(error);
-    //         });
-    // }
+    componentDidUpdate(prevProps, prevState) {
+        console.log ("this state dlc: ", this.state.dungeonListCreator);
+        console.log ("prevState DLC: ", prevState.dungeonListCreator);
+        console.log("prevState alone ", prevState);
+        if ((this.state.dungeonListCreator !== prevState.dungeonListCreator) && this.state.dungeonListCreator.length >1) {
+
+            Axios.post("api/dungeons/getDungeons", {
+                params: {
+                    friendID: this.state.dungeonListCreator
+                }
+            }).then((response) => {
+                console.log("renderDungeonListCreator: ", response.data);
+                this.setState({dungeonList: response.data})
+            });
+
+        }
+    }
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
@@ -91,7 +92,7 @@ class StadiumPage extends Component {
             name: this.state.friendSearchName
         }).then((response) => {
             console.log("response from getFriendByName", response.data);
-            let tempFriendToAdd = {friend_id: response.data._id, friend_name: response.data.name};
+            let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
             console.log("tempFriendToAdd: ", tempFriendToAdd)
@@ -116,16 +117,14 @@ class StadiumPage extends Component {
             });
     }
 
-// This will search the database for a document that matches the email.
-
-
+    // This will search the database for a document that matches the email.
     getFriendByEmail = () => {
 
         Axios.post("/api/users/getFriendByEmail", {
             email: this.state.friendSearchEmail
         }).then((response) => {
             console.log("response from getFriendByEmail", response.data);
-            let tempFriendToAdd = {friend_id: response.data._id, friend_name: response.data.name};
+            let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
             console.log("tempFriendToAdd: ", tempFriendToAdd)
@@ -141,9 +140,6 @@ class StadiumPage extends Component {
                     }
                 }).then((response) => {
                     // handle success
-                    this.setState({
-                       
-                    })
                     console.log("+++++++++ axios response: ", response);
                 })
                     .catch((error) => {
@@ -151,6 +147,10 @@ class StadiumPage extends Component {
                         console.log(error);
                     });
             });
+    }
+
+    updateDungeonListCreator = (props) => {
+        this.setState({ dungeonListCreator: props })
     }
 
     render() {
@@ -190,14 +190,34 @@ class StadiumPage extends Component {
                                 type="text"
                                 placeholder="Email of Friend"
                             />
-                            <Button variant="success" onClick={this.getFriendByEmail}>Add Friend</Button> 
+                            <Button variant="success" onClick={this.getFriendByEmail}>Add Friend</Button>
                         </form>
-                        <Button variant="info" block className="fsearch">Search by Name</Button>
-                        <Button variant="info" block className="fsearch">Search by Email</Button>
+                        {/* <Button variant="info" block className="fsearch">Search by Name</Button>
+                        <Button variant="info" block className="fsearch">Search by Email</Button> */}
                     </div>
                     <div>Friend's Dungeons</div>
-                    <div>series of buttons of friends</div>
-                    <div>series of buttons of dungeons</div>
+                    <div>
+                        {
+                            this.state.friends.map((item, index) => (
+                                <Button variant="primary" className="friendsList" id={item.friend_id}
+                                    onClick={() => {
+                                        this.setState({ dungeonListCreator: item.friend_id });
+                                    }} >{item.friend_name}</Button>
+                            ))
+                        }
+                    </div>
+                    <div>
+                    {
+                            this.state.dungeonList.map((item, index) => (
+                                <Button variant="danger" className="dungeonList" id={item._id}
+                                    // onClick={() => {
+                                    //     this.setState({ dungeonListCreator: item.friend_id });
+                                    // }} 
+                                    >{item.title}</Button>
+                            ))
+                        }
+
+                    </div>
                 </div>
 
             </div >

@@ -41,4 +41,12 @@ console.log("req: ", req.body.params);
     });
 });
 
+router.post("/getDungeons", (req, res) => {
+    console.log("getdungeons: ", req.body.params);
+    Dungeon.find({creator: req.body.params.friendID})
+    .then(dungeonList => {
+            res.json(dungeonList);
+        }).catch(err => console.log(err));
+    });
+
 module.exports = router;
