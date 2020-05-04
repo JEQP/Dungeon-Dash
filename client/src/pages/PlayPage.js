@@ -3,6 +3,8 @@ import PuzzleLogic from "../components/PuzzleLogic";
 import { Redirect } from 'react-router-dom';
 import AuthContext from "../utils/AuthContext";
 import ChooseMap from "../components/ChooseMap";
+import DifficultyMaps from "../components/ChooseMap/difficultyMaps";
+import PreviousMaps from "../components/ChooseMap/previousMaps";
 import friendsMaps from "../components/ChooseMap/friendsMaps";
 import Axios from "axios";
 import "./style.css";
@@ -43,6 +45,25 @@ class PlayPage extends Component {
         })
     }
 
+    componentDidMount() {
+
+        const user = this.context;
+        console.log("set userid ", user.email)
+        Axios.post("/api/users/getUserID", {
+            email: user.email
+        }).then((response) => {
+            console.log("response from getUserID", response.data);
+            this.setState({
+                player: response.data._id,
+                playerStats: response.data.results,
+                playerDungPlayed: response.data.dungeonsPlayed
+            })
+            console.log("state after user update: ", this.state)
+        }).catch(err => console.log(err));
+
+    }
+
+
     componentDidUpdate() {
 
         if (this.state.typeMapChosen === "random" && this.state.isMapChosen === false) {
@@ -54,7 +75,7 @@ class PlayPage extends Component {
                 // handle success
                 console.log("+++++++++ axios response: ", response);
                 this.setState({
-                    mapChosen: response.data,
+                    mapChosen: response.data[0],
                     isMapChosen: true
                 })
             })
@@ -62,19 +83,6 @@ class PlayPage extends Component {
                     // handle error
                     console.log(error);
                 });
-            const user = this.context;
-
-            Axios.post("/api/users/getUserID", {
-                email: user.email
-            }).then((response) => {
-                console.log("response from getUserID", response.data);
-                this.setState({
-                    player: response.data._id,
-                    playerStats: response.data.results,
-                    playerDungPlayed: response.data.dungeonsPlayed
-                })
-                console.log("state after user update: ", this.state)
-            }).catch(err => console.log(err));
         }
     }
 
@@ -94,7 +102,9 @@ class PlayPage extends Component {
         console.log("@@@@@ updateStats running @@@@@");
         console.log("props: ", props);
         let dungeonID = this.state.mapChosen[0]._id;
+        let dungeonTitle = this.state.mapChosen[0].title;
         console.log("dungeonID: ", dungeonID);
+        console.log("dungeonTitle: ", dungeonTitle);
         let newStats = this.state.mapChosen[0].stats;
         console.log("newStats: ", newStats);
         let gamesWon = newStats[0];
@@ -147,7 +157,7 @@ class PlayPage extends Component {
         if (playerStats !== null && playerDungPlayed !== null) {
             console.log("authContext: ", AuthContext);
             console.log("pstats playerStats: ", playerStats);
-            console.log("pstats playerDungPLayed: ", playerDungPlayed);
+            console.log("pstats playerDungPlayed: ", playerDungPlayed);
 
             let playerGamesWon = playerStats[0];
             let playerGamesPlayed = playerStats[1];
@@ -158,8 +168,10 @@ class PlayPage extends Component {
                 playerGamesPlayed++;
             }
 
-            playerStats = [playerGamesWon, playerGamesPlayed];
-            playerDungPlayed.push(dungeonID);
+            playerStats[0] = playerGamesWon;
+            playerStats[1] = playerGamesPlayed;
+            let tempDungPlayed = { id: dungeonID, title: dungeonTitle };
+            playerDungPlayed.push(tempDungPlayed);
             console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
 
 
@@ -180,13 +192,49 @@ class PlayPage extends Component {
         }
     }
 
+    getMapById = (props) => {
+        Axios.post("/api/dungeons/mapById", {
+            params: {
+                _id: props
+            }
+        }).then((response) => {
+            // handle success
+            console.log("+++++++++ axios response: ", response);
+            this.setState({
+                mapChosen: response.data,
+                isMapChosen: true
+            })
+        })
+            .catch((error) => {
+                // handle error
+                console.log(error);
+            });
+    }
+
+    getDifficultyMap = (props) => {
+        Axios.post("/api/dungeons/getDifficultyMaps", {
+            params: {
+                difficulty: props
+            }
+        }).then((response) => {
+            console.log("DIFFICULTY map response: ", response.data);
+            this.setState({
+                mapChosen: response.data,
+                isMapChosen: true
+            })
+
+        }).catch((error) => {
+            // handle error
+            console.log(error);
+        });
+    }
 
     // This will conditionally render components based on state 
     // If no type of map is chosen, it will display ChooseMap, for players to select type of map
     renderPage = () => {
         console.log("state in renderPage: ", this.state);
         if (this.state.isMapChosen === true) {
-            return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen[0].dungeonMap)}
+            return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen.dungeonMap)}
                 restart={this.restartDungeon}
                 updateStats={this.updateStats} />
         } else if (this.state.typeMapChosen === "replay") {
@@ -194,12 +242,13 @@ class PlayPage extends Component {
             this.setState({ isMapChosen: true });
         } else if (this.state.typeMapChosen === "") {
             return <ChooseMap setMapType={this.setMapType} />
-        } else if (this.state.typeMapChosen === "friends" && this.state.mapChosenString === "") {
+        } else if (this.state.typeMapChosen === "friends") {
             return <friendsMaps />
-        } else if (this.state.typeMapChosen === "difficulty" && this.state.mapChosenString === "") {
-            return <difficultyMap />
-        } else if (this.state.typeMapChosen === "previous" && this.state.mapChosenString === "") {
-            return <previousMaps />
+        } else if (this.state.typeMapChosen === "difficulty") {
+            return <DifficultyMaps getDifficultyMap={this.getDifficultyMap} />
+        } else if (this.state.typeMapChosen === "previous") {
+            return <PreviousMaps dungeonList={this.state.playerDungPlayed}
+                getMapById={this.getMapById} />
         }
 
     }

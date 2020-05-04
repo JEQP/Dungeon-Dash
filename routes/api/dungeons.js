@@ -49,4 +49,18 @@ router.post("/getDungeons", (req, res) => {
         }).catch(err => console.log(err));
     });
 
+router.post("/getDifficultyMaps", (req, res) => {
+    console.log("getDifficultyMaps", req.body.params);
+    Dungeon.aggregate([{$match: {"difficulty": req.body.params.difficulty}}, { $sample: { size: 1 } }]).then(dungeon => {
+        res.json(dungeon);
+    }).catch(err => console.log(err));
+})
+
+router.post("/mapById", (req, res) => {
+    console.log("MapByID: ", req.body.params);
+    Dungeon.findById(req.body.params._id).then(dungeon => {
+        res.json(dungeon);
+    }).catch(err => console.log(err));
+})
+
 module.exports = router;
