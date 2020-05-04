@@ -144,38 +144,40 @@ class PlayPage extends Component {
         let playerStats = this.state.playerStats;
         let playerDungPlayed = this.state.playerDungPlayed;
 
-        console.log("authContext: ", AuthContext);
-        console.log("pstats playerStats: ", playerStats);
-        console.log("pstats playerDungPLayed: ", playerDungPlayed);
+        if (playerStats !== null && playerDungPlayed !== null) {
+            console.log("authContext: ", AuthContext);
+            console.log("pstats playerStats: ", playerStats);
+            console.log("pstats playerDungPLayed: ", playerDungPlayed);
 
-        let playerGamesWon = playerStats[0];
-        let playerGamesPlayed = playerStats[1];
-        if (props === true) {
-            playerGamesWon++;
-            playerGamesPlayed++;
-        } else {
-            playerGamesPlayed++;
-        }
-
-        playerStats = [playerGamesWon, playerGamesPlayed];
-        playerDungPlayed.push(dungeonID);
-        console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
-
-        Axios.post("/api/users/updatePlayer", {
-            params: {
-                playerID: player,
-                playerStats: playerStats,
-                dungeonsPlayed: playerDungPlayed
+            let playerGamesWon = playerStats[0];
+            let playerGamesPlayed = playerStats[1];
+            if (props === true) {
+                playerGamesWon++;
+                playerGamesPlayed++;
+            } else {
+                playerGamesPlayed++;
             }
-        }).then((response) => {
-            // handle success
-            console.log("+++++++++ axios response: ", response);
-        })
-            .catch((error) => {
-                // handle error
-                console.log(error);
-            });
 
+            playerStats = [playerGamesWon, playerGamesPlayed];
+            playerDungPlayed.push(dungeonID);
+            console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
+
+
+            Axios.post("/api/users/updatePlayer", {
+                params: {
+                    playerID: player,
+                    playerStats: playerStats,
+                    dungeonsPlayed: playerDungPlayed
+                }
+            }).then((response) => {
+                // handle success
+                console.log("+++++++++ axios response: ", response);
+            })
+                .catch((error) => {
+                    // handle error
+                    console.log(error);
+                });
+        }
     }
 
 
