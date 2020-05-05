@@ -39,9 +39,24 @@ class Register extends Component {
       password2: this.state.password2
     })
       .then((response) => {
-        console.log("response: ", response.data.success);
+        console.log("response: ", response.data._id);
         if (response.status === 200) {
           console.log("success registered", this);
+          // add user to own friend list
+          Axios.post("/api/users/updatePlayerFriendList", {
+            params: {
+              playerID: response.data._id,
+              friends: [response.data._id]
+            }
+          }).then((response) => {
+            // handle success
+            console.log("+++++++++ axios response: ", response);
+          })
+            .catch((error) => {
+              // handle error
+              console.log(error);
+            });
+
           // to change authentication state
           let value = this.context;
           value.changeAuthentication(true, this.state.email);
