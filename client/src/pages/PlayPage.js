@@ -5,7 +5,8 @@ import AuthContext from "../utils/AuthContext";
 import ChooseMap from "../components/ChooseMap";
 import DifficultyMaps from "../components/ChooseMap/difficultyMaps";
 import PreviousMaps from "../components/ChooseMap/previousMaps";
-import friendsMaps from "../components/ChooseMap/friendsMaps";
+import FriendsMaps from "../components/ChooseMap/friendsMaps";
+import FriendsDungeons from "../components/ChooseMap/friendsDungeons";
 import Axios from "axios";
 import "./style.css";
 import DDLogo from "../assets/DDlogo.png";
@@ -28,7 +29,9 @@ class PlayPage extends Component {
             mapChosen: [],
             player: "",
             playerStats: [],
-            playerDungPlayed: []
+            playerDungPlayed: [],
+            friendsList: [],
+            friendsMapList: []
         };
 
         // this.setState = this.setState.bind(this);
@@ -56,7 +59,8 @@ class PlayPage extends Component {
             this.setState({
                 player: response.data._id,
                 playerStats: response.data.results,
-                playerDungPlayed: response.data.dungeonsPlayed
+                playerDungPlayed: response.data.dungeonsPlayed,
+                friendsList: response.data.friends
             })
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
@@ -101,11 +105,11 @@ class PlayPage extends Component {
     updateStats = (props) => {
         console.log("@@@@@ updateStats running @@@@@");
         console.log("props: ", props);
-        let dungeonID = this.state.mapChosen[0]._id;
-        let dungeonTitle = this.state.mapChosen[0].title;
+        let dungeonID = this.state.mapChosen._id;
+        let dungeonTitle = this.state.mapChosen.title;
         console.log("dungeonID: ", dungeonID);
         console.log("dungeonTitle: ", dungeonTitle);
-        let newStats = this.state.mapChosen[0].stats;
+        let newStats = this.state.mapChosen.stats;
         console.log("newStats: ", newStats);
         let gamesWon = newStats[0];
         let gamesPlayed = newStats[1];
@@ -229,6 +233,22 @@ class PlayPage extends Component {
         });
     }
 
+    getMapByFriend_id = (props) => {
+        console.log("props in getMapByFriend_ID: ", props)
+        Axios.post("/api/dungeons/getDungeons", {
+            params: {
+                friendID: props
+            }
+        }).then((response) => {
+            console.log("FRIEND MAP RESPONSE", response.data);
+            if(response.data !== null) {
+            this.setState({
+                friendsMapList: response.data
+            })
+        }
+        });
+    }
+
     // This will conditionally render components based on state 
     // If no type of map is chosen, it will display ChooseMap, for players to select type of map
     renderPage = () => {
@@ -243,7 +263,17 @@ class PlayPage extends Component {
         } else if (this.state.typeMapChosen === "") {
             return <ChooseMap setMapType={this.setMapType} />
         } else if (this.state.typeMapChosen === "friends") {
-            return <friendsMaps />
+            console.log("friendsList: ", this.state.friendsList);
+            console.log("friendsMapList: ", this.state.friendsMapList);
+            if (this.state.friendsMapList.length < 1) {
+                return <FriendsMaps
+                    friendsList={this.state.friendsList}
+                    getMapByFriend_id={this.getMapByFriend_id} />
+            } else {
+                return <FriendsDungeons
+                    dungeonList={this.state.friendsMapList}
+                    getMapById={this.getMapById} />
+            }
         } else if (this.state.typeMapChosen === "difficulty") {
             return <DifficultyMaps getDifficultyMap={this.getDifficultyMap} />
         } else if (this.state.typeMapChosen === "previous") {
@@ -265,7 +295,7 @@ class PlayPage extends Component {
                 }
                 <div className="centre">
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
-                    {/* <Navbar /> */}
+                    <Navbar />
                 </div>
 
                 {this.renderPage()}

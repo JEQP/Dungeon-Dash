@@ -2,23 +2,24 @@ import React from 'react';
 import "./style.css";
 import Button from 'react-bootstrap/Button';
 
-function friendsMaps(props) {
+function friendsDungeons(props) {
 
     return (
         <section className="center-buttons">
             <div className="button-holder">
-            {props.friendsList.map((item, index) => (
+                {console.log("item in dungeonList: ", props)}
+            {props.dungeonList.map((item, index) => (
                     
                     <div>
-                    <Button variant="success" id={item.friend_id}
+                    <Button variant="success" id={item._id}
                     onClick={() => {
-                            props.getMapByFriend_id(item.friend_id);
+                            props.getMapById(item._id);
                         }} 
-                        >{item.friend_name}</Button>
+                        >{item.title}</Button>
                     </div>
                 ))}
             </div>
         </section>
     )
 }
-export default friendsMaps;
+export default friendsDungeons;

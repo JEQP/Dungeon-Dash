@@ -57,7 +57,7 @@ router.post("/getDifficultyMaps", (req, res) => {
 })
 
 router.post("/mapById", (req, res) => {
-    console.log("MapByID: ", req.body.params);
+    console.log("mapById: ", req.body.params);
     Dungeon.findById(req.body.params._id).then(dungeon => {
         res.json(dungeon);
     }).catch(err => console.log(err));
