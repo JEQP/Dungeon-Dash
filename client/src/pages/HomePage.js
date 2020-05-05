@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import AuthContext from "../utils/AuthContext";
+import Navbar from "../components/Navbar";
 import "./style.css";
 import DDlogo2lines from "../assets/DDlogo2lines.png";
 
@@ -19,6 +20,7 @@ class HomePage extends Component {
                 }
                 <div className="home-page">
                 <Image img src={DDlogo2lines} alt="DungeonDash" fluid/>
+                <Navbar />
                     <div className="container home-centre">
                         {/* <div className="row">
                         <div className="col-sm-12"> */}

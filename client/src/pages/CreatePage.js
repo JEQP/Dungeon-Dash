@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AuthContext from "../utils/AuthContext";
 import { Redirect } from 'react-router-dom';
 import CreatePuzzleLogic from "../components/CreatePuzzleLogic";
+import Navbar from "../components/Navbar";
 import Axios from "axios";
 
 
@@ -88,6 +89,7 @@ static contextType = AuthContext
                     <Redirect to='/login' />
                 }
                 <h1>This is the Createpage</h1>
+                <Navbar />
                 <form className="form">
                     <input
                         value={this.state.title}

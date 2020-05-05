@@ -12,7 +12,7 @@
 
 .nav-grid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     grid-template-rows: 30px;
     justify-content: space-evenly;
     margin:10px;
@@ -25,7 +25,19 @@ border-radius: 5px;
 }
 
 .startGamebtn {
+    cursor: pointer;
     width: 150px;
     background-color: lime;
     border-radius: 5px;
+    padding:0.2em;
+}
+
+.playgame_grid {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: auto;
+    justify-content: space-evenly;
+    margin:10px;
+    padding: 10px;
+    align-self: center;
 }

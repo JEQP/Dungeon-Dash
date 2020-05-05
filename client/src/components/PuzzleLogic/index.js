@@ -91,12 +91,14 @@ class PuzzleLogic extends Component {
                 newState.toolsCarried.splice(meatIndex, 1);
                 newState.toolSelected = "";
 
-                // check squares around meat for walls, and then for monsters
+                // check squares around meat for walls, and then for monsters. If meatSquare contains a pit, monster will be deleted.
                 if (newState.squareList[meatSquare].leftwall === false && colClicked > 1) {
                     let meatLeftID = `${(colClicked - 1).toString()}${rowClicked.toString()}`;
                     let meatLeftIndex = newState.squareList.findIndex(element => element.id === meatLeftID);
                     if (newState.squareList[meatLeftIndex].monster === true) {
+                        if ( newState.squareList[meatSquare].pit === false){
                         newState.squareList[meatSquare].monster = true;
+                    }
                         newState.squareList[meatLeftIndex].monster = false;
                     }
                 }
@@ -104,7 +106,9 @@ class PuzzleLogic extends Component {
                     let meatRightID = `${(colClicked + 1).toString()}${rowClicked.toString()}`;
                     let meatRightIndex = newState.squareList.findIndex(element => element.id === meatRightID);
                     if (newState.squareList[meatRightIndex].monster === true) {
-                        newState.squareList[meatSquare].monster = true;
+                        if ( newState.squareList[meatSquare].pit === false){
+                            newState.squareList[meatSquare].monster = true;
+                        }
                         newState.squareList[meatRightIndex].monster = false;
                     }
                 }
@@ -112,7 +116,9 @@ class PuzzleLogic extends Component {
                     let meatTopID = `${(colClicked).toString()}${(rowClicked - 1).toString()}`;
                     let meatTopIndex = newState.squareList.findIndex(element => element.id === meatTopID);
                     if (newState.squareList[meatTopIndex].monster === true) {
-                        newState.squareList[meatSquare].monster = true;
+                        if ( newState.squareList[meatSquare].pit === false){
+                            newState.squareList[meatSquare].monster = true;
+                        }
                         newState.squareList[meatTopIndex].monster = false;
                     }
                 }
@@ -120,7 +126,9 @@ class PuzzleLogic extends Component {
                     let meatBottomID = `${(colClicked).toString()}${(rowClicked + 1).toString()}`;
                     let meatBottomIndex = newState.squareList.findIndex(element => element.id === meatBottomID);
                     if (newState.squareList[meatBottomIndex].monster === true) {
-                        newState.squareList[meatSquare].monster = true;
+                        if ( newState.squareList[meatSquare].pit === false){
+                            newState.squareList[meatSquare].monster = true;
+                        }
                         newState.squareList[meatBottomIndex].monster = false;
                     }
                 }
@@ -659,13 +667,11 @@ class PuzzleLogic extends Component {
     renderNavbar = () => {
         if (this.state.gameStarted === false) {
             return <div className="nav-grid">
-                <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
                 <div className="startGamebtn" onClick={() => this.setStartGame(true)}>Start Dungeon</div>
             </div>
         }
         else {
             return <div className="nav-grid">
-                <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
                 <div className="startGamebtn" onClick={() => this.props.restart(true)}> Restart Dungeon </div>
             </div>
         }
@@ -756,18 +762,20 @@ class PuzzleLogic extends Component {
                 <Row><Col>
                     {this.renderNavbar()}
                 </Col></Row>
-                <Row>
-                    <Col>
+                <Row><Col>
+                    <div className="playgame_grid">
+                    <div>
 
                         {this.renderPage()}
 
-                    </Col>
+                    </div>
                     {this.state.gameContinues === true &&
-                    (<Col>
+                    (<div>
                         {this.renderTools()}
-                    </Col>)
+                    </div>)
                     }
-                </Row>
+                    </div>
+                </Col></Row>
                 <Row></Row>
             </Container>
 

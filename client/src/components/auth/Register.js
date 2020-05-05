@@ -40,11 +40,12 @@ class Register extends Component {
     })
       .then((response) => {
         console.log("response: ", response.data.success);
-        if (response.data.success === true) {
+        if (response.status === 200) {
           console.log("success registered", this);
           // to change authentication state
           let value = this.context;
-          value.changeAuthentication(this.state.isAuthenticated, this.state.email);
+          value.changeAuthentication(true, this.state.email);
+          console.log("value: ", value);
         }
         console.log("line 50: ", JSON.stringify(response));
       })
@@ -72,10 +73,6 @@ class Register extends Component {
 
         <div className="row">
           <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>Register</b> below

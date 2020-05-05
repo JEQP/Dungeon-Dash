@@ -5,6 +5,7 @@ import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import { Link, Redirect } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import "./style.css";
 
 class StadiumPage extends Component {
@@ -164,7 +165,7 @@ class StadiumPage extends Component {
                 }
                 < div className="centre" >
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
-                    {/* <Navbar /> */}
+                    <Navbar />
                 </div>
                 <div className="nav-grid">
                     <Link to="/home" className="link-text"><div className="homePagebtn">Homepage</div></Link>
