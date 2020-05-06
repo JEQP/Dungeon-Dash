@@ -9,19 +9,22 @@ import PuzzleLogic from "../PuzzleLogic";
 class CreatePuzzleLogic extends Component {
     constructor(props) {
         super(props);
+        let initialMap=JSON.stringify(BlankMap);
 
         this.state = {
-            dungeon: BlankMap,
+            dungeon: JSON.parse(initialMap),
             selectedFeature: "",
             clickedSquare: "",
             avatarDeployed: false,
             treasureDeployed: false,
             verified: false,
-            testing: false
+            testing: false,
+            movesTaken: 0
         }
 
-        this.handleTesting = this.handleTesting.bind(this);
+        // this.handleTesting = this.handleTesting.bind(this);
     }
+
 
     setClickedSquare = (props) => {
         if (this.state.testing !== true) {
@@ -195,43 +198,84 @@ class CreatePuzzleLogic extends Component {
     }
 
 
+    setMovesTaken = (props) => {
+        let moveCount = this.state.movesTaken;
+        if (props === true) {
+            moveCount++;
+            this.setState({ movesTaken: moveCount });
+        } else {
+            this.setState({ movesTaken: 0 });
+        }
+    }
+
+    // blank function to not break PuzzleLogic component.
+    updateStats = (props) => {
+        console.log(props);
+    }
+
+    restartDungeon = (props) => {
+        
+        this.setState({
+            testing: false
+        })
+    }
 
 
     renderGameGrid = () => {
         console.log("testing: ", this.state.testing);
 
         if (this.state.testing === false) {
-            return <div>
+            return <div><div>
                 <CreateMapOptions
                     setSelectedFeature={this.setSelectedFeature}
                 />
-                <GameGrid
-                    setClickedSquare={this.setClickedSquare}
-                    squareList={this.state.dungeon.squareList}
-                />
             </div>
+                <div>
+                    <GameGrid
+                        setClickedSquare={this.setClickedSquare}
+                        squareList={this.state.dungeon.squareList}
+                    />
+                </div></div>
         } else if (this.state.testing === true) {
             let testMap = JSON.stringify(this.state.dungeon);
             console.log("testMap: ", testMap);
 
             return <PuzzleLogic
                 dungeonMap={JSON.parse(testMap)}
-                verify={this.setVerified} />
+                verify={this.setVerified}
+                restart={this.restartDungeon}
+                updateStats={this.updateStats}
+                title={this.props.title}
+                difficulty={"Testing"}
+                moveCount={this.state.movesTaken}
+                setMovesTaken={this.setMovesTaken} />
         }
     }
 
-    handleTesting() {
+    // handleTesting() {
+    handleTesting = () => {
         this.setState(state => ({
             testing: true
         }));
     }
 
+    //reset Dungeon to blank
+    resetDungeon = () => {
+       let initialMap = JSON.stringify(BlankMap);
+        
+        this.setState({
+            dungeon: JSON.parse(initialMap)
+        })
+    }
+
     renderButton = () => {
         console.log("verified: ", this.state.verified);
         if (this.state.verified === false) {
-            return <Button variant="danger" size="lg" block onClick={() => this.handleTesting()}>Verify Dungeon</Button>
+            return <div><Button variant="danger" size="lg" block onClick={() => this.handleTesting()}>Verify Dungeon</Button>
+                <Button variant="warning" size="lg" block onClick={() => this.resetDungeon()}>Reset Dungeon</Button></div>
         } else if (this.state.verified === true) {
-            return <Button variant="primary" size="lg" block onClick={() => this.props.stringifyDungeonMap(JSON.stringify(this.state.dungeon))}>Save Dungeon</Button>
+            return <div><Button variant="primary" size="lg" block onClick={() => this.props.stringifyDungeonMap(JSON.stringify(this.state.dungeon))}>Save Dungeon</Button>
+                <Button variant="warning" size="lg" block onClick={() => this.resetDungeon()}>Reset Dungeon</Button></div>
         }
     }
 

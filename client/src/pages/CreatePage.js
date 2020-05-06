@@ -3,8 +3,9 @@ import AuthContext from "../utils/AuthContext";
 import { Redirect } from 'react-router-dom';
 import CreatePuzzleLogic from "../components/CreatePuzzleLogic";
 import Navbar from "../components/Navbar";
+import Image from 'react-bootstrap/Image';
 import Axios from "axios";
-
+import DDlogo from "../assets/DDlogo.png";
 
 class CreatePage extends Component {
 
@@ -16,54 +17,58 @@ class CreatePage extends Component {
             verified: false,
             title: "",
             creator: "5ea6c088da41ae8738777057",
-            stats: [1,1]
+            stats: [1, 1],
+            mapSaved: false
         }
     }
-static contextType = AuthContext
+    static contextType = AuthContext
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
         let value = event.target.value;
         const name = event.target.name;
         if (name === "title") {
-          value = value.substring(0, 100);
+            value = value.substring(0, 100);
         }
         // Updating the input's state
         this.setState({
-          [name]: value
+            [name]: value
         });
-      };
+    };
 
-      componentDidMount(){
-          if (this.state.creator===""){
-          const user = this.context
-          console.log("user context: ", user);
-          // do an axios call for the e-mail of the authenticated user
-          // get _id from there
-          // set creator as _id
-          console.log("authContext: ", AuthContext);
-          console.log("===user.email====", user.email);
-          Axios.post("/api/users/getUserID", {
-              email: user.email
-          }).then((response) => {
-              console.log("response from getUserID", response.data._id);
-              this.setState({
-                creator: response.data._id
-            });
-          }).catch(err => console.log(err));
+    componentDidMount() {
+        if (this.state.creator === "") {
+            const user = this.context
+            console.log("user context: ", user);
+            // do an axios call for the e-mail of the authenticated user
+            // get _id from there
+            // set creator as _id
+            console.log("authContext: ", AuthContext);
+            console.log("===user.email====", user.email);
+            Axios.post("/api/users/getUserID", {
+                email: user.email
+            }).then((response) => {
+                console.log("response from getUserID", response.data._id);
+                this.setState({
+                    creator: response.data._id
+                });
+            }).catch(err => console.log(err));
         }
-      }
+    }
 
+    // This saves the dungeon map to the database. The onClick method to use this method only appears after the map is successfully completed.
+    // Future adjustment: Change state.verified when the map is completed in createMapLogic. 
     stringifyDungeonMap = (props) => {
-        // console.log("props in stringifyDungeonMap: ", props);
+        
         this.setState({
             dungeonMap: props,
-            verified: true
+            verified: true,
+            mapSaved: true
         });
 
         Axios.post('/api/dungeons/create', {
             dungeonMap: props,
-            verified: this.state.verified,
+            verified: true,
             title: this.state.title,
             creator: this.state.creator,
             stats: this.state.stats
@@ -72,13 +77,14 @@ static contextType = AuthContext
                 if (response.data.success === true) {
                     console.log("dungeon saved", this);
                     // to change authentication state
-                    
                 }
-                console.log(response);
+                console.log(response);     
             })
             .catch(function (error) {
                 console.log(error);
             });
+            // REDIRECT To A PAGE 
+            
     }
 
     render() {
@@ -88,20 +94,27 @@ static contextType = AuthContext
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />
                 }
-                <h1>This is the Createpage</h1>
-                <Navbar />
-                <form className="form">
-                    <input
-                        value={this.state.title}
-                        name="title"
-                        onChange={this.handleInputChange}
-                        type="text"
-                        placeholder="Name of Dungeon"
-                    />
+                {
+                    this.state.mapSaved === true &&
+                    <Redirect to='/stadium' />
+                }
+                <div className="home-page">
+                    <Image img src={DDlogo} alt="DungeonDash" fluid />
+                    <Navbar />
+                    <form className="form title">
+                        <input
+                            value={this.state.title}
+                            name="title"
+                            onChange={this.handleInputChange}
+                            type="text"
+                            placeholder="Name of Dungeon"
+                        />
                     </form>
                     <CreatePuzzleLogic
                         stringifyDungeonMap={this.stringifyDungeonMap}
+                        title={this.state.title}
                     />
+                </div>
             </div>
         )
     }

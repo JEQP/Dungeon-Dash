@@ -22,7 +22,7 @@ class PlayPage extends Component {
         // necessary line 
         super(props);
         // Don't call this.setState() here!
-
+        console.log("props in constructor: ", props);
         this.state = {
             isMapChosen: false,
             typeMapChosen: "",
@@ -31,7 +31,8 @@ class PlayPage extends Component {
             playerStats: [],
             playerDungPlayed: [],
             friendsList: [],
-            friendsMapList: []
+            friendsMapList: [],
+            movesTaken: 0
         };
 
         // this.setState = this.setState.bind(this);
@@ -49,7 +50,6 @@ class PlayPage extends Component {
     }
 
     componentDidMount() {
-
         const user = this.context;
         console.log("set userid ", user.email)
         Axios.post("/api/users/getUserID", {
@@ -64,7 +64,12 @@ class PlayPage extends Component {
             })
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
-
+        console.log("props in componentDidMount: ", this.props)
+        // This is to catch a redirect from Stadium Page
+        // if (this.props.location.state) {
+        //     console.log ("mapToPass in PlayPage: ", this.props.location.state);
+        //     this.getMapById(this.props.mapToPass); 
+        // }
     }
 
 
@@ -89,6 +94,18 @@ class PlayPage extends Component {
                 });
         }
     }
+
+
+    setMovesTaken = (props) => {
+        let moveCount = this.state.movesTaken;
+        if (props === true) {
+            moveCount++;
+            this.setState({ movesTaken: moveCount });
+        } else {
+            this.setState({ movesTaken: 0 }); // this is a problem
+        }
+    }
+
 
     // This restarts the map by setting isMapChosen to false, so PuzzleLogic ceases to be rendered.
     // It sets typeMapChosen to replay, and in renderPage() this if condition sets isMapChosen to true.
@@ -241,11 +258,11 @@ class PlayPage extends Component {
             }
         }).then((response) => {
             console.log("FRIEND MAP RESPONSE", response.data);
-            if(response.data !== null) {
-            this.setState({
-                friendsMapList: response.data
-            })
-        }
+            if (response.data !== null) {
+                this.setState({
+                    friendsMapList: response.data
+                })
+            }
         });
     }
 
@@ -256,7 +273,11 @@ class PlayPage extends Component {
         if (this.state.isMapChosen === true) {
             return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen.dungeonMap)}
                 restart={this.restartDungeon}
-                updateStats={this.updateStats} />
+                updateStats={this.updateStats}
+                title={this.state.mapChosen.title}
+                difficulty={this.state.mapChosen.difficulty}
+                moveCount={this.state.movesTaken}
+                setMovesTaken={this.setMovesTaken} />
         } else if (this.state.typeMapChosen === "replay") {
             console.log("replay run");
             this.setState({ isMapChosen: true });
@@ -283,6 +304,14 @@ class PlayPage extends Component {
 
     }
 
+    changeDungeon = () => {
+        this.setState({
+            isMapChosen: false,
+            typeMapChosen: "",
+            mapChosen: []
+        })
+    }
+
 
     render() {
         return (
@@ -299,6 +328,11 @@ class PlayPage extends Component {
                 </div>
 
                 {this.renderPage()}
+                <div className="centre">
+                <div className="change-dungeon" onClick={() => this.changeDungeon(true)}>Change Dungeon</div>
+                </div>
+                   
+                
             </div>
         )
     }

@@ -96,9 +96,9 @@ class PuzzleLogic extends Component {
                     let meatLeftID = `${(colClicked - 1).toString()}${rowClicked.toString()}`;
                     let meatLeftIndex = newState.squareList.findIndex(element => element.id === meatLeftID);
                     if (newState.squareList[meatLeftIndex].monster === true) {
-                        if ( newState.squareList[meatSquare].pit === false){
-                        newState.squareList[meatSquare].monster = true;
-                    }
+                        if (newState.squareList[meatSquare].pit === false) {
+                            newState.squareList[meatSquare].monster = true;
+                        }
                         newState.squareList[meatLeftIndex].monster = false;
                     }
                 }
@@ -106,7 +106,7 @@ class PuzzleLogic extends Component {
                     let meatRightID = `${(colClicked + 1).toString()}${rowClicked.toString()}`;
                     let meatRightIndex = newState.squareList.findIndex(element => element.id === meatRightID);
                     if (newState.squareList[meatRightIndex].monster === true) {
-                        if ( newState.squareList[meatSquare].pit === false){
+                        if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
                         }
                         newState.squareList[meatRightIndex].monster = false;
@@ -116,7 +116,7 @@ class PuzzleLogic extends Component {
                     let meatTopID = `${(colClicked).toString()}${(rowClicked - 1).toString()}`;
                     let meatTopIndex = newState.squareList.findIndex(element => element.id === meatTopID);
                     if (newState.squareList[meatTopIndex].monster === true) {
-                        if ( newState.squareList[meatSquare].pit === false){
+                        if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
                         }
                         newState.squareList[meatTopIndex].monster = false;
@@ -126,7 +126,7 @@ class PuzzleLogic extends Component {
                     let meatBottomID = `${(colClicked).toString()}${(rowClicked + 1).toString()}`;
                     let meatBottomIndex = newState.squareList.findIndex(element => element.id === meatBottomID);
                     if (newState.squareList[meatBottomIndex].monster === true) {
-                        if ( newState.squareList[meatSquare].pit === false){
+                        if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
                         }
                         newState.squareList[meatBottomIndex].monster = false;
@@ -243,6 +243,7 @@ class PuzzleLogic extends Component {
 
     // This starts game
     setStartGame = (props) => {
+        this.props.setMovesTaken(false);
         let startGame = props;
         let newState = this.state;
         newState.gameStarted = startGame;
@@ -256,7 +257,11 @@ class PuzzleLogic extends Component {
 
     // function to move avatar based on clicks
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+
+        // if (this.state.gameContinues === false && this.props.moveCount !== prevProps.moveCount) {
+        //     this.props.setMovesTaken(false);
+        // }
 
         var avaPos = this.state.avaPos;
         console.log("===componentDidUpdate Starts===")
@@ -641,6 +646,7 @@ class PuzzleLogic extends Component {
         for (let i = 0; i < newState.length; i++) {
             if (newState[i].id == avaMove) {
                 newState[i].avatar = true;
+                this.props.setMovesTaken(true);
                 // console.log("matching avaPos: ", this.state.avaPos);
                 // console.log("if newState[" + i + "]: ", newState[i]);
             } else {
@@ -667,11 +673,15 @@ class PuzzleLogic extends Component {
     renderNavbar = () => {
         if (this.state.gameStarted === false) {
             return <div className="nav-grid">
+                <div className="dungeon-title">{this.props.title}</div>
+                <div className="dungeon-difficulty">Level: {this.props.difficulty}</div>
                 <div className="startGamebtn" onClick={() => this.setStartGame(true)}>Start Dungeon</div>
             </div>
         }
         else {
             return <div className="nav-grid">
+                <div className="dungeon-title">{this.props.title}</div>
+                <div className="dungeon-difficulty">Level: {this.props.difficulty}</div>
                 <div className="startGamebtn" onClick={() => this.props.restart(true)}> Restart Dungeon </div>
             </div>
         }
@@ -729,7 +739,7 @@ class PuzzleLogic extends Component {
     renderTools = () => {
         if (this.state.gameStarted === false) {
             return <div>
-                
+
                 <Row><Col>
                     <ToolsSelect
                         toolChosen={this.setToolsCarried}
@@ -744,11 +754,13 @@ class PuzzleLogic extends Component {
             </div>
         } else {
             return <div>
-
-                <ToolsCarried
-                    tools={this.state.toolsCarried}
-                    toolSelected={this.setToolSelected}
-                />
+                <Row><Col>
+                    <ToolsCarried
+                        tools={this.state.toolsCarried}
+                        toolSelected={this.setToolSelected}
+                    />
+                </Col></Row>
+                {/* MovesTaken was here */}
 
             </div>
         }
@@ -763,17 +775,22 @@ class PuzzleLogic extends Component {
                     {this.renderNavbar()}
                 </Col></Row>
                 <Row><Col>
-                    <div className="playgame_grid">
-                    <div>
+                    <div className="playgame-grid">
+                        <div>
 
-                        {this.renderPage()}
+                            {this.renderPage()}
 
+                        </div>
+                        <div>
+                        {this.state.gameContinues === true &&
+                            (<div>
+                                {this.renderTools()}
+                            </div>)
+                        }
+                        <Row><Col>
+                    <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
+                </Col></Row>
                     </div>
-                    {this.state.gameContinues === true &&
-                    (<div>
-                        {this.renderTools()}
-                    </div>)
-                    }
                     </div>
                 </Col></Row>
                 <Row></Row>
