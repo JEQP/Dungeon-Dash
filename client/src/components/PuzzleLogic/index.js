@@ -696,21 +696,21 @@ class PuzzleLogic extends Component {
                         setMeat={this.setMeat}
                         squareList={this.state.squareList}
                     />;
-                    break;
+                    
                 case "plank":
                     console.log("GameGridPlank rendered");
                     return <GameGridPlank
                         setPlank={this.setPlank}
                         squareList={this.state.squareList}
                     />;
-                    break;
+                    
                 default:
                     console.log("GameGrid rendered");
                     return <GameGrid
                         setClickedSquare={this.setClickedSquare}
                         squareList={this.state.squareList}
                     />;
-                    break;
+                    
             }
         } else if (this.state.gameContinues === false) {
             // props will be map. If PuzzleLogic is rendered through CreatePageLogic, a second prop verify will be included. 

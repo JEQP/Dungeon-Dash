@@ -8,6 +8,7 @@ import PlayPage from "./pages/PlayPage";
 import CreatePage from "./pages/CreatePage";
 import StadiumPage from "./pages/StadiumPage";
 import AuthContext from "./utils/AuthContext";
+import Credits from "./components/auth/Credits";
 import { Redirect } from 'react-router-dom';
 
 
@@ -54,6 +55,9 @@ function App() {
             </Route>
             <Route exact path="/stadium">
               <StadiumPage />
+            </Route>
+            <Route exact path="/credits">
+              <Credits />
             </Route>
           </Switch>
         </div>

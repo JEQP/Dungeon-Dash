@@ -18,4 +18,28 @@
 
 .white-text {
     color: white;
+    font-family: 'Muli', sans-serif;
+}
+
+.credits-container {
+    width: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 20px;
+    padding: 10px;
+}
+
+.credits-wrapper {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.credits-text {
+    text-align: justify;
+    color: white;
+    margin: 2em;
 }

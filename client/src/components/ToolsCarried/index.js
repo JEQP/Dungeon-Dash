@@ -9,7 +9,7 @@ console.log("ToolsCarried props: ", props);
         <section className="tools-carried-grid">
             {
             props.tools.map((item, index) => (
-                console.log("toolscarried iterated: ", item),
+                
                 <div className="square-tools" key={index} onClick={() => props.toolSelected(item)}>
                     {
                         item === "plank" &&

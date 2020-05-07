@@ -11,8 +11,6 @@
     text-align: center;
     align-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-    
-    
 }
 
 .link-text {
@@ -42,8 +40,9 @@
         /* width: 95%; */
         /* grid-gap: 2px; */
         justify-items: stretch;
-        align-items: center;
+        /* align-items: center; */
         justify-content: stretch;
+        
     
 }
 
@@ -141,6 +140,7 @@ text-align: center;
     text-align: center;
     color: white;
     margin: 2em;
+    font-family: 'Muli', sans-serif;
 }
 
 .change-dungeon {
@@ -158,4 +158,12 @@ text-align: center;
 h1 {
     text-align: center;
     color: white;
+}
+
+.stadium-addfriend-button {
+    margin: 5px;
+}
+
+.muli-font {
+font-family: 'Muli', sans-serif;
 }

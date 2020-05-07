@@ -197,13 +197,13 @@ render() {
                 <Navbar />
             </div>
             <div className="create-nav-grid">
-                <div className="nav-display">{this.state.name} is in the stadium!</div>
+                <div className="nav-display muli-font">{this.state.name} is in the stadium!</div>
                 <div>{this.displayLevel()}</div>
-                <div className="nav-display">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
+                <div className="nav-display muli-font">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
             </div>
             <div className="stadium-grid">
-                <div><h1>Friends</h1></div>
-                <div><h1>Friends' Dungeons</h1></div>
+                <div><h1 className="muli-font">Friends</h1></div>
+                <div><h1 className="muli-font">Friends' Dungeons</h1></div>
                 <div>
                 <div className="friend-search">
                     <form className="form">
@@ -214,7 +214,7 @@ render() {
                             type="text"
                             placeholder="Name of Friend"
                         />
-                        <Button variant="success" onClick={this.getFriendByName}>Add Friend</Button>
+                        <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
                     </form>
                     <form className="form">
                         <input
@@ -224,7 +224,7 @@ render() {
                             type="text"
                             placeholder="Email of Friend"
                         />
-                        <Button variant="success" onClick={this.getFriendByEmail}>Add Friend</Button>
+                        <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
                     </form>
                     {/* <Button variant="info" block className="fsearch">Search by Name</Button>
                         <Button variant="info" block className="fsearch">Search by Email</Button> */}
