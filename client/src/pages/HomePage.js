@@ -6,6 +6,7 @@ import AuthContext from "../utils/AuthContext";
 import Navbar from "../components/Navbar";
 import "./style.css";
 import DDlogo2lines from "../assets/DDlogo2lines.png";
+import Footer from "../components/Footer";
 
 
 class HomePage extends Component {
@@ -44,6 +45,7 @@ class HomePage extends Component {
                     </div> */}
                     </div>
                 </div>
+                <Footer />
             </div>
         )
     }

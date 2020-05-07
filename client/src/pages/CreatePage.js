@@ -3,6 +3,7 @@ import AuthContext from "../utils/AuthContext";
 import { Redirect } from 'react-router-dom';
 import CreatePuzzleLogic from "../components/CreatePuzzleLogic";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import Image from 'react-bootstrap/Image';
 import Axios from "axios";
 import DDlogo from "../assets/DDlogo.png";
@@ -115,6 +116,7 @@ class CreatePage extends Component {
                         title={this.state.title}
                     />
                 </div>
+                <Footer />
             </div>
         )
     }

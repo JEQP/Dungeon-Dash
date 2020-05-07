@@ -2,14 +2,16 @@
 .home-page {
     display: block;
     text-align: center;
+    
 }
 
 .home-centre {
     
     width: 80%;
     text-align: center;
-    color: black;
     align-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    
     
 }
 
@@ -128,14 +130,16 @@ text-align: center;
 .home-instructions {
     
     text-align: justify;
-    color: black;
+    color: white;
     margin: 2em;
+    
+
 }
 
 .home-instructions2 {
     
     text-align: center;
-    color: black;
+    color: white;
     margin: 2em;
 }
 
@@ -149,4 +153,9 @@ text-align: center;
     align-self: center;
     cursor: pointer;
     margin: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
 }

@@ -88,17 +88,17 @@ class Register extends Component {
 
         <div className="row">
           <div className="col s8 offset-s2">
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+            <div className="col s12 white-text" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>Register</b> below
               </h4>
-              <p className="grey-text text-darken-1">
+              <p className="white-text">
                 Already have an account? <Link to="/login">Log in</Link>
               </p>
             </div>
             <div className="formdiv">
               <form noValidate onSubmit={this.onSubmit} className="formStyle">
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.name}
@@ -108,7 +108,7 @@ class Register extends Component {
                   />
                   <label htmlFor="name">{errors.name !== undefined ? `${errors.name}` : "Name"}</label>
                 </div>
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.email}
@@ -118,7 +118,7 @@ class Register extends Component {
                   />
                   <label htmlFor="email">{errors.email !== undefined ? `${errors.email}` : "Email"}</label>
                 </div>
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.password}
@@ -129,7 +129,7 @@ class Register extends Component {
 
                   <label htmlFor="password">{errors.password !== undefined ? `${errors.password}` : "Password"}</label>
                 </div>
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.password2}
@@ -140,7 +140,7 @@ class Register extends Component {
 
                   <label htmlFor="password2">{errors.password2 !== undefined ? `${errors.password2}` : "Confirm Password"}</label>
                 </div>
-                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                <div className="col s12 white-text" style={{ paddingLeft: "11.250px" }}>
                   <button
                     style={{
                       width: "150px",

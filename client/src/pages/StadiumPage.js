@@ -6,6 +6,7 @@ import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "./style.css";
 
 class StadiumPage extends Component {
@@ -201,6 +202,9 @@ render() {
                 <div className="nav-display">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
             </div>
             <div className="stadium-grid">
+                <div><h1>Friends</h1></div>
+                <div><h1>Friends' Dungeons</h1></div>
+                <div>
                 <div className="friend-search">
                     <form className="form">
                         <input
@@ -225,8 +229,6 @@ render() {
                     {/* <Button variant="info" block className="fsearch">Search by Name</Button>
                         <Button variant="info" block className="fsearch">Search by Email</Button> */}
                 </div>
-                <div>Friend's Dungeons</div>
-                <div>
                     {
                         this.state.friends.map((item, index) => (
                             <div className="button-list-friends">
@@ -258,7 +260,7 @@ render() {
 
                 </div>
             </div>
-
+            <Footer />
         </div >
 
     )

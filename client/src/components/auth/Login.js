@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Redirect } from 'react-router-dom';
 import AuthContext from "../../utils/AuthContext";
 import DDlogo2lines from "../../assets/DDlogo2lines.png";
+import Footer from "../Footer";
 import "./style.css";
 
 class Login extends Component {
@@ -67,18 +68,18 @@ class Login extends Component {
               <i className="material-icons left">keyboard_backspace</i> Back to
               home
             </Link> */}
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+            <div className="col s12v white-text" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>Login</b> below
               </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
+              <p className="white-text">
+                Don't have an account? <Link to="/register" >Register</Link>
               </p>
             </div>
             <div className="formdiv">
             <form noValidate onSubmit={this.onSubmit} className="formStyle">
               
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.email}
@@ -88,7 +89,7 @@ class Login extends Component {
                   />
                   <label htmlFor="email">{errors.email !== undefined ? `${errors.email}` : "Email"}</label>
                 </div>
-                <div className="input-field col s12">
+                <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
                     value={this.state.password}
@@ -118,6 +119,8 @@ class Login extends Component {
             </div>
           </div>
         </div>
+        
+        <Footer />
       </div>
     );
   }

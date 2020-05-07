@@ -13,6 +13,7 @@ import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
 import ReactDOM from 'react-dom';
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 
 
@@ -332,7 +333,7 @@ class PlayPage extends Component {
                 <div className="change-dungeon" onClick={() => this.changeDungeon(true)}>Change Dungeon</div>
                 </div>
                    
-                
+                <Footer />
             </div>
         )
     }

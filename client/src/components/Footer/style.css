@@ -1,0 +1,18 @@
+.footer {
+  background-color: darkorange;
+  border-top: 1px solid black;
+  min-height: 30px;
+  padding: 5px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  }
+  
+  .phantom {
+  display: block;
+  padding: 5px;
+  height:30px;
+  width: 100%;
+  }
