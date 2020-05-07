@@ -1,6 +1,5 @@
 import React, { Component, setState } from "react";
 import GameGrid from "../DungeonGrids/GameGrid";
-import AuthContext from "../../utils/AuthContext";
 import BlankMap from "../../utils/BlankMap.json";
 import CreateMapOptions from "../CreateMapOptions";
 import Button from 'react-bootstrap/Button';
@@ -9,7 +8,7 @@ import PuzzleLogic from "../PuzzleLogic";
 class CreatePuzzleLogic extends Component {
     constructor(props) {
         super(props);
-        let initialMap=JSON.stringify(BlankMap);
+        let initialMap = JSON.stringify(BlankMap);
 
         this.state = {
             dungeon: JSON.parse(initialMap),
@@ -25,11 +24,10 @@ class CreatePuzzleLogic extends Component {
         // this.handleTesting = this.handleTesting.bind(this);
     }
 
-
+    // This will set clickedSquare in state with the id of the element clicked by the user
     setClickedSquare = (props) => {
         if (this.state.testing !== true) {
             let clickedID = props;
-            console.log("props in setClickedSquare: ", props);
             if (this.state.selectedFeature !== "") {
                 this.setState({
                     clickedSquare: clickedID,
@@ -39,6 +37,7 @@ class CreatePuzzleLogic extends Component {
         }
     }
 
+    // This sets the clickedFeature to the tile image clicked in createMapOptions
     setSelectedFeature = (props) => {
         let clickedFeature = props;
         console.log("props in setSelectedFeature: ", props);
@@ -48,6 +47,7 @@ class CreatePuzzleLogic extends Component {
         })
     }
 
+    // Once the user successfully completes their map, this will change verified, to let it be saved to database
     setVerified = (props) => {
         console.log("setVerified run: ", props);
         this.setState({
@@ -197,7 +197,7 @@ class CreatePuzzleLogic extends Component {
         }
     }
 
-
+    // This is run through PuzzleLogic
     setMovesTaken = (props) => {
         let moveCount = this.state.movesTaken;
         if (props === true) {
@@ -213,14 +213,14 @@ class CreatePuzzleLogic extends Component {
         console.log(props);
     }
 
+    // Allows user to end a play through of their dungeon
     restartDungeon = (props) => {
-        
         this.setState({
             testing: false
         })
     }
 
-
+    // Renders the appropriate game grid based on whether the user is creating or testing their map
     renderGameGrid = () => {
         console.log("testing: ", this.state.testing);
 
@@ -252,22 +252,21 @@ class CreatePuzzleLogic extends Component {
         }
     }
 
-    // handleTesting() {
     handleTesting = () => {
         this.setState(state => ({
             testing: true
         }));
     }
 
-    //reset Dungeon to blank
+    // Reset Dungeon to blank
     resetDungeon = () => {
-       let initialMap = JSON.stringify(BlankMap);
-        
+        let initialMap = JSON.stringify(BlankMap);
+
         this.setState({
             dungeon: JSON.parse(initialMap)
         })
     }
-
+    // Renders either the verify or save button
     renderButton = () => {
         console.log("verified: ", this.state.verified);
         if (this.state.verified === false) {

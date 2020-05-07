@@ -12,8 +12,6 @@
     grid-template-columns: 75px 75px 75px 75px 75px;
     grid-template-rows: 75px 75px 75px 75px 75px;
     margin: 5px;
-    /* width: 95%; */
-    /* grid-gap: 2px; */
 }
 
 .square {

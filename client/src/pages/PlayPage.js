@@ -20,9 +20,9 @@ import Footer from "../components/Footer";
 class PlayPage extends Component {
 
     constructor(props) {
-        // necessary line 
+
         super(props);
-        // Don't call this.setState() here!
+
         console.log("props in constructor: ", props);
         this.state = {
             isMapChosen: false,
@@ -35,8 +35,6 @@ class PlayPage extends Component {
             friendsMapList: [],
             movesTaken: 0
         };
-
-        // this.setState = this.setState.bind(this);
     }
 
 
@@ -66,11 +64,6 @@ class PlayPage extends Component {
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
         console.log("props in componentDidMount: ", this.props)
-        // This is to catch a redirect from Stadium Page
-        // if (this.props.location.state) {
-        //     console.log ("mapToPass in PlayPage: ", this.props.location.state);
-        //     this.getMapById(this.props.mapToPass); 
-        // }
     }
 
 
@@ -103,7 +96,7 @@ class PlayPage extends Component {
             moveCount++;
             this.setState({ movesTaken: moveCount });
         } else {
-            this.setState({ movesTaken: 0 }); // this is a problem
+            this.setState({ movesTaken: 0 });
         }
     }
 
@@ -213,6 +206,8 @@ class PlayPage extends Component {
                 });
         }
     }
+
+    // === Get Maps Based On Different Criteria ===
 
     getMapById = (props) => {
         Axios.post("/api/dungeons/mapById", {
@@ -330,9 +325,9 @@ class PlayPage extends Component {
 
                 {this.renderPage()}
                 <div className="centre">
-                <div className="change-dungeon" onClick={() => this.changeDungeon(true)}>Change Dungeon</div>
+                    <div className="change-dungeon" onClick={() => this.changeDungeon(true)}>Change Dungeon</div>
                 </div>
-                   
+
                 <Footer />
             </div>
         )

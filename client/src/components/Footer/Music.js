@@ -24,8 +24,6 @@ class Music extends React.Component {
     }
   
     render() {
-        console.log("this.props.url: ", this.props.url);
-        console.log("audio: ", this.audio);
       return (
         <div>
           <button onClick={this.togglePlay}>{this.state.play ? 'Pause' : 'Play'}</button>

@@ -1,4 +1,4 @@
-/* ToolsSelect */
+
 .tools-grid {
     float: left;
     display: grid;
@@ -34,9 +34,3 @@ max-height: 100%;
     color: white;
     font-weight: bold;
 }
-
-/* .photo > img {
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-  } */

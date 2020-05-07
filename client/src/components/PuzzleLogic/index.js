@@ -11,18 +11,14 @@ import ToolsSelect from "../ToolsSelect";
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import { Link, Redirect } from "react-router-dom";
 import "./style.css";
 
 class PuzzleLogic extends Component {
 
     constructor(props) {
-        // necessary line 
         super(props);
-        // Don't call this.setState() here!
 
         this.state = props.dungeonMap;
-        // this.handleClick = this.handleClick.bind(this);
     }
 
 
@@ -30,7 +26,6 @@ class PuzzleLogic extends Component {
     // === to move avatar ===
     setClickedSquare = (props) => {
         let clickedID = props;
-        console.log("props in setClickedSquare: ", props);
 
         this.setState({
             clickedSquare: clickedID,
@@ -42,9 +37,7 @@ class PuzzleLogic extends Component {
     setMeat = (props) => {
         let clickedID = props;
         let currentLoc = this.state.avaPos;
-        console.log("clicked: " + clickedID + " currentLoc: " + currentLoc);
         let currentSquare = this.state.squareList.find(element => element.id === currentLoc);
-        console.log("currentSquare setMeat: ", currentSquare);
 
         // check the move is valid
         let colCurrent = parseInt(currentLoc.charAt(0), 10);
@@ -64,10 +57,8 @@ class PuzzleLogic extends Component {
         let squareAbove = this.state.squareList.find(element => element.id === squareAboveID);
         let squareBelowID = `${colCurrent.toString()}${(rowCurrent + 1).toString()}`;
         let squareBelow = this.state.squareList.find(element => element.id === squareBelowID);
-        console.log("squareLeft in setMeat: ", squareLeft);
 
-
-        console.log("minCol:" + minCol + " maxCol:" + maxCol + " minRow:" + minRow + " maxRow:" + maxRow);
+        
         let newState = this.state;
         // check for walls
         if ((colClicked === (colCurrent - 1) && rowClicked === rowCurrent && currentSquare.leftwall === false) ||
@@ -155,7 +146,6 @@ class PuzzleLogic extends Component {
     setPlank = (props) => {
         let clickedID = props;
         let currentLoc = this.state.avaPos;
-        console.log("clicked: " + clickedID + " currentLoc: " + currentLoc);
 
         // check the move is valid
         let colCurrent = parseInt(currentLoc.charAt(0), 10);
@@ -201,10 +191,9 @@ class PuzzleLogic extends Component {
         }
     }
 
-    // This selects a tool to be used during game
+    // === Select Tools During Game ===
     setToolSelected = (props) => {
         let toolSelected = props;
-        console.log("toolselected in props: ", toolSelected);
         let newState = this.state;
         newState.toolSelected = toolSelected;
         newState.moveContinues = false;
@@ -214,13 +203,11 @@ class PuzzleLogic extends Component {
                 ...newState
             }
         )
-        console.log("toolselected in state: ", this.state.toolSelected);
     }
 
-    // This selects the tools to be carried before game starts
+    // === Select Tools Before Game ===
     setToolsCarried = (props) => {
         let toolChosen = props;
-        console.log("toolChosen in props: ", toolChosen);
         let newState = this.state;
         if (newState.toolsCarried[0] === "") {
             newState.toolsCarried[0] = toolChosen;
@@ -255,32 +242,20 @@ class PuzzleLogic extends Component {
     }
 
 
-    // function to move avatar based on clicks
+    // === Move Avatar Based On User Clicks ===
 
     componentDidUpdate(prevProps, prevState) {
 
-        // if (this.state.gameContinues === false && this.props.moveCount !== prevProps.moveCount) {
-        //     this.props.setMovesTaken(false);
-        // }
-
         var avaPos = this.state.avaPos;
-        console.log("===componentDidUpdate Starts===")
-        console.log("avaPos: " + avaPos);
-        console.log("state: ", this.state);
-
-
         let clickedSquare = this.state.clickedSquare;
 
         console.log((clickedSquare) + " clicked");
 
         // check the move is valid
-        console.log("avaPos: ", avaPos);
         let colCurrent = avaPos.charAt(0);
         let rowCurrent = avaPos.charAt(1);
         let colClicked = clickedSquare.charAt(0);
         let rowClicked = clickedSquare.charAt(1);
-        console.log("colCurrent: " + colCurrent + " rowCurrent: " + rowCurrent);
-        console.log("colClicked: " + colClicked + " rowClicked: " + rowClicked);
 
         // check to see if the square clicked is in a column or row of the current square
         if (this.state.gameStarted === true && this.state.moveContinues === true && (colClicked === colCurrent || rowClicked === rowCurrent)) {
@@ -290,12 +265,10 @@ class PuzzleLogic extends Component {
             if (colClicked === colCurrent) {
                 // for going up
                 if (rowClicked < rowCurrent) {
-                    console.log("if then up - RowClicked: " + rowClicked + " rowCurrent: " + rowCurrent);
                     this.moveUp(rowCurrent, rowClicked, avaPos);
                 }
                 // for going down
                 else if (rowClicked > rowCurrent) {
-                    console.log("else if then down - RowClicked: " + rowClicked + " rowCurrent: " + rowCurrent);
                     this.moveDown(rowCurrent, rowClicked, avaPos);
                 }
             }
@@ -304,52 +277,38 @@ class PuzzleLogic extends Component {
 
                 // for going right
                 if (colClicked > colCurrent) {
-                    console.log("if then right - colClicked: " + colClicked + " colCurrent: " + colCurrent);
                     this.moveRight(colCurrent, colClicked, avaPos);
                 }
                 //for going left
                 else if (colClicked < colCurrent) {
-                    console.log("if then left - colClicked: " + colClicked + " colCurrent: " + colCurrent);
                     this.moveLeft(colCurrent, colClicked, avaPos);
                 }
             }
         }
         else if (this.state.moveContinues === true && !(colClicked === colCurrent || rowClicked === rowCurrent)) {
-            console.log("invalid move moveContinues: ", this.state.moveContinues);
             alert("Invalid Move");
         }
 
     }
 
-
-
-
-    // NOTE: This format of NAME = ARROW FUNCTION is called an arrow function method
+// Move avatar up
     moveUp = (rowCurrent, rowClicked, avaMove) => {
-        console.log("===moveUp starts===");
-        console.log("moveUpsquares: " + rowCurrent + " " + rowClicked + " id: " + avaMove);
         // for each square moving up the grid, as row decreases, check if passable. 
         // Start on current square in case of wall in that square.
         // Note that avaMove starts with the value of avaPos from the calling function.
         let moveContinues = this.state.moveContinues;
         for (var i = rowCurrent; i >= rowClicked; i--) {
-            console.log("moveUp for loop " + i + " moveContinues: ", moveContinues);
-
-
+           
             if (moveContinues === true) {
                 avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-                console.log("avaMove: ", avaMove);
-
+                
                 let eatenByMonster = this.checkMonster(avaMove.charAt(0), i);
                 console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
                     moveContinues = false;
                 }
 
-
-                // console.log("state.squarelist (" + i + ") in moveUp: ", this.state.squareList);
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
-                // console.log("currentSquare: ", currentSquare);
 
                 if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
@@ -357,7 +316,6 @@ class PuzzleLogic extends Component {
                         return { gameContinues: false, moveContinues: false };
                     });
                     moveContinues = false;
-                    // END TURN
                 } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
@@ -369,42 +327,30 @@ class PuzzleLogic extends Component {
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    // END TURN
                 } else if (i == rowClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    //END TURN
                 }
             }
         }
     }
 
+    // Move Avatar down
     moveDown = (rowCurrent, rowClicked, avaMove) => {
-        console.log("===moveDown starts===");
-        console.log("moveDownsquares: " + rowCurrent + " " + rowClicked + "id: " + avaMove);
 
         let moveContinues = this.state.moveContinues;
         for (var i = rowCurrent; i <= rowClicked; i++) {
-            console.log("moveDown for loop " + i + " moveContinues: ", moveContinues);
-
-
+            
             if (moveContinues === true) {
                 avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-                console.log("avaMove: ", avaMove);
-
                 let eatenByMonster = this.checkMonster(avaMove.charAt(0), i);
                 console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
                     moveContinues = false;
                 }
 
-
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
-
-
-                // this.checkMonster(avaMove.charAt(0), i);
-
 
                 if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
@@ -412,7 +358,6 @@ class PuzzleLogic extends Component {
                         return { gameContinues: false, moveContinues: false };
                     });
                     moveContinues = false;
-                    // END TURN
                 } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
@@ -422,7 +367,6 @@ class PuzzleLogic extends Component {
                     moveContinues = false;
                 } else if (currentSquare.bottomwall === true) {
                     console.log("There's a wall, so you stop at ", avaMove);
-                    // avaMove = avaMove.charAt(0) + (i - 1); // because it will be in the square above
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
                     return;
@@ -431,31 +375,21 @@ class PuzzleLogic extends Component {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    //END TURN
                 }
 
             }
         }
     }
-
+// Move Avatar right
     moveRight = (colCurrent, colClicked, avaMove) => {
-        console.log("===moveRight starts===");
-        console.log("moveRightsquares: " + colCurrent + " " + colClicked + " id: " + avaMove);
 
         let moveContinues = this.state.moveContinues;
         for (var i = colCurrent; i <= colClicked; i++) {
 
-            console.log("moveRight for loop " + i + " moveContinues: ", moveContinues);
-
             if (moveContinues === true) {
                 avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
-                console.log("avaMove in right for loop: ", avaMove);
-
-                // var currentSquareClassList = $("#" + avaMove).attr("class").split(/\s+/);
-
-
+                
                 let eatenByMonster = this.checkMonster(i, avaMove.charAt(1));
-                console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
                     moveContinues = false;
                 }
@@ -468,7 +402,7 @@ class PuzzleLogic extends Component {
                         return { gameContinues: false, moveContinues: false };
                     });
                     moveContinues = false;
-                    // END TURN
+
                 } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
@@ -481,12 +415,12 @@ class PuzzleLogic extends Component {
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    // END TURN
+ 
                 } else if (i == colClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    //END TURN
+
                 }
 
 
@@ -494,10 +428,9 @@ class PuzzleLogic extends Component {
         }
     }
 
+    // Move Avatar Left
     moveLeft = (colCurrent, colClicked, avaMove) => {
-        console.log("===moveLeft starts===");
-        console.log("moveLeftsquares: " + colCurrent + " " + colClicked + " id: " + avaMove);
-
+       
         let moveContinues = this.state.moveContinues;
 
         for (var i = colCurrent; i >= colClicked; i--) {
@@ -505,16 +438,13 @@ class PuzzleLogic extends Component {
 
             if (moveContinues === true) {
                 avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
-                console.log("avaMove in right for loop: ", avaMove);
-
+                
                 let eatenByMonster = this.checkMonster(i, avaMove.charAt(1));
-                console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
                     moveContinues = false;
                 }
 
                 let currentSquare = this.state.squareList.find(element => element.id === avaMove);
-
 
                 if (currentSquare.pit === true && currentSquare.plank === false) {
                     console.log("You fell into a pit. No-one lowers a basket. Game over.");
@@ -522,7 +452,6 @@ class PuzzleLogic extends Component {
                         return { gameContinues: false, moveContinues: false };
                     });
                     moveContinues = false;
-                    // END TURN
                 } else if (currentSquare.treasure === true && eatenByMonster === false) {
                     console.log("You got the treasure! But will it make you happy?");
                     this.changeAvatarLocation(avaMove);
@@ -539,7 +468,6 @@ class PuzzleLogic extends Component {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
-                    //END TURN
                 }
 
             }
@@ -548,28 +476,23 @@ class PuzzleLogic extends Component {
     }
 
 
-
+// Checks if there is a monster beside a square the avatar moves to.
     checkMonster = (colCurrent, rowCurrent) => {
         // define squares to be checked
         console.log("==checkMonster==");
         let colLeft = colCurrent;
         colLeft--;
         let squareLeft = `${colLeft}${rowCurrent}`;
-        console.log("squareLeft: ", squareLeft);
         let colRight = colCurrent;
         colRight++;
         let squareRight = `${colRight}${rowCurrent}`;
-        console.log("squareRight: " + squareRight);
         let rowAbove = rowCurrent;
         rowAbove--;
         let squareAbove = `${colCurrent}${rowAbove}`;
-        console.log("squareAbove: " + squareAbove);
         let rowBelow = rowCurrent;
         rowBelow++;
         let squareBelow = `${colCurrent}${rowBelow}`;
-        console.log("squareBelow: " + squareBelow);
         let squareThis = `${colCurrent}${rowCurrent}`;
-        console.log("squareThis: ", squareThis);
         let thisSquare = this.state.squareList.find(element => element.id === squareThis);
         var eatenByMonster = false;
 
@@ -636,29 +559,22 @@ class PuzzleLogic extends Component {
         return eatenByMonster;
     }
 
+    // Change avatar location in state
     changeAvatarLocation = (avaMove) => {
-        // console.log("changeAvatarLocation this.state: ", this.state);
-        // console.log("changeAvatarState squareList: ", this.state.squareList);
         console.log("===changeAvatarLocation=== avaMove: ", avaMove);
 
-        let newState = this.state.squareList;
-        // the problem with if avaPos is false, else if avaMove is true, is that the loop runs again before the state is updated. 
+        let newState = this.state.squareList; 
         for (let i = 0; i < newState.length; i++) {
             if (newState[i].id == avaMove) {
                 newState[i].avatar = true;
                 this.props.setMovesTaken(true);
-                // console.log("matching avaPos: ", this.state.avaPos);
-                // console.log("if newState[" + i + "]: ", newState[i]);
+               
             } else {
                 newState[i].avatar = false;
-                // console.log("matching avaMov: ", avaMove);
-                // console.log("else newState[" + i + "]: ", newState[i]);
+               
             }
 
         }
-        //async problems here.
-        console.log("newState after avatar change: ", newState);
-        // let moveContinues = false;
 
         this.setState(() => ({
             squareList: newState,
@@ -670,6 +586,7 @@ class PuzzleLogic extends Component {
 
     }
 
+    // This renders the navbar based on whether the game is in play
     renderNavbar = () => {
         if (this.state.gameStarted === false) {
             return <div className="nav-grid">
@@ -687,6 +604,7 @@ class PuzzleLogic extends Component {
         }
     }
 
+    // This renders the gamegrid required for the users move
     renderPage = () => {
         if (this.state.gameContinues === true) {
             switch (this.state.toolSelected) {
@@ -735,7 +653,7 @@ class PuzzleLogic extends Component {
         }
     };
 
-    // This renders the tools option, before game starts giving the chance to choose tools
+    // This renders the tools option before game starts, giving the chance to choose tools
     renderTools = () => {
         if (this.state.gameStarted === false) {
             return <div>
@@ -760,15 +678,13 @@ class PuzzleLogic extends Component {
                         toolSelected={this.setToolSelected}
                     />
                 </Col></Row>
-                {/* MovesTaken was here */}
 
             </div>
         }
     }
 
     render() {
-        console.log("render state: ", this.state);
-        // put a value in state if game is continueing, and conditionally render this based on that.
+
         return (
             <Container>
                 <Row><Col>
@@ -799,7 +715,6 @@ class PuzzleLogic extends Component {
         );
     }
 }
-
 
 PuzzleLogic.contextType = AuthContext;
 export default PuzzleLogic;

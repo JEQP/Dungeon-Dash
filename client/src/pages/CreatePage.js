@@ -40,12 +40,7 @@ class CreatePage extends Component {
     componentDidMount() {
         if (this.state.creator === "") {
             const user = this.context
-            console.log("user context: ", user);
-            // do an axios call for the e-mail of the authenticated user
-            // get _id from there
-            // set creator as _id
-            console.log("authContext: ", AuthContext);
-            console.log("===user.email====", user.email);
+
             Axios.post("/api/users/getUserID", {
                 email: user.email
             }).then((response) => {

@@ -29,11 +29,9 @@ class StadiumPage extends Component {
     }
 
     componentDidMount() {
-
+        // Updates User information from database
         const user = this.context
-        console.log("user context: ", user);
-        console.log("authContext: ", AuthContext);
-        console.log("===user.email====", user.email);
+
         Axios.post("/api/users/getUserID", {
             email: user.email
         }).then((response) => {
@@ -54,9 +52,7 @@ class StadiumPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // console.log("this state dlc: ", this.state.dungeonListCreator);
-        // console.log("prevState DLC: ", prevState.dungeonListCreator);
-        // console.log("prevState alone ", prevState);
+
         // This updates the list of dungeons based on the creator. 
         // It checks the state had changed to avoid an infinite loop.
         if ((this.state.dungeonListCreator !== prevState.dungeonListCreator) && this.state.dungeonListCreator.length > 1) {
@@ -99,7 +95,6 @@ class StadiumPage extends Component {
             let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
-            console.log("tempFriendToAdd: ", tempFriendToAdd)
             this.setState({
                 friends: tempFriendArray
             });
@@ -131,7 +126,6 @@ class StadiumPage extends Component {
             let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
-            console.log("tempFriendToAdd: ", tempFriendToAdd)
             this.setState({
                 friends: tempFriendArray
             });
@@ -181,90 +175,89 @@ class StadiumPage extends Component {
         }
     }
 
-      
 
-render() {
-    return (
 
-        <div className="home-center" >
+    render() {
+        return (
 
-            { // check whether user is authenticated         
-                AuthContext.isAuthenticated === false &&
-                <Redirect to='/login' />
-            }
-            < div className="centre" >
-                <Image img src={DDLogo} alt="DungeonDash" fluid />
-                <Navbar />
-            </div>
-            <div className="create-nav-grid">
-                <div className="nav-display muli-font">{this.state.name} is in the stadium!</div>
-                <div>{this.displayLevel()}</div>
-                <div className="nav-display muli-font">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
-            </div>
-            <div className="stadium-grid">
-                <div><h1 className="muli-font">Friends</h1></div>
-                <div><h1 className="muli-font">Friends' Dungeons</h1></div>
-                <div>
-                <div className="friend-search">
-                    <form className="form">
-                        <input
-                            value={this.state.friendSearchName}
-                            name="friendSearchName"
-                            onChange={this.handleInputChange}
-                            type="text"
-                            placeholder="Name of Friend"
-                        />
-                        <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
-                    </form>
-                    <form className="form">
-                        <input
-                            value={this.state.friendSearchEmail}
-                            name="friendSearchEmail"
-                            onChange={this.handleInputChange}
-                            type="text"
-                            placeholder="Email of Friend"
-                        />
-                        <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
-                    </form>
-                    {/* <Button variant="info" block className="fsearch">Search by Name</Button>
-                        <Button variant="info" block className="fsearch">Search by Email</Button> */}
+            <div className="home-center" >
+
+                { // check whether user is authenticated         
+                    AuthContext.isAuthenticated === false &&
+                    <Redirect to='/login' />
+                }
+                < div className="centre" >
+                    <Image img src={DDLogo} alt="DungeonDash" fluid />
+                    <Navbar />
                 </div>
-                    {
-                        this.state.friends.map((item, index) => (
-                            <div className="button-list-friends">
-                                <Button block variant="primary" className="friendsList" id={item.friend_id}
-                                    onClick={() => {
-                                        this.setState({ dungeonListCreator: item.friend_id });
-                                    }} >{item.friend_name}</Button>
-                            </div>
-                        ))
-                    }
+                <div className="create-nav-grid">
+                    <div className="nav-display muli-font">{this.state.name} is in the stadium!</div>
+                    <div>{this.displayLevel()}</div>
+                    <div className="nav-display muli-font">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
                 </div>
-                <div>
-                    {
-                        this.state.dungeonList.map((item, index) => (
-                            <div className="button-list-dungeons">
-                                <Link to={{
-                                    pathname:"/play", 
-                                    state: {
-                                        mapToPass: item._id
-                                    } }} ><Button block variant="danger" className="dungeonList" id={item._id}
-                                // onClick={() => {
-                                //     this.setState({ dungeonListCreator: item.friend_id });
-                                // }} 
-                                // render this.state.stats as difficulty level, take this out as a function
-                                >{item.title} {this.calcDungeonLevel(item.stats)}</Button></Link>{' '} 
-                            </div>
-                        ))
-                    }
+                <div className="stadium-grid">
+                    <div><h1 className="muli-font">Friends</h1></div>
+                    <div><h1 className="muli-font">Friends' Dungeons</h1></div>
+                    <div>
+                        <div className="friend-search">
+                            <form className="form">
+                                <input
+                                    value={this.state.friendSearchName}
+                                    name="friendSearchName"
+                                    onChange={this.handleInputChange}
+                                    type="text"
+                                    placeholder="Name of Friend"
+                                />
+                                <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
+                            </form>
+                            <form className="form">
+                                <input
+                                    value={this.state.friendSearchEmail}
+                                    name="friendSearchEmail"
+                                    onChange={this.handleInputChange}
+                                    type="text"
+                                    placeholder="Email of Friend"
+                                />
+                                <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
+                            </form>
 
+                        </div>
+                        {
+                            this.state.friends.map((item, index) => (
+                                <div className="button-list-friends">
+                                    <Button block variant="primary" className="friendsList" id={item.friend_id}
+                                        onClick={() => {
+                                            this.setState({ dungeonListCreator: item.friend_id });
+                                        }} >{item.friend_name}</Button>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div>
+                        {
+                            this.state.dungeonList.map((item, index) => (
+                                <div className="button-list-dungeons">
+                                    <Link to={{
+                                        pathname: "/play",
+                                        state: {
+                                            mapToPass: item._id
+                                        }
+                                    }} ><Button block variant="danger" className="dungeonList" id={item._id}
+                                    // onClick={() => {
+                                    //     this.setState({ dungeonListCreator: item.friend_id });
+                                    // }} 
+                                    // render this.state.stats as difficulty level, take this out as a function
+                                    >{item.title} {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
+                                </div>
+                            ))
+                        }
+
+                    </div>
                 </div>
-            </div>
-            <Footer />
-        </div >
-
-    )
-}
+                <Footer />
+            </div >
+        )
+    }
 }
 StadiumPage.contextType = AuthContext;
 export default StadiumPage;
