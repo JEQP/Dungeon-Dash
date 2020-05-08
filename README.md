@@ -24,6 +24,7 @@ An inter-player puzzle game, created to allow people to challenge their friends 
 Planned updates include: 
 - Different challengers and tools
 - Different sized maps
+- Animated avatar and monster
 - Choice of avatar
 - Ranking success to include number of moves used
 - Sound effects
