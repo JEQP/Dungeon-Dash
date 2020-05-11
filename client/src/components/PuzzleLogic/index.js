@@ -181,7 +181,7 @@ class PuzzleLogic extends Component {
                 let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
                 console.log("plankSquare: ", plankSquare);
                 newState.squareList[plankSquare].plank = true;
-                newState.squareList[plankSquare].pit = false;
+                newState.squareList[plankSquare].pit = false; // In this way if a plank is across a pit the monster will not fall into it.
                 let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
                 console.log("plankIndex: ", plankIndex);
                 newState.toolsCarried.splice(plankIndex, 1);

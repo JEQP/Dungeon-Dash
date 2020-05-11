@@ -50,6 +50,7 @@ function App() {
             <Route exact path="/play">
               <PlayPage />
             </Route>
+            <Route path="/play/:id" component={PlayPage} />
             <Route exact path="/create">
               <CreatePage />
             </Route>

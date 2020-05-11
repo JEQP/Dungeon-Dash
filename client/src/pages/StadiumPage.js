@@ -8,6 +8,8 @@ import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./style.css";
+import PlayPage from "./PlayPage";
+import {Route} from "react-router-dom";
 
 class StadiumPage extends Component {
     constructor(props) {
@@ -238,19 +240,12 @@ class StadiumPage extends Component {
                             this.state.dungeonList.map((item, index) => (
                                 <div className="button-list-dungeons">
                                     <Link to={{
-                                        pathname: "/play",
-                    
-                                        // state: {
-                                        //    isMapChosen: true,
-                                           
-                                        // }
-                                        // onClick={() => getMapById(item._id)} 
+                                        pathname: `/play/${item._id}`
                                     }} ><Button block variant="danger" className="dungeonList" id={item._id} 
-                                    // onClick={() => {
-                                    //     this.setState({ dungeonListCreator: item.friend_id });
-                                    // }} 
+                                    
                                     // render this.state.stats as difficulty level, take this out as a function
                                     >{item.title} {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
+                                    <Route exact path="/play/:id" component={PlayPage} />
                                 </div>
                             ))
                         }

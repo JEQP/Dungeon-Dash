@@ -37,6 +37,7 @@ class PlayPage extends Component {
             movesTaken: 0,
 
         };
+
     }
 
 
@@ -52,6 +53,14 @@ class PlayPage extends Component {
 
     componentDidMount() {
         const user = this.context;
+            if (!this.props.match) {
+            } else {
+            const stadMap = this.props.match.params.id;
+            console.log("id in params: ", this.props.match.params.id);
+                this.getMapById(stadMap);
+        }
+        
+
         console.log("set userid ", user.email)
         Axios.post("/api/users/getUserID", {
             email: user.email
@@ -65,7 +74,7 @@ class PlayPage extends Component {
             })
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
-        console.log("props in componentDidMount: ", this.props);
+
     }
 
 
