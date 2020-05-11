@@ -61,7 +61,7 @@ class Login extends Component {
     }
     return (
       <div className="container">
-        <img src={DDlogo2lines} alt="DungeonDash" />
+        <img className="logodeep-margin" src={DDlogo2lines} alt="DungeonDash" />
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
             {/* <Link to="/" className="btn-flat waves-effect">

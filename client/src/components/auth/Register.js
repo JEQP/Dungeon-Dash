@@ -84,7 +84,7 @@ class Register extends Component {
 
     return (
       <div className="container">
-        <img src={DDlogo2lines} alt="DungeonDash" />
+        <img className="logodeep-margin" src={DDlogo2lines} alt="DungeonDash" />
 
         <div className="row">
           <div className="col s8 offset-s2">
