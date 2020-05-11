@@ -181,9 +181,6 @@ class PlayPage extends Component {
         let playerDungPlayed = this.state.playerDungPlayed;
 
         if (playerStats !== null && playerDungPlayed !== null) {
-            console.log("authContext: ", AuthContext);
-            console.log("pstats playerStats: ", playerStats);
-            console.log("pstats playerDungPlayed: ", playerDungPlayed);
 
             let playerGamesWon = playerStats[0];
             let playerGamesPlayed = playerStats[1];
@@ -197,10 +194,9 @@ class PlayPage extends Component {
             playerStats[0] = playerGamesWon;
             playerStats[1] = playerGamesPlayed;
             let tempDungPlayed = { id: dungeonID, title: dungeonTitle };
-            playerDungPlayed.push(tempDungPlayed);
-            console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
-
-
+            if(!playerDungPlayed.some(dungeon => dungeon.id === dungeonID)){
+            playerDungPlayed.push(tempDungPlayed); }
+            
             Axios.post("/api/users/updatePlayer", {
                 params: {
                     playerID: player,

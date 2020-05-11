@@ -23,6 +23,14 @@ width: 100%;
 max-height: 100%;
 }
 
+#plank-selected {
+    z-index: 100;
+    object-fit: cover;
+    width: 100%;
+    max-height: 100%;
+    opacity: 50%;
+    }
+
 #plank:Hover{
     opacity: 0.8;
 }
@@ -32,6 +40,14 @@ max-height: 100%;
     object-fit: cover;
     width: 100%;
     max-height: 100%;
+}
+
+#meat-selected {
+    z-index: 100;
+    object-fit: cover;
+    width: 100%;
+    max-height: 100%;
+    opacity: 50%
 }
 
 #meat:Hover{
