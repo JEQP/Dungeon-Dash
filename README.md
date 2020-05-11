@@ -1,4 +1,4 @@
-![Dungeon Dash](https://github.com/JEQP/Dungeon-Dash/blob/master/DDlogo.png)
+![Dungeon Dash](https://github.com/JEQP/Dungeon-Dash/blob/master/readme-resources/DDlogo.png)
 
 An inter-player puzzle game, created to allow people to challenge their friends with their own user-created content. Players find their way through a dungeon, avoiding pitfalls and monsters, to reach the treasure and escape. They can take items with them to help in their quest. Their wins are recorded and they are accorded a rank based on the percentage of their wins. The dungeons are accorded a rank based on the percentage of times they are completed. Players can create their own dungeons, and save them. These dungeons become playable by other people. Players can choose friends, and view and play the dungeons of their friends. To assist children as they play the layout is simple, and the navigation buttons are in bold colours.
 
@@ -16,10 +16,10 @@ Guest account: guest@guest.com password: welcome
 - jsonwebtoken
 
 ## Play Game Page
-![Play Game](https://github.com/JEQP/Dungeon-Dash/blob/master/readmeimage01.jpg)
+![Play Game](https://github.com/JEQP/Dungeon-Dash/blob/master/readme-resources/readmeimage01.jpg)
 
 ## Stadium Page
-![Stadium](https://github.com/JEQP/Dungeon-Dash/blob/master/readmeimage02.jpg)
+![Stadium](https://github.com/JEQP/Dungeon-Dash/blob/master/readme-resources/readmeimage02.jpg)
 
 ## Future Versions: 
 Planned updates include: 
