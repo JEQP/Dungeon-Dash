@@ -89,6 +89,9 @@ class PuzzleLogic extends Component {
                     if (newState.squareList[meatLeftIndex].monster === true) {
                         if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
+                            newState.squareList[meatSquare].meat = false;
+                        } else if (newState.squareList[meatSquare].pit === true) {
+                            newState.squareList[meatSquare].meat = false;
                         }
                         newState.squareList[meatLeftIndex].monster = false;
                     }
@@ -99,6 +102,9 @@ class PuzzleLogic extends Component {
                     if (newState.squareList[meatRightIndex].monster === true) {
                         if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
+                            newState.squareList[meatSquare].meat = false;
+                        } else if (newState.squareList[meatSquare].pit === true) {
+                            newState.squareList[meatSquare].meat = false;
                         }
                         newState.squareList[meatRightIndex].monster = false;
                     }
@@ -109,6 +115,9 @@ class PuzzleLogic extends Component {
                     if (newState.squareList[meatTopIndex].monster === true) {
                         if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
+                            newState.squareList[meatSquare].meat = false;
+                        } else if (newState.squareList[meatSquare].pit === true) {
+                            newState.squareList[meatSquare].meat = false;
                         }
                         newState.squareList[meatTopIndex].monster = false;
                     }
@@ -119,6 +128,9 @@ class PuzzleLogic extends Component {
                     if (newState.squareList[meatBottomIndex].monster === true) {
                         if (newState.squareList[meatSquare].pit === false) {
                             newState.squareList[meatSquare].monster = true;
+                            newState.squareList[meatSquare].meat = false;
+                        } else if (newState.squareList[meatSquare].pit === true) {
+                            newState.squareList[meatSquare].meat = false;
                         }
                         newState.squareList[meatBottomIndex].monster = false;
                     }
@@ -169,6 +181,7 @@ class PuzzleLogic extends Component {
                 let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
                 console.log("plankSquare: ", plankSquare);
                 newState.squareList[plankSquare].plank = true;
+                newState.squareList[plankSquare].pit = false;
                 let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
                 console.log("plankIndex: ", plankIndex);
                 newState.toolsCarried.splice(plankIndex, 1);

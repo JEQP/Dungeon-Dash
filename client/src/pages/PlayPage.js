@@ -24,6 +24,7 @@ class PlayPage extends Component {
         super(props);
 
         console.log("props in constructor: ", props);
+
         this.state = {
             isMapChosen: false,
             typeMapChosen: "",
@@ -33,7 +34,8 @@ class PlayPage extends Component {
             playerDungPlayed: [],
             friendsList: [],
             friendsMapList: [],
-            movesTaken: 0
+            movesTaken: 0,
+
         };
     }
 
@@ -63,7 +65,7 @@ class PlayPage extends Component {
             })
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
-        console.log("props in componentDidMount: ", this.props)
+        console.log("props in componentDidMount: ", this.props);
     }
 
 

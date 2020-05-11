@@ -239,10 +239,13 @@ class StadiumPage extends Component {
                                 <div className="button-list-dungeons">
                                     <Link to={{
                                         pathname: "/play",
-                                        state: {
-                                            mapToPass: item._id
-                                        }
-                                    }} ><Button block variant="danger" className="dungeonList" id={item._id}
+                    
+                                        // state: {
+                                        //    isMapChosen: true,
+                                           
+                                        // }
+                                        // onClick={() => getMapById(item._id)} 
+                                    }} ><Button block variant="danger" className="dungeonList" id={item._id} 
                                     // onClick={() => {
                                     //     this.setState({ dungeonListCreator: item.friend_id });
                                     // }} 

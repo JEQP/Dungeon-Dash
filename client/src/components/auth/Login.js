@@ -61,7 +61,7 @@ class Login extends Component {
     }
     return (
       <div className="container">
-        <img src={DDlogo2lines} alt="DungeonDash" />
+        <img className="logodeep-margin" src={DDlogo2lines} alt="DungeonDash" />
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
             {/* <Link to="/" className="btn-flat waves-effect">
@@ -100,13 +100,14 @@ class Login extends Component {
                   <label htmlFor="password">{errors.password !== undefined ? `${errors.password}` : "Password"}</label>
                 </div>
               
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <div className="col s12 btn-center" style={{ paddingLeft: "11.250px" }}>
                 <button
                   style={{
                     width: "150px",
                     borderRadius: "3px",
                     letterSpacing: "1.5px",
-                    marginTop: "1rem"
+                    marginTop: "1rem",
+                    backgroundColor: "blue"                    
                   }}
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
