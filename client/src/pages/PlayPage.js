@@ -53,13 +53,13 @@ class PlayPage extends Component {
 
     componentDidMount() {
         const user = this.context;
-            if (!this.props.match) {
-            } else {
+        if (!this.props.match) {
+        } else {
             const stadMap = this.props.match.params.id;
             console.log("id in params: ", this.props.match.params.id);
-                this.getMapById(stadMap);
+            this.getMapById(stadMap);
         }
-        
+
 
         console.log("set userid ", user.email)
         Axios.post("/api/users/getUserID", {
@@ -228,14 +228,22 @@ class PlayPage extends Component {
         }).then((response) => {
             // handle success
             console.log("+++++++++ axios response: ", response);
-            this.setState({
-                mapChosen: response.data,
-                isMapChosen: true
-            })
+            if (response.data[0].length > 5) {
+                this.setState({
+                    mapChosen: response.data,
+                    isMapChosen: true
+                })
+            } else {
+                alert("Error obtaining dungeon, please choose another.");
+            }
         })
             .catch((error) => {
                 // handle error
-                console.log(error);
+                this.setState({
+                    typeMapChosen: "",
+                    isMapChosen: false
+                })
+                console.log("axios call failed ", error);
             });
     }
 
@@ -246,10 +254,13 @@ class PlayPage extends Component {
             }
         }).then((response) => {
             console.log("DIFFICULTY map response: ", response.data);
+
             this.setState({
                 mapChosen: response.data[0],
                 isMapChosen: true
             })
+
+
 
         }).catch((error) => {
             // handle error
