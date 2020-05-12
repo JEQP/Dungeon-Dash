@@ -244,7 +244,7 @@ class StadiumPage extends Component {
                                     }} ><Button block variant="danger" className="dungeonList" id={item._id} 
                                     
                                     // render this.state.stats as difficulty level, take this out as a function
-                                    >{item.title} {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
+                                    >{item.title} ~~ {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
                                     <Route exact path="/play/:id" component={PlayPage} />
                                 </div>
                             ))

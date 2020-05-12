@@ -38,6 +38,9 @@ class Login extends Component {
           console.log("success registered", this);
           // to change authentication state
           this.setState({ isAuthenticated: true });
+          let localStorageJSON = {"isAuthenticated": this.state.isAuthenticated, "email": this.state.email};
+          let localStorageString = JSON.stringify(localStorageJSON);
+          localStorage.setItem("dungeondashuser", localStorageString);
           let value = this.context;
           value.changeAuthentication(this.state.isAuthenticated, this.state.email);
           console.log("value: ", value);
@@ -52,8 +55,14 @@ class Login extends Component {
   };
   render() {
     const { errors } = this.state;
-    console.log("errors: ", errors.email);
+    console.log("errors: ", errors);
     let value = this.context;
+    if (localStorage.dungeondashuser) {
+      let tempContext = localStorage.getItem("dungeondashuser");
+      let tempContextJson = JSON.parse(tempContext);
+      console.log("tempContextJson: ", tempContextJson);
+      value.changeAuthentication(tempContextJson.isAuthenticated, tempContextJson.email);
+    }
     console.log("isAuthenticated: ", value.isAuthenticated);
     if (value.isAuthenticated === true) {
       // conditional rendering to new page
@@ -97,7 +106,7 @@ class Login extends Component {
                     id="password"
                     type="password"
                   />
-                  <label htmlFor="password">{errors.password !== undefined ? `${errors.password}` : "Password"}</label>
+                  <label htmlFor="password">{errors.passwordincorrect !== undefined ? `${errors.passwordincorrect}` : "Password"}</label>
                 </div>
               
               <div className="col s12 btn-center" style={{ paddingLeft: "11.250px" }}>
