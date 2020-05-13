@@ -10,7 +10,7 @@ function PreviousMap(props) {
                 {props.dungeonList.map((item, index) => (
 
                     <div>
-                        <Button variant="success" id={item.id}
+                        <Button className="button-holder" variant="success" id={item.id}
                             onClick={() => {
                                 props.getMapById(item.id);
                             }}

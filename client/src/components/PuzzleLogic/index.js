@@ -58,7 +58,7 @@ class PuzzleLogic extends Component {
         let squareBelowID = `${colCurrent.toString()}${(rowCurrent + 1).toString()}`;
         let squareBelow = this.state.squareList.find(element => element.id === squareBelowID);
 
-        
+
         let newState = this.state;
         // check for walls
         if ((colClicked === (colCurrent - 1) && rowClicked === rowCurrent && currentSquare.leftwall === false) ||
@@ -75,10 +75,8 @@ class PuzzleLogic extends Component {
                 ((rowClicked >= minRow && rowClicked <= maxRow) && colClicked === colCurrent)) {
                 // put meat in square
                 let meatSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
-                console.log("meatSquare index: ", meatSquare);
                 newState.squareList[meatSquare].meat = true;
                 let meatIndex = this.state.toolsCarried.findIndex(element => element === "meat");
-                console.log("meatIndex: ", meatIndex);
                 newState.toolsCarried.splice(meatIndex, 1);
                 newState.toolSelected = "";
 
@@ -179,11 +177,9 @@ class PuzzleLogic extends Component {
             if (colClicked >= (colCurrent - 1) && colClicked <= (colCurrent + 1) && rowClicked >= (rowCurrent - 1) && rowClicked <= (rowCurrent + 1)) {
 
                 let plankSquare = this.state.squareList.findIndex((element, index) => element.id === clickedID);
-                console.log("plankSquare: ", plankSquare);
                 newState.squareList[plankSquare].plank = true;
-                newState.squareList[plankSquare].pit = false;
+                newState.squareList[plankSquare].pit = false; // In this way if a plank is across a pit the monster will not fall into it.
                 let plankIndex = this.state.toolsCarried.findIndex(element => element === "plank");
-                console.log("plankIndex: ", plankIndex);
                 newState.toolsCarried.splice(plankIndex, 1);
                 newState.toolSelected = "";
 
@@ -238,7 +234,6 @@ class PuzzleLogic extends Component {
                 ...newState
             }
         )
-        console.log("toolsCarried in state: ", this.state.toolsCarried);
     }
 
     // This starts game
@@ -261,8 +256,6 @@ class PuzzleLogic extends Component {
 
         var avaPos = this.state.avaPos;
         let clickedSquare = this.state.clickedSquare;
-
-        console.log((clickedSquare) + " clicked");
 
         // check the move is valid
         let colCurrent = avaPos.charAt(0);
@@ -304,17 +297,17 @@ class PuzzleLogic extends Component {
 
     }
 
-// Move avatar up
+    // Move avatar up
     moveUp = (rowCurrent, rowClicked, avaMove) => {
         // for each square moving up the grid, as row decreases, check if passable. 
         // Start on current square in case of wall in that square.
         // Note that avaMove starts with the value of avaPos from the calling function.
         let moveContinues = this.state.moveContinues;
         for (var i = rowCurrent; i >= rowClicked; i--) {
-           
+
             if (moveContinues === true) {
                 avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
-                
+
                 let eatenByMonster = this.checkMonster(avaMove.charAt(0), i);
                 console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
@@ -354,7 +347,7 @@ class PuzzleLogic extends Component {
 
         let moveContinues = this.state.moveContinues;
         for (var i = rowCurrent; i <= rowClicked; i++) {
-            
+
             if (moveContinues === true) {
                 avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
                 let eatenByMonster = this.checkMonster(avaMove.charAt(0), i);
@@ -393,7 +386,7 @@ class PuzzleLogic extends Component {
             }
         }
     }
-// Move Avatar right
+    // Move Avatar right
     moveRight = (colCurrent, colClicked, avaMove) => {
 
         let moveContinues = this.state.moveContinues;
@@ -401,7 +394,7 @@ class PuzzleLogic extends Component {
 
             if (moveContinues === true) {
                 avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
-                
+
                 let eatenByMonster = this.checkMonster(i, avaMove.charAt(1));
                 if (eatenByMonster === true) {
                     moveContinues = false;
@@ -428,7 +421,7 @@ class PuzzleLogic extends Component {
                     console.log("There's a wall, so you stop at ", avaMove);
                     this.changeAvatarLocation(avaMove);
                     moveContinues = false;
- 
+
                 } else if (i == colClicked) {
                     console.log("You made it unimpeded to ", avaMove);
                     this.changeAvatarLocation(avaMove);
@@ -443,15 +436,14 @@ class PuzzleLogic extends Component {
 
     // Move Avatar Left
     moveLeft = (colCurrent, colClicked, avaMove) => {
-       
+
         let moveContinues = this.state.moveContinues;
 
         for (var i = colCurrent; i >= colClicked; i--) {
-            console.log("moveRight for loop " + i + " moveContinues: ", moveContinues);
 
             if (moveContinues === true) {
                 avaMove = i + avaMove.charAt(1); // column is i, row doesn't change
-                
+
                 let eatenByMonster = this.checkMonster(i, avaMove.charAt(1));
                 if (eatenByMonster === true) {
                     moveContinues = false;
@@ -489,7 +481,7 @@ class PuzzleLogic extends Component {
     }
 
 
-// Checks if there is a monster beside a square the avatar moves to.
+    // Checks if there is a monster beside a square the avatar moves to.
     checkMonster = (colCurrent, rowCurrent) => {
         // define squares to be checked
         console.log("==checkMonster==");
@@ -576,15 +568,15 @@ class PuzzleLogic extends Component {
     changeAvatarLocation = (avaMove) => {
         console.log("===changeAvatarLocation=== avaMove: ", avaMove);
 
-        let newState = this.state.squareList; 
+        let newState = this.state.squareList;
         for (let i = 0; i < newState.length; i++) {
             if (newState[i].id == avaMove) {
                 newState[i].avatar = true;
                 this.props.setMovesTaken(true);
-               
+
             } else {
                 newState[i].avatar = false;
-               
+
             }
 
         }
@@ -627,26 +619,25 @@ class PuzzleLogic extends Component {
                         setMeat={this.setMeat}
                         squareList={this.state.squareList}
                     />;
-                    
+
                 case "plank":
                     console.log("GameGridPlank rendered");
                     return <GameGridPlank
                         setPlank={this.setPlank}
                         squareList={this.state.squareList}
                     />;
-                    
+
                 default:
                     console.log("GameGrid rendered");
                     return <GameGrid
                         setClickedSquare={this.setClickedSquare}
                         squareList={this.state.squareList}
                     />;
-                    
+
             }
         } else if (this.state.gameContinues === false) {
             // props will be map. If PuzzleLogic is rendered through CreatePageLogic, a second prop verify will be included. 
             // verify will run conditionally when game ends.
-            console.log("gameover running, props: ", this.props);
             this.props.updateStats(this.state.gameWon);
             if (this.props.verify && this.state.gameContinues === false) {
                 this.props.verify(this.state.gameWon);
@@ -679,7 +670,8 @@ class PuzzleLogic extends Component {
                 </Col></Row><Row><Col>
                     <ToolsCarried
                         tools={this.state.toolsCarried}
-                        toolSelected={this.setToolSelected}
+                        setToolSelected={this.setToolSelected}
+                        toolSelected={this.state.toolSelected}
                     />
                 </Col></Row>
             </div>
@@ -688,7 +680,9 @@ class PuzzleLogic extends Component {
                 <Row><Col>
                     <ToolsCarried
                         tools={this.state.toolsCarried}
-                        toolSelected={this.setToolSelected}
+                        setToolSelected={this.setToolSelected}
+                        toolSelected={this.state.toolSelected}
+
                     />
                 </Col></Row>
 
@@ -705,21 +699,22 @@ class PuzzleLogic extends Component {
                 </Col></Row>
                 <Row><Col>
                     <div className="playgame-grid">
+                    <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
                         <div>
 
                             {this.renderPage()}
 
                         </div>
                         <div>
-                        {this.state.gameContinues === true &&
-                            (<div>
-                                {this.renderTools()}
-                            </div>)
-                        }
-                        <Row><Col>
-                    <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
-                </Col></Row>
-                    </div>
+                            {this.state.gameContinues === true &&
+                                (<div>
+                                    {this.renderTools()}
+                                </div>)
+                            }
+                            {/* <Row><Col>
+                                
+                            </Col></Row> */}
+                        </div>
                     </div>
                 </Col></Row>
                 <Row></Row>

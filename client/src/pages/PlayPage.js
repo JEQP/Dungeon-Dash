@@ -14,6 +14,7 @@ import Image from 'react-bootstrap/Image';
 import ReactDOM from 'react-dom';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Logout from "../components/Logout";
 
 
 
@@ -37,6 +38,7 @@ class PlayPage extends Component {
             movesTaken: 0,
 
         };
+
     }
 
 
@@ -52,6 +54,14 @@ class PlayPage extends Component {
 
     componentDidMount() {
         const user = this.context;
+        if (!this.props.match) {
+        } else {
+            const stadMap = this.props.match.params.id;
+            console.log("id in params: ", this.props.match.params.id);
+            this.getMapById(stadMap);
+        }
+
+
         console.log("set userid ", user.email)
         Axios.post("/api/users/getUserID", {
             email: user.email
@@ -65,7 +75,7 @@ class PlayPage extends Component {
             })
             console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
-        console.log("props in componentDidMount: ", this.props);
+
     }
 
 
@@ -172,9 +182,6 @@ class PlayPage extends Component {
         let playerDungPlayed = this.state.playerDungPlayed;
 
         if (playerStats !== null && playerDungPlayed !== null) {
-            console.log("authContext: ", AuthContext);
-            console.log("pstats playerStats: ", playerStats);
-            console.log("pstats playerDungPlayed: ", playerDungPlayed);
 
             let playerGamesWon = playerStats[0];
             let playerGamesPlayed = playerStats[1];
@@ -188,10 +195,9 @@ class PlayPage extends Component {
             playerStats[0] = playerGamesWon;
             playerStats[1] = playerGamesPlayed;
             let tempDungPlayed = { id: dungeonID, title: dungeonTitle };
-            playerDungPlayed.push(tempDungPlayed);
-            console.log("PlayerStats: " + playerStats + " playerDungPlayed: " + playerDungPlayed);
-
-
+            if(!playerDungPlayed.some(dungeon => dungeon.id === dungeonID)){
+            playerDungPlayed.push(tempDungPlayed); }
+            
             Axios.post("/api/users/updatePlayer", {
                 params: {
                     playerID: player,
@@ -219,14 +225,22 @@ class PlayPage extends Component {
         }).then((response) => {
             // handle success
             console.log("+++++++++ axios response: ", response);
-            this.setState({
-                mapChosen: response.data,
-                isMapChosen: true
-            })
+            if (response.data !== null) {
+                this.setState({
+                    mapChosen: response.data,
+                    isMapChosen: true
+                })
+            } else {
+                alert("Error obtaining dungeon, please choose another.");
+            }
         })
             .catch((error) => {
                 // handle error
-                console.log(error);
+                this.setState({
+                    typeMapChosen: "",
+                    isMapChosen: false
+                })
+                console.log("axios call failed ", error);
             });
     }
 
@@ -237,10 +251,13 @@ class PlayPage extends Component {
             }
         }).then((response) => {
             console.log("DIFFICULTY map response: ", response.data);
+
             this.setState({
                 mapChosen: response.data[0],
                 isMapChosen: true
             })
+
+
 
         }).catch((error) => {
             // handle error
@@ -321,6 +338,7 @@ class PlayPage extends Component {
                     <Redirect to='/login' />
                 }
                 <div className="centre">
+                <Logout />
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
                     <Navbar />
                 </div>
