@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Image from 'react-bootstrap/Image';
 import Axios from "axios";
 import DDlogo from "../assets/DDlogo.png";
+import Logout from "../components/Logout";
 
 class CreatePage extends Component {
 
@@ -95,6 +96,7 @@ class CreatePage extends Component {
                     <Redirect to='/stadium' />
                 }
                 <div className="home-page">
+                <Logout />
                     <Image img src={DDlogo} alt="DungeonDash" fluid />
                     <Navbar />
                     <form className="form title">

@@ -14,6 +14,7 @@ import Image from 'react-bootstrap/Image';
 import ReactDOM from 'react-dom';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Logout from "../components/Logout";
 
 
 
@@ -224,7 +225,7 @@ class PlayPage extends Component {
         }).then((response) => {
             // handle success
             console.log("+++++++++ axios response: ", response);
-            if (response.data[0].length > 5) {
+            if (response.data !== null) {
                 this.setState({
                     mapChosen: response.data,
                     isMapChosen: true
@@ -337,6 +338,7 @@ class PlayPage extends Component {
                     <Redirect to='/login' />
                 }
                 <div className="centre">
+                <Logout />
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
                     <Navbar />
                 </div>

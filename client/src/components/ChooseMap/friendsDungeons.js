@@ -14,6 +14,7 @@ function friendsDungeons(props) {
                     <Button variant="success" id={item._id}
                     onClick={() => {
                             props.getMapById(item._id);
+                            console.log("friend's dungeons: ", item._id);
                         }} 
                         >{item.title}</Button>
                     </div>

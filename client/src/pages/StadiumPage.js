@@ -9,7 +9,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./style.css";
 import PlayPage from "./PlayPage";
-import {Route} from "react-router-dom";
+import { Route } from "react-router-dom";
+import Logout from "../components/Logout";
 
 class StadiumPage extends Component {
     constructor(props) {
@@ -177,8 +178,6 @@ class StadiumPage extends Component {
         }
     }
 
-
-
     render() {
         return (
 
@@ -189,6 +188,7 @@ class StadiumPage extends Component {
                     <Redirect to='/login' />
                 }
                 < div className="centre" >
+                    <Logout />
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
                     <Navbar />
                 </div>
@@ -241,8 +241,8 @@ class StadiumPage extends Component {
                                 <div className="button-list-dungeons">
                                     <Link to={{
                                         pathname: `/play/${item._id}`
-                                    }} ><Button block variant="danger" className="dungeonList" id={item._id} 
-                                    
+                                    }} ><Button block variant="danger" className="dungeonList" id={item._id}
+
                                     // render this.state.stats as difficulty level, take this out as a function
                                     >{item.title} ~~ {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
                                     <Route exact path="/play/:id" component={PlayPage} />
