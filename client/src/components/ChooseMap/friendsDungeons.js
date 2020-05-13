@@ -5,13 +5,14 @@ import Button from 'react-bootstrap/Button';
 function friendsDungeons(props) {
 
     return (
+        // Display a list of dungeons of a friend
         <section className="center-buttons">
             <div className="button-holder">
-                {console.log("item in dungeonList: ", props)}
+                
             {props.dungeonList.map((item, index) => (
                     
                     <div>
-                    <Button variant="success" id={item._id}
+                    <Button className="button-holder" variant="success" id={item._id}
                     onClick={() => {
                             props.getMapById(item._id);
                             console.log("friend's dungeons: ", item._id);
