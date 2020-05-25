@@ -38,7 +38,7 @@ class Login extends Component {
           console.log("success registered", this);
           // to change authentication state
           this.setState({ isAuthenticated: true });
-          let localStorageJSON = {"isAuthenticated": this.state.isAuthenticated, "email": this.state.email};
+          let localStorageJSON = { "isAuthenticated": this.state.isAuthenticated, "email": this.state.email };
           let localStorageString = JSON.stringify(localStorageJSON);
           localStorage.setItem("dungeondashuser", localStorageString);
           let value = this.context;
@@ -86,8 +86,8 @@ class Login extends Component {
               </p>
             </div>
             <div className="formdiv">
-            <form noValidate onSubmit={this.onSubmit} className="formStyle">
-              
+              <form noValidate onSubmit={this.onSubmit} className="formStyle">
+
                 <div className="input-field col s12 white-text">
                   <input
                     onChange={this.onChange}
@@ -108,24 +108,41 @@ class Login extends Component {
                   />
                   <label htmlFor="password">{errors.passwordincorrect !== undefined ? `${errors.passwordincorrect}` : "Password"}</label>
                 </div>
-              
-              <div className="col s12 btn-center" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem",
-                    backgroundColor: "blue"                    
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                // onClick={() => changeEmail(`${this.state.email}`)}
-                >
-                  Login
+
+                <div className="col s12 btn-center" style={{ paddingLeft: "11.250px" }}>
+                  <button
+                    style={{
+                      width: "150px",
+                      borderRadius: "3px",
+                      letterSpacing: "1.5px",
+                      marginTop: "1rem",
+                      backgroundColor: "blue"
+                    }}
+                    type="submit"
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                  // onClick={() => changeEmail(`${this.state.email}`)}
+                  >
+                    Login
                 </button>
-              </div>
-            </form>
+                </div>
+                <div className="col s12 btn-center" style={{ paddingLeft: "11.250px" }}>
+                  <button
+                    style={{
+                      width: "150px",
+                      borderRadius: "3px",
+                      letterSpacing: "1.5px",
+                      marginTop: "1rem",
+                      backgroundColor: "orange"
+                    }}
+                    type="submit"
+                    className="btn btn-large waves-effect waves-light hoverable orange accent-3"
+                    onClick={() => {
+                      this.setState({ email: "guest@guest.com", password: "welcome"});
+                      console.log("Logged in as Guest");
+                  }}
+                  >Guest Login</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
