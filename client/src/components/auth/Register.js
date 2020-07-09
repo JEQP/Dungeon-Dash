@@ -40,13 +40,18 @@ class Register extends Component {
     })
       .then((response) => {
         console.log("response: ", response.data._id);
+        console.log("response name: ", response.data.name);
         if (response.status === 200) {
           console.log("success registered", this);
-          // add user to own friend list
+          let tempFriendList = {
+            friend_id: response.data._id,
+            friend_name: response.data.name 
+          }
+          // Put player in own friend list
           Axios.post("/api/users/updatePlayerFriendList", {
             params: {
               playerID: response.data._id,
-              friends: [response.data._id]
+              friends: [tempFriendList]
             }
           }).then((response) => {
             // handle success
@@ -62,12 +67,12 @@ class Register extends Component {
           value.changeAuthentication(true, this.state.email);
           console.log("value: ", value);
         }
-        console.log("line 50: ", JSON.stringify(response));
+        console.log("line 66: ", JSON.stringify(response));
       })
       .catch((error) => {
 
-        // console.log("line 54: ", JSON.stringify(error));
-        console.log("line 54: email is: ", JSON.stringify(error.response.data.email));
+        console.log("line 54: ", JSON.stringify(error));
+        console.log("line 71: email is: ", JSON.stringify(error.response.data.email));
         this.setState({ errors: error.response.data });
       });
   };
