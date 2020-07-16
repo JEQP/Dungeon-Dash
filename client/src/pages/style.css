@@ -172,6 +172,12 @@ font-family: 'Muli', sans-serif;
 
 }
 
+.demo-grid720 {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+
+}
 .use-tool-demo {
     align-self: middle;
     margin-top: 100px;
