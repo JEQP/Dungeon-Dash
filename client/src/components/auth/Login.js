@@ -48,7 +48,7 @@ class Login extends Component {
         console.log(response);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Error in axios post: ", error);
         this.setState({ errors: error.response.data });
       });
 

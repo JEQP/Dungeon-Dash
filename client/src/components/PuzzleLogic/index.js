@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GameGrid from "../DungeonGrids/GameGrid";
-import AuthContext from "../../utils/AuthContext";
+// import AuthContext from "../../utils/AuthContext";
+import SizeContext from "../../utils/SizeContext";
 import HomePage from "../../pages/HomePage";
 import GameGridMeat from "../DungeonGrids/GameGridMeat";
 import GameGridPlank from "../DungeonGrids/GameGridPlank";
@@ -252,7 +253,38 @@ class PuzzleLogic extends Component {
 
     // === Move Avatar Based On User Clicks ===
 
+    componentDidMount(prevProps, prevState) {
+        // Check screen size
+        let matches = this.context.matches;
+        let screen = window.matchMedia("(min-width: 768px)").matches;
+        console.log("Puzzle Logic context: ", this.context);
+        console.log("screen: ", screen);
+        if (matches !== screen) {
+            matches = screen;
+            let value = this.context;
+            console.log("value: ", value);
+            value.changeSize(matches);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
+
+        // Check screen size
+        let matches = this.context.matches;
+        let screen = window.matchMedia("(min-width: 768px)").matches;
+        console.log("Puzzle Logic context: ", this.context);
+        console.log("screen: ", screen);
+        if (matches !== screen) {
+            matches = screen;
+            let value = this.context;
+            console.log("value: ", value);
+            value.changeSize(matches);
+        }
+        // const handler = e => this.setState({ matches: e.matches });
+        // window.matchMedia("(min-width: 768px)").addListener(handler);
+        // let value = this.context;
+        // value.changeSize(matches);
+        // // end check screen size
 
         var avaPos = this.state.avaPos;
         let clickedSquare = this.state.clickedSquare;
@@ -660,7 +692,7 @@ class PuzzleLogic extends Component {
     // This renders the tools option before game starts, giving the chance to choose tools
     renderTools = () => {
         if (this.state.gameStarted === false) {
-            return <div>
+            return <div style={{ "display": "inline-grid" }}>
 
                 <Row><Col>
                     <ToolsSelect
@@ -676,7 +708,7 @@ class PuzzleLogic extends Component {
                 </Col></Row>
             </div>
         } else {
-            return <div>
+            return <div style={{ "display": "inline-grid" }}>
                 <Row><Col>
                     <ToolsCarried
                         tools={this.state.toolsCarried}
@@ -691,31 +723,58 @@ class PuzzleLogic extends Component {
     }
 
     render() {
-
+    let contextValue = this.context;
+    console.log("contextValue: ", contextValue);
         return (
+            
             <Container>
+                {console.log("PL return rendered")}
                 <Row><Col>
                     {this.renderNavbar()}
                 </Col></Row>
                 <Row><Col>
-                    <div className="playgame-grid">
-                    <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
-                        <div>
+                {console.log("contextValue in Render: ", contextValue.matches)}
+                    {contextValue.matches === true &&
+                        <div className="playgame-grid">
 
-                            {this.renderPage()}
+                            <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
+                            <div>
 
-                        </div>
-                        <div>
-                            {this.state.gameContinues === true &&
-                                (<div>
-                                    {this.renderTools()}
-                                </div>)
-                            }
-                            {/* <Row><Col>
+                                {this.renderPage()}
+
+                            </div>
+                            <div>
+                                {this.state.gameContinues === true &&
+                                    (<div>
+                                        {this.renderTools()}
+                                    </div>)
+                                }
+                                {/* <Row><Col>
                                 
                             </Col></Row> */}
+                            </div>
                         </div>
-                    </div>
+                    }
+                    {contextValue.matches === false &&
+                        <div className="playgame-grid720">
+                            <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
+                            <div>
+
+                                {this.renderPage()}
+
+                            </div>
+                            <div>
+                                {this.state.gameContinues === true &&
+                                    (<div>
+                                        {this.renderTools()}
+                                    </div>)
+                                }
+                                {/* <Row><Col>
+                                
+                            </Col></Row> */}
+                            </div>
+                        </div>
+                    }
                 </Col></Row>
                 <Row></Row>
             </Container>
@@ -723,6 +782,7 @@ class PuzzleLogic extends Component {
         );
     }
 }
-
-PuzzleLogic.contextType = AuthContext;
+// AuthContext is not needed for this component, and so can be replaced with SizeContext. If we can figure out how to use it.
+PuzzleLogic.contextType = SizeContext;
+// PuzzleLogic.contextType = AuthContext;
 export default PuzzleLogic;
