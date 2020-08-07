@@ -9,6 +9,8 @@ import GameLost from "../DungeonGrids/GameLost";
 import GameWon from "../DungeonGrids/GameWon";
 import ToolsCarried from "../ToolsCarried";
 import ToolsSelect from "../ToolsSelect";
+import ToolsCarried720 from "../ToolsCarried720";
+import ToolsSelect720 from "../ToolsSelect720";
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -722,18 +724,50 @@ class PuzzleLogic extends Component {
         }
     }
 
+    renderTools720 = () => {
+        if (this.state.gameStarted === false) {
+            return <div style={{ "display": "inline-grid" }}>
+
+                <Row><Col>
+                    <ToolsSelect720
+                        toolChosen={this.setToolsCarried}
+                        startGame={this.setStartGame}
+                    />
+                </Col></Row><Row><Col>
+                    <ToolsCarried720
+                        tools={this.state.toolsCarried}
+                        setToolSelected={this.setToolSelected}
+                        toolSelected={this.state.toolSelected}
+                    />
+                </Col></Row>
+            </div>
+        } else {
+            return <div style={{ "display": "inline-grid" }}>
+                <Row><Col>
+                    <ToolsCarried720
+                        tools={this.state.toolsCarried}
+                        setToolSelected={this.setToolSelected}
+                        toolSelected={this.state.toolSelected}
+
+                    />
+                </Col></Row>
+
+            </div>
+        }
+    }
+
     render() {
-    let contextValue = this.context;
-    console.log("contextValue: ", contextValue);
+        let contextValue = this.context;
+        console.log("contextValue: ", contextValue);
         return (
-            
+
             <Container>
                 {console.log("PL return rendered")}
                 <Row><Col>
                     {this.renderNavbar()}
                 </Col></Row>
                 <Row><Col>
-                {console.log("contextValue in Render: ", contextValue.matches)}
+                    {console.log("contextValue in Render: ", contextValue.matches)}
                     {contextValue.matches === true &&
                         <div className="playgame-grid">
 
@@ -757,22 +791,23 @@ class PuzzleLogic extends Component {
                     }
                     {contextValue.matches === false &&
                         <div className="playgame-grid720">
-                            <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
-                            <div>
-
-                                {this.renderPage()}
-
-                            </div>
                             <div>
                                 {this.state.gameContinues === true &&
                                     (<div>
-                                        {this.renderTools()}
+                                        {this.renderTools720()}
                                     </div>)
                                 }
                                 {/* <Row><Col>
                                 
                             </Col></Row> */}
                             </div>
+                            <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
+                            <div>
+
+                                {this.renderPage()}
+
+                            </div>
+
                         </div>
                     }
                 </Col></Row>

@@ -33,7 +33,7 @@
 }
 
 .playgame-grid720 {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: 100%;
     grid-template-rows: auto auto auto;
     justify-content: space-evenly;
@@ -58,6 +58,7 @@
 }
 
 .moves-taken {
+    justify-self: center;
     background-color: chocolate;
     height: 100px;
     width: 50%;
