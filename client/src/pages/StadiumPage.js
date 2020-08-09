@@ -11,6 +11,7 @@ import "./style.css";
 import PlayPage from "./PlayPage";
 import { Route } from "react-router-dom";
 import Logout from "../components/Logout";
+import SizeContext from "../utils/SizeContext";
 
 class StadiumPage extends Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class StadiumPage extends Component {
             friendSearchName: "",
             friendSearchEmail: "",
             dungeonListCreator: "",
-            dungeonList: []
+            dungeonList: [],
+            matches: window.matchMedia("(min-width: 768px)").matches
         }
     }
 
@@ -52,6 +54,9 @@ class StadiumPage extends Component {
             });
         }).catch(err => console.log(err));
 
+
+        const handler = e => this.setState({ matches: e.matches });
+        window.matchMedia("(min-width: 768px)").addListener(handler);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -70,6 +75,7 @@ class StadiumPage extends Component {
             });
 
         }
+
     }
 
     handleInputChange = event => {
@@ -182,76 +188,142 @@ class StadiumPage extends Component {
         return (
 
             <div className="home-center" >
-
+                {console.log("size matches: ", this.state.matches)}
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />
                 }
+
                 < div className="centre" >
                     <Logout />
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
                     <Navbar />
                 </div>
                 <div className="create-nav-grid">
-                    <div className="nav-display muli-font">{this.state.name} is in the stadium!</div>
+                    {this.state.matches &&
+                        <div className="nav-display muli-font">{this.state.name} is in the stadium!</div>
+                    }
+                    {!this.state.matches &&
+                        <div className="nav-display muli-font">{this.state.name}</div>
+                    }
                     <div>{this.displayLevel()}</div>
                     <div className="nav-display muli-font">WINS: {Math.floor((this.state.results[0] / this.state.results[1]) * 100)}%</div>
                 </div>
-                <div className="stadium-grid">
-                    <div><h1 className="muli-font">Friends</h1></div>
-                    <div><h1 className="muli-font">Friends' Dungeons</h1></div>
-                    <div>
-                        <div className="friend-search">
-                            <form className="form">
-                                <input
-                                    value={this.state.friendSearchName}
-                                    name="friendSearchName"
-                                    onChange={this.handleInputChange}
-                                    type="text"
-                                    placeholder="Name of Friend"
-                                />
-                                <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
-                            </form>
-                            <form className="form">
-                                <input
-                                    value={this.state.friendSearchEmail}
-                                    name="friendSearchEmail"
-                                    onChange={this.handleInputChange}
-                                    type="text"
-                                    placeholder="Email of Friend"
-                                />
-                                <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
-                            </form>
+                {this.state.matches &&
+                    <div className="stadium-grid">
+                        <div><h1 className="muli-font">Friends</h1></div>
+                        <div><h1 className="muli-font">Friends' Dungeons</h1></div>
+                        <div>
+                            <div className="friend-search">
+                                <form className="form">
+                                    <input
+                                        value={this.state.friendSearchName}
+                                        name="friendSearchName"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        placeholder="Name of Friend"
+                                    />
+                                    <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
+                                </form>
+                                <form className="form">
+                                    <input
+                                        value={this.state.friendSearchEmail}
+                                        name="friendSearchEmail"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        placeholder="Email of Friend"
+                                    />
+                                    <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
+                                </form>
+
+                            </div>
+                            {
+                                this.state.friends.map((item, index) => (
+                                    <div className="button-list-friends">
+                                        <Button block variant="primary" className="friendsList" id={item.friend_id}
+                                            onClick={() => {
+                                                this.setState({ dungeonListCreator: item.friend_id });
+                                            }} >{item.friend_name}</Button>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div>
+                            {
+                                this.state.dungeonList.map((item, index) => (
+                                    <div className="button-list-dungeons">
+                                        <Link to={{
+                                            pathname: `/play/${item._id}`
+                                        }} ><Button block variant="danger" className="dungeonList" id={item._id}
+
+                                        // render this.state.stats as difficulty level, take this out as a function
+                                        >{item.title} ~~ {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
+                                        <Route exact path="/play/:id" component={PlayPage} />
+                                    </div>
+                                ))
+                            }
 
                         </div>
-                        {
-                            this.state.friends.map((item, index) => (
-                                <div className="button-list-friends">
-                                    <Button block variant="primary" className="friendsList" id={item.friend_id}
-                                        onClick={() => {
-                                            this.setState({ dungeonListCreator: item.friend_id });
-                                        }} >{item.friend_name}</Button>
-                                </div>
-                            ))
-                        }
                     </div>
-                    <div>
-                        {
-                            this.state.dungeonList.map((item, index) => (
-                                <div className="button-list-dungeons">
-                                    <Link to={{
-                                        pathname: `/play/${item._id}`
-                                    }} ><Button block variant="danger" className="dungeonList" id={item._id}
+                }
+                {!this.state.matches &&
+                    <div className="stadium-grid720">
+                        <div><h1 className="muli-font">Friends</h1></div>
 
-                                    // render this.state.stats as difficulty level, take this out as a function
-                                    >{item.title} ~~ {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
-                                    <Route exact path="/play/:id" component={PlayPage} />
-                                </div>
-                            ))
-                        }
+                        <div>
+                            <div className="friend-search">
+                                <form className="form">
+                                    <input
+                                        value={this.state.friendSearchName}
+                                        name="friendSearchName"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        placeholder="Name of Friend"
+                                    />
+                                    <Button variant="success" onClick={this.getFriendByName} className="stadium-addfriend-button">Add Friend</Button>
+                                </form>
+                                <form className="form">
+                                    <input
+                                        value={this.state.friendSearchEmail}
+                                        name="friendSearchEmail"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        placeholder="Email of Friend"
+                                    />
+                                    <Button variant="success" onClick={this.getFriendByEmail} className="stadium-addfriend-button">Add Friend</Button>
+                                </form>
 
+                            </div>
+                            {
+                                this.state.friends.map((item, index) => (
+                                    <div className="button-list-friends">
+                                        <Button block variant="primary" className="friendsList" id={item.friend_id}
+                                            onClick={() => {
+                                                this.setState({ dungeonListCreator: item.friend_id });
+                                            }} >{item.friend_name}</Button>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div><h1 className="muli-font">Friends' Dungeons</h1></div>
+                        <div>
+                            {
+                                this.state.dungeonList.map((item, index) => (
+                                    <div className="button-list-dungeons">
+                                        <Link to={{
+                                            pathname: `/play/${item._id}`
+                                        }} ><Button block variant="danger" className="dungeonList" id={item._id}
+
+                                        // render this.state.stats as difficulty level, take this out as a function
+                                        >{item.title} ~~ {this.calcDungeonLevel(item.stats)}</Button></Link>{' '}
+                                        <Route exact path="/play/:id" component={PlayPage} />
+                                    </div>
+                                ))
+                            }
+
+                        </div>
                     </div>
-                </div>
+                }
                 <Footer />
             </div >
         )

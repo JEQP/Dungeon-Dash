@@ -40,6 +40,8 @@ function App() {
     }
   });
 
+  
+
 
 // this useEffect is not changing the context. It's trying to change the context provider, but that's not how context is changed.
 // login.js has the following code for changing authentication context - adapt this to this useEffect hook. May have to put the following
@@ -55,6 +57,10 @@ function App() {
 // console.log("value: ", value);
 // }
 
+useEffect(() => {
+  let screen = window.matchMedia("(min-width: 768px)").matches;
+  setSizeState({matches: screen});
+}, []);
 
   useEffect(() => {
     const handler = e => setSizeState({matches: e.matches}); 

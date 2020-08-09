@@ -43,6 +43,20 @@
     
 }
 
+.stadium-grid720{
+    
+    display: inline-grid;
+    padding: 10px;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto auto;
+    margin: auto;
+    width: 100%;
+    justify-items: stretch;
+    justify-content: stretch;
+    
+
+}
+
 .friend-search {
 text-align: center;
 
