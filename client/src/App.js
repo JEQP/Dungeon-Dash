@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-// import GameGrid from "./components/GameGrid";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import HomePage from "./pages/HomePage";
@@ -40,22 +39,6 @@ function App() {
     }
   });
 
-  
-
-
-// this useEffect is not changing the context. It's trying to change the context provider, but that's not how context is changed.
-// login.js has the following code for changing authentication context - adapt this to this useEffect hook. May have to put the following
-//  code in the context consumer functions, not sure we can put it here. 
-
-// // to change authentication state
-// this.setState({ isAuthenticated: true });
-// let localStorageJSON = { "isAuthenticated": this.state.isAuthenticated, "email": this.state.email };
-// let localStorageString = JSON.stringify(localStorageJSON);
-// localStorage.setItem("dungeondashuser", localStorageString);
-// let value = this.context;
-// value.changeAuthentication(this.state.isAuthenticated, this.state.email);
-// console.log("value: ", value);
-// }
 
 useEffect(() => {
   let screen = window.matchMedia("(min-width: 768px)").matches;

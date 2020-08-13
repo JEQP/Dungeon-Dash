@@ -326,9 +326,10 @@ class PuzzleLogic extends Component {
             alert("Invalid Move");
         }
 
-        // Reset moves when game ends.
-        if (this.state.gameContinues === false && this.state !== prevState) {
-            this.props.setMovesTaken(false)};
+        // Reset moves when game ends. 
+        // It turns out this isn't needed right now.
+        // if (this.state.gameContinues === false && this.state !== prevState) {
+        //     this.props.setMovesTaken(false)};
 
     }
 

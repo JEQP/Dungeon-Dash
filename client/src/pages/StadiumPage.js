@@ -196,7 +196,7 @@ class StadiumPage extends Component {
 
                 < div className="centre" >
                     <Logout />
-                    <Image img src={DDLogo} alt="DungeonDash" fluid />
+                    <Image src={DDLogo} alt="DungeonDash" fluid />
                     <Navbar />
                 </div>
                 <div className="create-nav-grid">

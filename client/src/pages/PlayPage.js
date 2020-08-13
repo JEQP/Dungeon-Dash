@@ -335,7 +335,7 @@ class PlayPage extends Component {
                 }
                 <div className="centre">
                 <Logout />
-                    <Image img src={DDLogo} alt="DungeonDash" fluid />
+                    <Image src={DDLogo} alt="DungeonDash" fluid />
                     {this.state.movesTaken === 0 &&
                     <Navbar />}
                     {this.state.movesTaken > 0 &&

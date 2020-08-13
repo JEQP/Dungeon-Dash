@@ -1,4 +1,4 @@
-import React, { Component, setState } from "react";
+import React, { Component } from "react";
 import GameGrid from "../DungeonGrids/GameGrid";
 import BlankMap from "../../utils/BlankMap.json";
 import CreateMapOptions from "../CreateMapOptions";

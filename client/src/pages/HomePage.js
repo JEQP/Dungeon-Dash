@@ -42,7 +42,7 @@ class HomePage extends Component {
                 }
                 <div className="home-page">
                     <Logout />
-                    <Image img src={DDlogo2lines} alt="DungeonDash" fluid />
+                    <Image src={DDlogo2lines} alt="DungeonDash" fluid />
                     <Navbar />
                     {this.state.matches &&
                         <div className="demo-grid">
