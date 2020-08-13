@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import GameGrid from "../DungeonGrids/GameGrid";
-// import AuthContext from "../../utils/AuthContext";
 import SizeContext from "../../utils/SizeContext";
 import HomePage from "../../pages/HomePage";
 import GameGridMeat from "../DungeonGrids/GameGridMeat";
@@ -259,12 +258,12 @@ class PuzzleLogic extends Component {
         // Check screen size
         let matches = this.context.matches;
         let screen = window.matchMedia("(min-width: 768px)").matches;
-        console.log("Puzzle Logic context: ", this.context);
-        console.log("screen: ", screen);
+        // console.log("Puzzle Logic context: ", this.context);
+        // console.log("screen: ", screen);
         if (matches !== screen) {
             matches = screen;
             let value = this.context;
-            console.log("value: ", value);
+            // console.log("value: ", value);
             value.changeSize(matches);
         }
     }
@@ -274,19 +273,17 @@ class PuzzleLogic extends Component {
         // Check screen size
         let matches = this.context.matches;
         let screen = window.matchMedia("(min-width: 768px)").matches;
-        console.log("Puzzle Logic context: ", this.context);
-        console.log("screen: ", screen);
+        // console.log("Puzzle Logic context: ", this.context);
+        // console.log("screen: ", screen);
         if (matches !== screen) {
             matches = screen;
             let value = this.context;
-            console.log("value: ", value);
+            // console.log("value: ", value);
             value.changeSize(matches);
         }
-        // const handler = e => this.setState({ matches: e.matches });
-        // window.matchMedia("(min-width: 768px)").addListener(handler);
-        // let value = this.context;
-        // value.changeSize(matches);
-        // // end check screen size
+        // end check screen size
+
+        // Handle player move
 
         var avaPos = this.state.avaPos;
         let clickedSquare = this.state.clickedSquare;
@@ -328,6 +325,10 @@ class PuzzleLogic extends Component {
         else if (this.state.moveContinues === true && !(colClicked === colCurrent || rowClicked === rowCurrent)) {
             alert("Invalid Move");
         }
+
+        // Reset moves when game ends.
+        if (this.state.gameContinues === false && this.state !== prevState) {
+            this.props.setMovesTaken(false)};
 
     }
 
@@ -385,7 +386,7 @@ class PuzzleLogic extends Component {
             if (moveContinues === true) {
                 avaMove = avaMove.charAt(0) + i; // column doesn't change, row will be i
                 let eatenByMonster = this.checkMonster(avaMove.charAt(0), i);
-                console.log("eatenByMonster: ", eatenByMonster);
+                // console.log("eatenByMonster: ", eatenByMonster);
                 if (eatenByMonster === true) {
                     moveContinues = false;
                 }
@@ -600,7 +601,7 @@ class PuzzleLogic extends Component {
 
     // Change avatar location in state
     changeAvatarLocation = (avaMove) => {
-        console.log("===changeAvatarLocation=== avaMove: ", avaMove);
+        // console.log("===changeAvatarLocation=== avaMove: ", avaMove);
 
         let newState = this.state.squareList;
         for (let i = 0; i < newState.length; i++) {
@@ -648,21 +649,21 @@ class PuzzleLogic extends Component {
         if (this.state.gameContinues === true) {
             switch (this.state.toolSelected) {
                 case "meat":
-                    console.log("GameGridMeat rendered");
+                    // console.log("GameGridMeat rendered");
                     return <GameGridMeat
                         setMeat={this.setMeat}
                         squareList={this.state.squareList}
                     />;
 
                 case "plank":
-                    console.log("GameGridPlank rendered");
+                    // console.log("GameGridPlank rendered");
                     return <GameGridPlank
                         setPlank={this.setPlank}
                         squareList={this.state.squareList}
                     />;
 
                 default:
-                    console.log("GameGrid rendered");
+                    // console.log("GameGrid rendered");
                     return <GameGrid
                         setClickedSquare={this.setClickedSquare}
                         squareList={this.state.squareList}
@@ -758,16 +759,16 @@ class PuzzleLogic extends Component {
 
     render() {
         let contextValue = this.context;
-        console.log("contextValue: ", contextValue);
+        // console.log("contextValue: ", contextValue);
         return (
 
             <Container>
-                {console.log("PL return rendered")}
                 <Row><Col>
                     {this.renderNavbar()}
                 </Col></Row>
                 <Row><Col>
-                    {console.log("contextValue in Render: ", contextValue.matches)}
+                    {// console.log("contextValue in Render: ", contextValue.matches)
+                    }
                     {contextValue.matches === true &&
                         <div className="playgame-grid">
 
@@ -783,9 +784,6 @@ class PuzzleLogic extends Component {
                                         {this.renderTools()}
                                     </div>)
                                 }
-                                {/* <Row><Col>
-                                
-                            </Col></Row> */}
                             </div>
                         </div>
                     }
@@ -797,9 +795,6 @@ class PuzzleLogic extends Component {
                                         {this.renderTools720()}
                                     </div>)
                                 }
-                                {/* <Row><Col>
-                                
-                            </Col></Row> */}
                             </div>
                             <div className="moves-taken">Moves Taken: {this.props.moveCount}</div>
                             <div>
@@ -817,7 +812,7 @@ class PuzzleLogic extends Component {
         );
     }
 }
-// AuthContext is not needed for this component, and so can be replaced with SizeContext. If we can figure out how to use it.
+
 PuzzleLogic.contextType = SizeContext;
-// PuzzleLogic.contextType = AuthContext;
+
 export default PuzzleLogic;

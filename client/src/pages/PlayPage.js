@@ -11,7 +11,6 @@ import Axios from "axios";
 import "./style.css";
 import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
-import ReactDOM from 'react-dom';
 import Navbar from "../components/Navbar";
 import Navbar720 from "../components/Navbar720";
 import Footer from "../components/Footer";
@@ -58,23 +57,23 @@ class PlayPage extends Component {
         if (!this.props.match) {
         } else {
             const stadMap = this.props.match.params.id;
-            console.log("id in params: ", this.props.match.params.id);
+            //console.log("id in params: ", this.props.match.params.id);
             this.getMapById(stadMap);
         }
 
 
-        console.log("set userid ", user.email)
+        //console.log("set userid ", user.email)
         Axios.post("/api/users/getUserID", {
             email: user.email
         }).then((response) => {
-            console.log("response from getUserID", response.data);
+            //console.log("response from getUserID", response.data);
             this.setState({
                 player: response.data._id,
                 playerStats: response.data.results,
                 playerDungPlayed: response.data.dungeonsPlayed,
                 friendsList: response.data.friends
             })
-            console.log("state after user update: ", this.state)
+            //console.log("state after user update: ", this.state)
         }).catch(err => console.log(err));
 
     }
@@ -89,7 +88,7 @@ class PlayPage extends Component {
                 }
             }).then((response) => {
                 // handle success
-                console.log("+++++++++ axios response: ", response);
+                //("+++++++++ axios response: ", response);
                 this.setState({
                     mapChosen: response.data[0],
                     isMapChosen: true
@@ -120,21 +119,20 @@ class PlayPage extends Component {
     restartDungeon = (props) => {
         if (props === true) {
             this.setState({ typeMapChosen: "replay", isMapChosen: false });
-            console.log("restartDungeon in PlayPage Run");
         }
     }
     // This updates the stats in the dungeon document in the database. It accepts as props gameWon
     // Stats is an array of two integers, the first being how many times the game has been won, the second how many times it has been played.
     // difficulty is calculated with a simple division of the two. 
     updateStats = (props) => {
-        console.log("@@@@@ updateStats running @@@@@");
-        console.log("props: ", props);
+        //console.log("@@@@@ updateStats running @@@@@");
+        //console.log("props: ", props);
         let dungeonID = this.state.mapChosen._id;
         let dungeonTitle = this.state.mapChosen.title;
-        console.log("dungeonID: ", dungeonID);
-        console.log("dungeonTitle: ", dungeonTitle);
+        //console.log("dungeonID: ", dungeonID);
+        //console.log("dungeonTitle: ", dungeonTitle);
         let newStats = this.state.mapChosen.stats;
-        console.log("newStats: ", newStats);
+        //console.log("newStats: ", newStats);
         let gamesWon = newStats[0];
         let gamesPlayed = newStats[1];
         let difficulty = "";
@@ -150,7 +148,6 @@ class PlayPage extends Component {
         newStats[0] = gamesWon;
         newStats[1] = gamesPlayed;
         let diff = gamesWon / gamesPlayed;
-        console.log("diff: ", diff);
 
         if (diff < 0.3) {
             difficulty = "Myth";
@@ -159,7 +156,6 @@ class PlayPage extends Component {
         } else {
             difficulty = "Legend";
         }
-        console.log("difficulty: ", difficulty);
 
         Axios.post("/api/dungeons/updateMap", {
             params: {
@@ -251,7 +247,7 @@ class PlayPage extends Component {
                 difficulty: props
             }
         }).then((response) => {
-            console.log("DIFFICULTY map response: ", response.data);
+            // console.log("DIFFICULTY map response: ", response.data);
 
             this.setState({
                 mapChosen: response.data[0],
@@ -267,13 +263,13 @@ class PlayPage extends Component {
     }
 
     getMapByFriend_id = (props) => {
-        console.log("props in getMapByFriend_ID: ", props)
+        // console.log("props in getMapByFriend_ID: ", props)
         Axios.post("/api/dungeons/getDungeons", {
             params: {
                 friendID: props
             }
         }).then((response) => {
-            console.log("FRIEND MAP RESPONSE", response.data);
+            // console.log("FRIEND MAP RESPONSE", response.data);
             if (response.data !== null) {
                 this.setState({
                     friendsMapList: response.data
@@ -285,7 +281,7 @@ class PlayPage extends Component {
     // This will conditionally render components based on state 
     // If no type of map is chosen, it will display ChooseMap, for players to select type of map
     renderPage = () => {
-        console.log("state in renderPage: ", this.state);
+        // console.log("state in renderPage: ", this.state);
         if (this.state.isMapChosen === true) {
             return <PuzzleLogic dungeonMap={JSON.parse(this.state.mapChosen.dungeonMap)}
                 restart={this.restartDungeon}
@@ -295,13 +291,12 @@ class PlayPage extends Component {
                 moveCount={this.state.movesTaken}
                 setMovesTaken={this.setMovesTaken} />
         } else if (this.state.typeMapChosen === "replay") {
-            console.log("replay run");
             this.setState({ isMapChosen: true });
         } else if (this.state.typeMapChosen === "") {
             return <ChooseMap setMapType={this.setMapType} />
         } else if (this.state.typeMapChosen === "friends") {
-            console.log("friendsList: ", this.state.friendsList);
-            console.log("friendsMapList: ", this.state.friendsMapList);
+            // console.log("friendsList: ", this.state.friendsList);
+            // console.log("friendsMapList: ", this.state.friendsMapList);
             if (this.state.friendsMapList.length < 1) {
                 return <FriendsMaps
                     friendsList={this.state.friendsList}

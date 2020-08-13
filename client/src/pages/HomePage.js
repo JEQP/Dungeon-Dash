@@ -36,7 +36,6 @@ class HomePage extends Component {
     render() {
         return (
             <div>
-{console.log("matches homepage: ",this.state.matches)}
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />

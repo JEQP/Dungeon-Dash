@@ -11,7 +11,6 @@ import "./style.css";
 import PlayPage from "./PlayPage";
 import { Route } from "react-router-dom";
 import Logout from "../components/Logout";
-import SizeContext from "../utils/SizeContext";
 
 class StadiumPage extends Component {
     constructor(props) {
@@ -40,7 +39,7 @@ class StadiumPage extends Component {
         Axios.post("/api/users/getUserID", {
             email: user.email
         }).then((response) => {
-            console.log("response from getUserID", response.data);
+            // console.log("response from getUserID", response.data);
             this.setState({
                 name: response.data.name,
                 email: response.data.email,
@@ -70,7 +69,7 @@ class StadiumPage extends Component {
                     friendID: this.state.dungeonListCreator
                 }
             }).then((response) => {
-                console.log("renderDungeonListCreator: ", response.data);
+                // console.log("renderDungeonListCreator: ", response.data);
                 this.setState({ dungeonList: response.data })
             });
 
@@ -100,7 +99,7 @@ class StadiumPage extends Component {
         Axios.post("/api/users/getFriendByName", {
             name: this.state.friendSearchName
         }).then((response) => {
-            console.log("response from getFriendByName", response.data);
+            // console.log("response from getFriendByName", response.data);
             let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
@@ -131,7 +130,7 @@ class StadiumPage extends Component {
         Axios.post("/api/users/getFriendByEmail", {
             email: this.state.friendSearchEmail
         }).then((response) => {
-            console.log("response from getFriendByEmail", response.data);
+            // console.log("response from getFriendByEmail", response.data);
             let tempFriendToAdd = { friend_id: response.data._id, friend_name: response.data.name };
             let tempFriendArray = this.state.friends;
             tempFriendArray.push(tempFriendToAdd);
@@ -188,7 +187,8 @@ class StadiumPage extends Component {
         return (
 
             <div className="home-center" >
-                {console.log("size matches: ", this.state.matches)}
+                {// console.log("size matches: ", this.state.matches)
+                }
                 { // check whether user is authenticated         
                     AuthContext.isAuthenticated === false &&
                     <Redirect to='/login' />

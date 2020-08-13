@@ -45,7 +45,7 @@ class CreatePage extends Component {
             Axios.post("/api/users/getUserID", {
                 email: user.email
             }).then((response) => {
-                console.log("response from getUserID", response.data._id);
+                // console.log("response from getUserID", response.data._id);
                 this.setState({
                     creator: response.data._id
                 });
@@ -72,7 +72,7 @@ class CreatePage extends Component {
         })
             .then((response) => {
                 if (response.data.success === true) {
-                    console.log("dungeon saved", this);
+                    // console.log("dungeon saved", this);
                     // to change authentication state
                 }
                 console.log(response);     
