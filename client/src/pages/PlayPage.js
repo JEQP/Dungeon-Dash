@@ -13,6 +13,7 @@ import DDLogo from "../assets/DDlogo.png";
 import Image from 'react-bootstrap/Image';
 import ReactDOM from 'react-dom';
 import Navbar from "../components/Navbar";
+import Navbar720 from "../components/Navbar720";
 import Footer from "../components/Footer";
 import Logout from "../components/Logout";
 
@@ -340,7 +341,10 @@ class PlayPage extends Component {
                 <div className="centre">
                 <Logout />
                     <Image img src={DDLogo} alt="DungeonDash" fluid />
-                    <Navbar />
+                    {this.state.movesTaken === 0 &&
+                    <Navbar />}
+                    {this.state.movesTaken > 0 &&
+                    <Navbar720 changeDungeon={this.changeDungeon} />}
                 </div>
 
                 {this.renderPage()}
